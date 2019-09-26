@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.byteblogs.helloblog.auth.dao.AuthUserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.auth.domain.po.AuthUser">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="nickname" property="nickname" />
+        <result column="role_id" property="roleId" />
+        <result column="avatar" property="avatar" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+</mapper>

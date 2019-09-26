@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.byteblogs.helloblog.posts.dao.PostsDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.posts.domain.po.Posts">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="thumbnail" property="thumbnail"/>
+        <result column="comments" property="comments"/>
+        <result column="status" property="status"/>
+        <result column="summary" property="summary"/>
+        <result column="views" property="views"/>
+        <result column="author_id" property="authorId"/>
+        <result column="sync_status" property="syncStatus"/>
+        <result column="is_comment" property="isComment"/>
+        <result column="weight" property="weight"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="selectPostsList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+        SELECT
+        posts.id,
+        title,
+        status,
+        summary,
+        thumbnail,
+        sync_status syncStatus,
+        name author,
+        views,
+        comments,
+        posts.create_time createTime
+        FROM
+        hello_blog_posts posts
+        LEFT JOIN hello_blog_auth_user users ON users.id = posts.author_id
+        <where>
+            <if test="archiveDate != null">
+                BETWEEN DATE_FORMAT( archiveDate, "%Y-%m-01 00:00:00" ) AND DATE_FORMAT( archiveDate, "%Y-%m-01
+                59:59:59" )
+            </if>
+
+            <if test="keywords != null and keywords != ''">
+                AND (title LIKE #{keywords} OR summary LIKE #{keywords})
+            </if>
+        </where>
+        ORDER BY posts.create_time DESC
+    </select>
+
+    <select id="selectPostsTotal" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+    SELECT
+      SUM(comments) commentsTotal,
+      SUM(views) viewsTotal
+    FROM
+      hello_blog_posts posts
+    </select>
+
+    <select id="selectArchiveTotalGroupDateList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+      SELECT
+	    DATE_FORMAT( create_time, "%Y-%m-01 00:00:00" ) archiveDate,
+        COUNT(*) articleTotal
+      FROM
+        hello_blog_posts
+      GROUP BY DATE_FORMAT( create_time, "%Y-%m-01 00:00:00" )
+    </select>
+
+    <update id="incrementView">
+       UPDATE hello_blog_posts SET views = views + 1 WHERE id = #{id}
+    </update>
+
+    <update id="incrementComments">
+       UPDATE hello_blog_posts SET comments = comments + 1 WHERE id = #{id}
+    </update>
+</mapper>

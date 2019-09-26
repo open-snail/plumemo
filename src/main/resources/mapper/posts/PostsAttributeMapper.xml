@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.byteblogs.helloblog.posts.dao.PostsAttributeDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.posts.domain.po.PostsAttribute">
+        <id column="id" property="id" />
+        <result column="content" property="content" />
+        <result column="posts_id" property="postsId" />
+    </resultMap>
+
+</mapper>
