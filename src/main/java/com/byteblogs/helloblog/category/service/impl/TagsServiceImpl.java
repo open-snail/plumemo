@@ -1,10 +1,13 @@
 package com.byteblogs.helloblog.category.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.constant.ErrorConstants;
 import com.byteblogs.common.util.ExceptionUtil;
+import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.helloblog.category.dao.CategoryTagsDao;
 import com.byteblogs.helloblog.category.dao.TagsDao;
 import com.byteblogs.helloblog.category.domain.po.CategoryTags;
@@ -39,7 +42,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
     private CategoryTagsDao categoryTagsDao;
 
     @Override
-    public Result<TagsVO> getTagsList(TagsVO tagsVO) {
+    public Result<TagsVO> getTagsAndArticleQuantityList(TagsVO tagsVO) {
         List<Tags> records = this.tagsDao.selectList(new LambdaQueryWrapper<Tags>().orderByDesc(Tags::getCreateTime));
 
         List<TagsVO> tagsList = new ArrayList<>();
@@ -51,6 +54,38 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
         }
 
         return Result.createWithModels(tagsList);
+    }
+
+    @Override
+    public Result<TagsVO> getTagsList(TagsVO tagsVO) {
+
+        List<TagsVO> tagsList = new ArrayList<>();
+        if (tagsVO == null || tagsVO.getPage() == null || tagsVO.getSize() == null) {
+            List<Tags> records = this.tagsDao.selectList(new LambdaQueryWrapper<Tags>().orderByDesc(Tags::getCreateTime));
+
+            if (!CollectionUtils.isEmpty(records)) {
+                records.forEach(tags -> {
+                    tagsList.add(new TagsVO().setId(tags.getId()).setName(tags.getName()));
+                });
+            }
+            return Result.createWithModels(tagsList);
+        }
+
+        LambdaQueryWrapper<Tags> tagsLambdaQueryWrapper = new LambdaQueryWrapper<Tags>();
+        if (StringUtils.isNotBlank(tagsVO.getKeywords())){
+            tagsLambdaQueryWrapper.like(Tags::getName, tagsVO.getKeywords());
+        }
+
+        Page page = PageUtil.checkAndInitPage(tagsVO);
+        IPage<Tags> tagsIPage = this.tagsDao.selectPage(page,tagsLambdaQueryWrapper.orderByDesc(Tags::getCreateTime));
+        List<Tags> records = tagsIPage.getRecords();
+        if (!CollectionUtils.isEmpty(records)) {
+            records.forEach(tags -> {
+                tagsList.add(new TagsVO().setId(tags.getId()).setName(tags.getName()));
+            });
+        }
+
+        return Result.createWithPaging(tagsList, PageUtil.initPageInfo(page));
     }
 
     @Override
@@ -87,8 +122,8 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
         }
 
         this.tagsDao.deleteById(id);
-        this.categoryTagsDao.delete(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getTagsId,id));
-        this.postsTagsDao.delete(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getTagsId,id));
+        this.categoryTagsDao.delete(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getTagsId, id));
+        this.postsTagsDao.delete(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getTagsId, id));
 
         return Result.createWithSuccessMessage();
     }

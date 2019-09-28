@@ -16,6 +16,13 @@ public interface TagsService extends BaseService<Tags> {
      * @param tagsVO
      * @return
      */
+    Result<TagsVO> getTagsAndArticleQuantityList(TagsVO tagsVO);
+
+    /**
+     * 查询标签的列表
+     * @param tagsVO
+     * @return
+     */
     Result<TagsVO> getTagsList(TagsVO tagsVO);
 
     /**

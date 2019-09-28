@@ -30,6 +30,11 @@ public class TagsController {
         return this.tagsService.getTagsList(tagsVO);
     }
 
+    @GetMapping("/tags-article-quantity/v1/list")
+    public Result getTagsAndArticleQuantityList(TagsVO tagsVO) {
+        return this.tagsService.getTagsAndArticleQuantityList(tagsVO);
+    }
+
     @GetMapping("/tags/v1/{id}")
     public Result getTagsList(@PathVariable Long id) {
         return this.tagsService.getTags(id);
