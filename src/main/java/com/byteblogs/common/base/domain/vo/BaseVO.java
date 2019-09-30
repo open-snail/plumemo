@@ -1,5 +1,7 @@
 package com.byteblogs.common.base.domain.vo;
 
+import com.byteblogs.common.validator.Messages;
+import com.byteblogs.common.validator.annotion.NotNull;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -15,6 +17,7 @@ public class BaseVO<T> {
     /**
      * 主键
      */
+    @NotNull(message = Messages.ID_NOT_NULL)
     protected Long id;
 
     /**

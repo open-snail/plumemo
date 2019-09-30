@@ -1,6 +1,8 @@
 package com.byteblogs.helloblog.category.domain.vo;
 
 import com.byteblogs.common.base.domain.vo.BaseVO;
+import com.byteblogs.common.validator.Messages;
+import com.byteblogs.common.validator.annotion.NotBlank;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -18,6 +20,7 @@ public class CategoryVO extends BaseVO<CategoryVO> {
     /**
      * 名称
      */
+    @NotBlank(message = Messages.CATEGORY_NAME_NOT_BLANK)
     private String name;
 
     /**

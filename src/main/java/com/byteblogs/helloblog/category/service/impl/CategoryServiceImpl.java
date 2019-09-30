@@ -18,7 +18,6 @@ import com.byteblogs.helloblog.category.domain.po.Tags;
 import com.byteblogs.helloblog.category.domain.vo.CategoryVO;
 import com.byteblogs.helloblog.category.domain.vo.TagsVO;
 import com.byteblogs.helloblog.category.service.CategoryService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -52,10 +51,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
 
     @Override
     public Result saveCategory(CategoryVO categoryVO) {
-
-        if (categoryVO == null || StringUtils.isBlank(categoryVO.getName())) {
-            ExceptionUtil.rollback("保存分类失败", ErrorConstants.PARAM_INCORRECT);
-        }
 
         Category category = new Category().setName(categoryVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
         this.categoryDao.insert(category);
@@ -128,9 +123,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
 
     @Override
     public Result getCategoryTags(Long id) {
-        if (id == null) {
-            ExceptionUtil.rollback(ErrorConstants.PARAM_INCORRECT);
-        }
 
         Category category = this.categoryDao.selectOne(new LambdaQueryWrapper<Category>().eq(Category::getId, id));
 
@@ -149,11 +141,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
 
     @Override
     public Result getCategory(Long id) {
-
-        if (id == null) {
-            ExceptionUtil.rollback(ErrorConstants.PARAM_INCORRECT);
-        }
-
         Category category = this.categoryDao.selectOne(new LambdaQueryWrapper<Category>().eq(Category::getId, id));
 
         List<CategoryTags> categoryTags = categoryTagsDao.selectList(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getCategoryId, category.getId()));
@@ -171,10 +158,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
 
     @Override
     public Result updateCategory(CategoryVO categoryVO) {
-
-        if (categoryVO == null || StringUtils.isBlank(categoryVO.getName()) || categoryVO.getId() == null) {
-            ExceptionUtil.rollback("保存分类失败", ErrorConstants.PARAM_INCORRECT);
-        }
 
         Category category1 = this.categoryDao.selectById(categoryVO.getId());
         if (category1 == null) {
@@ -204,10 +187,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
 
     @Override
     public Result deleteCategory(Long id) {
-
-        if (id == null) {
-            ExceptionUtil.rollback(ErrorConstants.PARAM_INCORRECT);
-        }
 
         this.categoryDao.deleteById(id);
         this.categoryTagsDao.delete(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getCategoryId, id));

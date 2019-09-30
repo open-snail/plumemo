@@ -59,4 +59,7 @@ public class Constants {
 
     public static final String BYTE_BLOGS_ADD_ARTICLE = Constants.BYTE_BLOGS_URL + "/api/blog/posts/hello-blog/v1/add";
 
+    //异常类型
+    public static final String DELIMITER_TO = "@";
+    public static final String DELIMITER_COLON = ":";
 }
