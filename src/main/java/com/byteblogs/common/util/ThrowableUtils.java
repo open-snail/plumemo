@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class ThrowableUtils {
     /**
-     * 校验参数正确
+     * 校验参数正确,拼装字段名和值到错误信息
      * @param result
      */
     public static void checkParamArgument(BindingResult result) {
