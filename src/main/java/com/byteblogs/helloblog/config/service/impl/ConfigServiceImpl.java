@@ -49,10 +49,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
     @Override
     public Result getConfigList(ConfigVO configVO) {
 
-        if (configVO == null || configVO.getType() == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
-
         List<Config> configs = this.configDao.selectList(new LambdaQueryWrapper<Config>().eq(Config::getType, configVO.getType()));
 
         List<ConfigVO> configVOList = new ArrayList<>();

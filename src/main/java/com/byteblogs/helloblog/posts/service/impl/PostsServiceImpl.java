@@ -73,11 +73,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     @Override
     public Result savePosts(PostsVO postsVO) {
 
-        boolean flag = postsVO == null || postsVO.getStatus() == null || StringUtils.isBlank(postsVO.getTitle()) || StringUtils.isBlank(postsVO.getContent());
-        if (flag) {
-            ExceptionUtil.rollback("新增文章参数异常", ErrorConstants.PARAM_INCORRECT);
-        }
-
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         String html = Markdown2HtmlUtil.html(postsVO.getContent());
 
@@ -118,11 +113,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
     @Override
     public Result updatePosts(PostsVO postsVO) {
-
-        boolean flag = postsVO == null || postsVO.getId() == null || postsVO.getStatus() == null || StringUtils.isBlank(postsVO.getTitle()) || StringUtils.isBlank(postsVO.getContent());
-        if (flag) {
-            ExceptionUtil.rollback("新增文章参数异常", ErrorConstants.PARAM_INCORRECT);
-        }
 
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         String html = Markdown2HtmlUtil.html(postsVO.getContent());
@@ -176,10 +166,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     @Override
     public Result deletePosts(Long id) {
 
-        if (id == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
-
         Posts posts = this.postsDao.selectById(id);
         if (posts == null) {
             ExceptionUtil.rollback("", ErrorConstants.DATA_NO_EXIST);
@@ -195,12 +181,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     @Override
     public Result getPosts(Long id) {
 
-        if (id == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
-
         Posts posts = this.postsDao.selectById(id);
-
         if (posts == null) {
             ExceptionUtil.rollback("", ErrorConstants.DATA_NO_EXIST);
         }
@@ -256,9 +237,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     @Override
     public Result getPlatformArticle(PostsVO postsVO) {
 
-        if (postsVO == null || postsVO.getPlatformType() == null || StringUtils.isBlank(postsVO.getSourceUri())) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
         crawler(postsVO);
         return Result.createWithModel(postsVO);
     }
@@ -275,9 +253,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     @Override
     public Result updatePostsStatus(PostsVO postsVO) {
 
-        if (postsVO == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
         this.postsDao.updateById(new Posts().setId(postsVO.getId()).setStatus(postsVO.getStatus()).setUpdateTime(LocalDateTime.now()));
         return Result.createWithSuccessMessage();
     }
@@ -285,9 +260,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     @Override
     public Result publishByteBlogs(PostsVO postsVO) {
 
-        if (postsVO == null || postsVO.getId() == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         Posts posts = this.postsDao.selectById(postsVO.getId());
         if (posts == null) {

@@ -3,7 +3,8 @@ package com.byteblogs.helloblog.category.domain.vo;
 import com.byteblogs.common.base.domain.vo.BaseVO;
 import com.byteblogs.common.validator.Messages;
 import com.byteblogs.common.validator.annotion.NotBlank;
-import com.byteblogs.common.validator.annotion.Range;
+import com.byteblogs.common.validator.group.Insert;
+import com.byteblogs.common.validator.group.Update;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -21,7 +22,7 @@ public class CategoryVO extends BaseVO<CategoryVO> {
     /**
      * 名称
      */
-    @NotBlank(message = Messages.CK_NOT_BLANK_DEFAUL)
+    @NotBlank(groups = {Insert.class, Update.class})
     private String name;
 
     /**

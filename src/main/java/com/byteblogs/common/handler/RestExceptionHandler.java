@@ -5,6 +5,7 @@ import com.byteblogs.common.constant.ErrorConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -67,4 +68,14 @@ public class RestExceptionHandler {
         return Result.createWithErrorMessage("参数异常", ErrorConstants.PARAM_INCORRECT);
     }
 
+    /**
+     * 415错误
+     * @return
+     */
+    @ExceptionHandler({HttpMediaTypeNotSupportedException.class})
+    @ResponseBody
+    public Result request415(HttpMediaTypeNotSupportedException ex){
+        log.error("异常类 HttpMediaTypeNotSupportedException {}",ex.getMessage());
+        return Result.createWithErrorMessage("参数异常", ErrorConstants.PARAM_INCORRECT);
+    }
 }

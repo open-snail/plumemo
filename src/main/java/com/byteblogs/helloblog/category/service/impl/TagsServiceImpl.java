@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
+import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.constant.ErrorConstants;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
@@ -91,10 +92,6 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
     @Override
     public Result<TagsVO> getTags(Long id) {
 
-        if (id == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
-
         Tags tags = this.tagsDao.selectById(id);
         return Result.createWithModel(new TagsVO().setId(tags.getId()).setName(tags.getName()));
     }
@@ -102,24 +99,17 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
     @Override
     public Result<TagsVO> updateTags(TagsVO tagsVO) {
 
-        if (tagsVO == null || tagsVO.getId() == null || StringUtils.isBlank(tagsVO.getName())) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
-
-        Tags tags = this.tagsDao.selectById(tagsVO.getId());
-        if (tags == null) {
+        Integer count  = this.tagsDao.selectCount(new LambdaQueryWrapper<Tags>().eq(Tags::getId,tagsVO.getId()));
+        if (count.equals(Constants.ZERO)) {
             ExceptionUtil.rollback("", ErrorConstants.DATA_NO_EXIST);
         }
 
-        this.tagsDao.updateById(tags.setName(tagsVO.getName()).setUpdateTime(LocalDateTime.now()));
+        this.tagsDao.updateById(new Tags().setId(tagsVO.getId()).setName(tagsVO.getName()).setUpdateTime(LocalDateTime.now()));
         return Result.createWithSuccessMessage();
     }
 
     @Override
     public Result<TagsVO> deleteTags(Long id) {
-        if (id == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
 
         this.tagsDao.deleteById(id);
         this.categoryTagsDao.delete(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getTagsId, id));
@@ -130,10 +120,6 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
 
     @Override
     public Result<TagsVO> saveTags(TagsVO tagsVO) {
-
-        if (tagsVO == null || StringUtils.isBlank(tagsVO.getName())) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
 
         this.tagsDao.insert(new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()));
         return Result.createWithSuccessMessage();

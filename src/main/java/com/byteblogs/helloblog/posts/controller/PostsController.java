@@ -2,9 +2,18 @@ package com.byteblogs.helloblog.posts.controller;
 
 import com.byteblogs.common.annotation.LoginRequired;
 import com.byteblogs.common.base.domain.Result;
+import com.byteblogs.common.util.ThrowableUtils;
+import com.byteblogs.common.validator.annotion.NotNull;
+import com.byteblogs.common.validator.group.Update;
+import com.byteblogs.helloblog.posts.domain.validator.CrawlerPosts;
+import com.byteblogs.helloblog.posts.domain.validator.InsertPosts;
+import com.byteblogs.helloblog.posts.domain.validator.UpdatePosts;
+import com.byteblogs.helloblog.posts.domain.validator.UpdateStatus;
 import com.byteblogs.helloblog.posts.domain.vo.PostsVO;
 import com.byteblogs.helloblog.posts.service.PostsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,13 +46,15 @@ public class PostsController {
 
     @LoginRequired
     @PostMapping("/posts/v1/add")
-    public Result savePosts(@RequestBody PostsVO postsVO) {
+    public Result savePosts(@Validated({InsertPosts.class}) @RequestBody PostsVO postsVO, BindingResult result) {
+        ThrowableUtils.checkParamArgument(result);
         return postsService.savePosts(postsVO);
     }
 
     @LoginRequired
     @PostMapping("/byte-blogs/v1/publish")
-    public Result publishByteBlogs(@RequestBody PostsVO postsVO) {
+    public Result publishByteBlogs(@Validated({Update.class}) @RequestBody PostsVO postsVO, BindingResult result) {
+        ThrowableUtils.checkParamArgument(result);
         return postsService.publishByteBlogs(postsVO);
     }
 
@@ -60,19 +71,22 @@ public class PostsController {
 
     @PutMapping("/posts/v1/update")
     @LoginRequired
-    public Result updatePosts(@RequestBody PostsVO postsVO) {
+    public Result updatePosts(@Validated({UpdatePosts.class}) @RequestBody PostsVO postsVO, BindingResult result) {
+        ThrowableUtils.checkParamArgument(result);
         return this.postsService.updatePosts(postsVO);
     }
 
     @PutMapping("/status/v1/update")
     @LoginRequired
-    public Result updatePostsStatus(@RequestBody PostsVO postsVO) {
+    public Result updatePostsStatus(@Validated({UpdateStatus.class}) @RequestBody PostsVO postsVO, BindingResult result) {
+        ThrowableUtils.checkParamArgument(result);
         return this.postsService.updatePostsStatus(postsVO);
     }
 
     @PostMapping("/posts/v1/crawler")
     @LoginRequired
-    public Result getPlatformArticle(@RequestBody PostsVO postsVO) {
+    public Result getPlatformArticle(@Validated({CrawlerPosts.class}) @RequestBody PostsVO postsVO, BindingResult result) {
+        ThrowableUtils.checkParamArgument(result);
         return this.postsService.getPlatformArticle(postsVO);
     }
 

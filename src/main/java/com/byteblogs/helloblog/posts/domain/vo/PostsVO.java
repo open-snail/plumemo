@@ -1,10 +1,20 @@
 package com.byteblogs.helloblog.posts.domain.vo;
 
 import com.byteblogs.common.base.domain.vo.BaseVO;
+import com.byteblogs.common.validator.annotion.IntegerNotNull;
+import com.byteblogs.common.validator.annotion.NotBlank;
+import com.byteblogs.common.validator.annotion.Numeric;
+import com.byteblogs.common.validator.group.Insert;
+import com.byteblogs.common.validator.group.Update;
 import com.byteblogs.helloblog.category.domain.vo.TagsVO;
+import com.byteblogs.helloblog.posts.domain.validator.CrawlerPosts;
+import com.byteblogs.helloblog.posts.domain.validator.InsertPosts;
+import com.byteblogs.helloblog.posts.domain.validator.UpdatePosts;
+import com.byteblogs.helloblog.posts.domain.validator.UpdateStatus;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,11 +32,13 @@ public class PostsVO extends BaseVO<PostsVO> {
     /**
      * 文章标题
      */
+    @NotBlank(groups = {InsertPosts.class, UpdatePosts.class})
     private String title;
 
     /**
      * 文章内容
      */
+    @NotBlank(groups = {InsertPosts.class, UpdatePosts.class})
     private String content;
 
     /**
@@ -42,6 +54,7 @@ public class PostsVO extends BaseVO<PostsVO> {
     /**
      * 状态 1 草稿 2 发布
      */
+    @IntegerNotNull(groups = {InsertPosts.class, UpdatePosts.class, UpdateStatus.class})
     private Integer status;
 
     /**
@@ -62,6 +75,7 @@ public class PostsVO extends BaseVO<PostsVO> {
     /**
      * 外链地址
      */
+    @NotBlank(groups = {CrawlerPosts.class})
     private String sourceUri;
 
     /**
@@ -95,6 +109,7 @@ public class PostsVO extends BaseVO<PostsVO> {
 
     private List<TagsVO> tagsList;
 
+    @IntegerNotNull(groups = {CrawlerPosts.class})
     private Integer platformType;
 
     private Integer commentsTotal;

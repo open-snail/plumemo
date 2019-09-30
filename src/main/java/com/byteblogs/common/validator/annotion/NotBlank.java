@@ -22,7 +22,7 @@ import static java.lang.annotation.ElementType.TYPE;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {StringValidator.class})
 public @interface NotBlank {
-    String message() default Messages.CK_NOT_BLANK_DEFAUL;
+    String message() default Messages.CK_NOT_BLANK_DEFAULT;
 
     String value() default "";
 

@@ -16,7 +16,7 @@
         categoryTags.category_id id,
         COUNT(*) total
         FROM
-        LEFT JOIN hello_blog_category_tags categoryTags
+        hello_blog_category_tags categoryTags
         LEFT JOIN hello_blog_posts_tags postsTags ON postsTags.tags_id = categoryTags.tags_id
         WHERE
         postsTags.posts_id IS NOT NULL

@@ -1,7 +1,8 @@
 package com.byteblogs.common.validator.annotion;
 
 import com.byteblogs.common.validator.Messages;
-import com.byteblogs.common.validator.constraint.NumericValidator;
+import com.byteblogs.common.validator.constraint.IntegerValidator;
+import com.byteblogs.common.validator.constraint.StringValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,20 +10,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.*;
 
 /**
- * 是否为数字
- * 
- * @author Andy Chen
- * @date 9/30/19 12:33 PM
+ * @author: byteblogs
+ * @date: 2019/9/30 21:36
  */
 @Target({TYPE, ANNOTATION_TYPE,FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {NumericValidator.class})
-public @interface Numeric {
+@Constraint(validatedBy = {IntegerValidator.class})
+public @interface  IntegerNotNull {
 
     String message() default Messages.CK_NUMERIC_DEFAULT;
 
@@ -31,5 +28,4 @@ public @interface Numeric {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
 }

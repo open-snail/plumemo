@@ -26,12 +26,12 @@ public class ThrowableUtils {
                 FieldError error = errors.get(0);
                 String rejectedValue = Objects.toString(error.getRejectedValue(), "");
                 String defMsg = error.getDefaultMessage();
-                //排除类上面的注解提示
+                // 排除类上面的注解提示
                 if(rejectedValue.contains(Constants.DELIMITER_TO)){
-                    //自己去确定错误字段
+                    // 自己去确定错误字段
                     sb.append(defMsg);
                 }else{
-                    if(defMsg.contains(Constants.DELIMITER_COLON)){
+                    if(Constants.DELIMITER_COLON.contains(defMsg)){
                         sb.append(error.getField()).append(" ").append(defMsg);
                     }else{
                         sb.append(error.getField()).append(" ").append(defMsg).append(":").append(rejectedValue);

@@ -14,9 +14,11 @@ public interface Messages {
     /**
      * 注解默认
      */
-    String CK_NOT_BLANK_DEFAUL = "can not be blank";
-    String CK_NUMERIC_DEFAUL = "must be a number";
-    String CK_RANGE_DEFAUL = "should be an integer,between {min} and {max}";
+    String CK_NOT_BLANK_DEFAULT = "can not be blank";
+    String CK_NUMERIC_DEFAULT = "must be a number";
+    String CK_RANGE_DEFAULT = "should be an integer,between {min} and {max}";
     String ID_NOT_NULL="can not be null";
+    String PAGE_NOT_NULL = "page not be null";
+    String SIZE_NOT_NULL = "size not be null";
 }
 

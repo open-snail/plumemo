@@ -56,10 +56,6 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
     @Override
     public Result updateFriendshipLink(FriendshipLinkVO friendshipLinkVO) {
 
-        if (friendshipLinkVO == null || friendshipLinkVO.getId() == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
-
         this.friendshipLinkDao.updateById(
                 new FriendshipLink()
                         .setDescription(friendshipLinkVO.getDescription())
@@ -74,21 +70,12 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
 
     @Override
     public Result deleteFriendshipLink(Long id) {
-
-        if (id == null){
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
-
         this.friendshipLinkDao.deleteById(id);
         return Result.createWithSuccessMessage();
     }
 
     @Override
     public Result saveFriendshipLink(FriendshipLinkVO friendshipLinkVO) {
-
-        if (friendshipLinkVO == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
 
         this.friendshipLinkDao.insert(
                 new FriendshipLink()

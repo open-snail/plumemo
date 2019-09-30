@@ -1,6 +1,10 @@
 package com.byteblogs.helloblog.posts.domain.vo;
 
 import com.byteblogs.common.base.domain.vo.BaseVO;
+import com.byteblogs.common.validator.annotion.NotBlank;
+import com.byteblogs.common.validator.annotion.NotNull;
+import com.byteblogs.helloblog.posts.domain.validator.InsertPostsComments;
+import com.byteblogs.helloblog.posts.domain.validator.QueryPostsComments;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -19,12 +23,14 @@ public class PostsCommentsVO extends BaseVO<PostsCommentsVO> {
 
     private Long authorId;
 
+    @NotBlank(groups = {InsertPostsComments.class})
     private String content;
 
     private Long parentId;
 
     private Integer status;
 
+    @NotNull(groups = {InsertPostsComments.class, QueryPostsComments.class})
     private Long postsId;
 
     private String treePath;

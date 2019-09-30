@@ -19,6 +19,7 @@ import com.byteblogs.helloblog.category.domain.po.Tags;
 import com.byteblogs.helloblog.category.domain.vo.CategoryVO;
 import com.byteblogs.helloblog.category.domain.vo.TagsVO;
 import com.byteblogs.helloblog.category.service.CategoryService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -101,7 +102,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
     @Override
     public Result getCategoryTagsList(CategoryVO categoryVO) {
         Page page = Optional.ofNullable(PageUtil.checkAndInitPage(categoryVO)).orElse(PageUtil.initPage());
-        IPage<Category> categoryIPage = this.categoryDao.selectPage(page, new LambdaQueryWrapper<Category>().orderByDesc(Category::getCreateTime));
+
+        LambdaQueryWrapper<Category> categoryLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if (categoryVO != null && StringUtils.isNotBlank(categoryVO.getKeywords())){
+            categoryLambdaQueryWrapper.like(Category::getName,categoryVO.getKeywords());
+        }
+
+        IPage<Category> categoryIPage = this.categoryDao.selectPage(page, categoryLambdaQueryWrapper.orderByDesc(Category::getCreateTime));
         List<Category> categoryList = categoryIPage.getRecords();
 
         List<CategoryVO> categoryVOList = new ArrayList<>();

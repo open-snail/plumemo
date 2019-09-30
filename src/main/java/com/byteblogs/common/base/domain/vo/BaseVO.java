@@ -1,7 +1,12 @@
 package com.byteblogs.common.base.domain.vo;
 
 import com.byteblogs.common.validator.Messages;
+import com.byteblogs.common.validator.annotion.IntegerNotNull;
 import com.byteblogs.common.validator.annotion.NotNull;
+import com.byteblogs.common.validator.annotion.Numeric;
+import com.byteblogs.common.validator.constraint.IntegerValidator;
+import com.byteblogs.common.validator.group.Page;
+import com.byteblogs.common.validator.group.Update;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -17,7 +22,7 @@ public class BaseVO<T> {
     /**
      * 主键
      */
-    @NotNull(message = Messages.ID_NOT_NULL)
+    @NotNull(message = Messages.ID_NOT_NULL,groups = {Update.class})
     protected Long id;
 
     /**
@@ -28,11 +33,13 @@ public class BaseVO<T> {
     /**
      * 页数
      */
+    @IntegerNotNull(groups = {Page.class},message = Messages.PAGE_NOT_NULL)
     protected Integer page;
 
     /**
      * 每页大小
      */
+    @IntegerNotNull(groups = {Page.class},message = Messages.SIZE_NOT_NULL)
     protected Integer size;
 
     public Long getId() {

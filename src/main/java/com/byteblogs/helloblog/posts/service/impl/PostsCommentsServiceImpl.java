@@ -41,17 +41,12 @@ public class PostsCommentsServiceImpl extends BaseServiceImpl<PostsCommentsDao, 
     @Override
     public Result savePostsComments(PostsCommentsVO postsCommentsVO) {
 
-        if (postsCommentsVO == null || postsCommentsVO.getPostsId() == null || StringUtils.isBlank(postsCommentsVO.getContent())) {
-            ExceptionUtil.rollback("参数异常", ErrorConstants.PARAM_INCORRECT);
-        }
-
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         PostsComments postsComments = new PostsComments();
         postsComments.setAuthorId(userSessionInfo.getId());
         postsComments.setContent(postsCommentsVO.getContent());
         postsComments.setPostsId(postsCommentsVO.getPostsId());
         postsComments.setCreateTime(LocalDateTime.now());
-
 
         String treePath;
         if (postsCommentsVO.getParentId() == null) {
@@ -79,10 +74,6 @@ public class PostsCommentsServiceImpl extends BaseServiceImpl<PostsCommentsDao, 
     @Override
     public Result getPostsCommentsByPostsIdList(PostsCommentsVO postsCommentsVO) {
 
-        if (postsCommentsVO == null || postsCommentsVO.getPostsId() == null) {
-            ExceptionUtil.rollback("参数异常", ErrorConstants.PARAM_INCORRECT);
-        }
-
         Page page = Optional.ofNullable(PageUtil.checkAndInitPage(postsCommentsVO)).orElse(PageUtil.initPage());
         List<PostsCommentsVO> postsCommentsVOLis = this.postsCommentsDao.selectPostsCommentsByPostsIdList(page, postsCommentsVO.getPostsId());
 
@@ -100,11 +91,6 @@ public class PostsCommentsServiceImpl extends BaseServiceImpl<PostsCommentsDao, 
 
     @Override
     public Result deletePostsComments(Long id) {
-
-        if (id == null) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
-        }
-
         this.postsCommentsDao.deleteById(id);
         return Result.createWithSuccessMessage();
     }

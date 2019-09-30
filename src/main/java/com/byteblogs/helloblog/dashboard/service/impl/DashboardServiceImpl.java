@@ -39,21 +39,11 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public String getByteBlogsList(PostsVO postsVO) {
-
-        if (postsVO == null || postsVO.getPage() == null || postsVO.getSize() == null) {
-            ExceptionUtil.rollback(ErrorConstants.PARAM_INCORRECT);
-        }
-
         return HttpUtil.get(MessageFormat.format(Constants.BYTE_BLOGS_ARTICLE_LIST, postsVO.getPage(), postsVO.getSize()));
     }
 
     @Override
     public String getByteBlogsChatList(PostsVO postsVO) {
-
-        if (postsVO == null || postsVO.getPage() == null || postsVO.getSize() == null) {
-            ExceptionUtil.rollback(ErrorConstants.PARAM_INCORRECT);
-        }
-
         return HttpUtil.get(MessageFormat.format(Constants.BYTE_BLOGS_CHAT_LIST, postsVO.getPage(), postsVO.getSize()));
     }
 }

@@ -1,6 +1,9 @@
 package com.byteblogs.helloblog.links.domain.vo;
 
 import com.byteblogs.common.base.domain.vo.BaseVO;
+import com.byteblogs.common.validator.annotion.NotBlank;
+import com.byteblogs.helloblog.links.domain.validator.InsertLink;
+import com.byteblogs.helloblog.links.domain.validator.UpdateLink;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -8,7 +11,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class FriendshipLinkVO extends BaseVO<FriendshipLinkVO> {
 
+    @NotBlank(groups = {InsertLink.class, UpdateLink.class})
     private String name;
+
+    @NotBlank(groups = {InsertLink.class, UpdateLink.class})
+    private String href;
 
     private String logo;
 
@@ -16,5 +23,5 @@ public class FriendshipLinkVO extends BaseVO<FriendshipLinkVO> {
 
     private String description;
 
-    private String href;
+
 }
