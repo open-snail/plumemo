@@ -149,7 +149,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
                     tagsVO.setId(tags.getId());
                     postsTagsDao.insert(new PostsTags().setPostsId(posts1.getId()).setTagsId(tagsVO.getId()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()));
                 } else {
-                    PostsTags postsTags = this.postsTagsDao.selectOne(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getTagsId, tagsVO.getId()));
+                    PostsTags postsTags = this.postsTagsDao.selectOne(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getPostsId, posts1.getId()).eq(PostsTags::getTagsId, tagsVO.getId()));
                     if (postsTags == null) {
                         postsTagsDao.insert(new PostsTags().setPostsId(posts1.getId()).setTagsId(tagsVO.getId()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()));
                     }
