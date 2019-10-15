@@ -243,10 +243,13 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
     @Override
     public Result getArchiveTotalByDateList(PostsVO postsVO) {
+        List<PostsVO> postsVOList = this.postsDao.selectArchiveTotalGroupDateList();
+        return Result.createWithModels(postsVOList);
+    }
 
-        Page page = Optional.ofNullable(PageUtil.checkAndInitPage(postsVO)).orElse(PageUtil.initPage());
-        List<PostsVO> postsVOList = this.postsDao.selectArchiveTotalGroupDateList(page);
-
+    @Override
+    public Result getArchiveGroupYearList(PostsVO postsVO) {
+        List<PostsVO> postsVOList = this.postsDao.selectArchiveGroupYearList();
         return Result.createWithModels(postsVOList);
     }
 

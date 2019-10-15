@@ -47,6 +47,17 @@
         ORDER BY posts.create_time DESC
     </select>
 
+    <select id="selectArchiveGroupYearList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+        SELECT
+          title,
+          create_time createTime,
+          DATE_FORMAT( create_time, "%Y" ) `year`
+        FROM
+          hello_blog_posts
+        ORDER BY
+          DATE_FORMAT( create_time, "%Y" ) DESC
+    </select>
+
     <select id="selectPostsTotal" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
     SELECT
       SUM(comments) commentsTotal,
@@ -57,8 +68,8 @@
 
     <select id="selectArchiveTotalGroupDateList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
       SELECT
-	    DATE_FORMAT( create_time, "%Y-%m-01 00:00:00" ) archiveDate,
-        COUNT(*) articleTotal
+        title,
+        create_time createTime
       FROM
         hello_blog_posts
       GROUP BY DATE_FORMAT( create_time, "%Y-%m-01 00:00:00" )
