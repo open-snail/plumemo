@@ -49,6 +49,7 @@
 
     <select id="selectArchiveGroupYearList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
         SELECT
+          id,
           title,
           create_time createTime,
           DATE_FORMAT( create_time, "%Y" ) `year`
