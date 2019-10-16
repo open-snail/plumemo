@@ -61,6 +61,11 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
             authUserVO.setName(authUser.getName())
                     .setIntroduction(authUser.getIntroduction())
                     .setHtmlUrl(authUser.getHtmlUrl())
+                    .setQq(authUser.getQq())
+                    .setWeibo(authUser.getWeibo())
+                    .setCsdn(authUser.getCsdn())
+                    .setFacebook(authUser.getFacebook())
+                    .setTwitter(authUser.getTwitter())
                     .setEmail(authUser.getEmail())
                     .setAvatar(authUser.getAvatar());
         }
@@ -113,6 +118,11 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
                 .setId(userSessionInfo.getId())
                 .setEmail(authUserVO.getEmail())
                 .setAvatar(authUserVO.getAvatar())
+                .setQq(authUserVO.getQq())
+                .setWeibo(authUserVO.getWeibo())
+                .setCsdn(authUserVO.getCsdn())
+                .setFacebook(authUserVO.getFacebook())
+                .setTwitter(authUserVO.getTwitter())
                 .setName(authUserVO.getName())
                 .setIntroduction(authUserVO.getIntroduction())
         );

@@ -65,4 +65,14 @@ public class AuthUserVO extends BaseVO<AuthUserVO> {
      * github个人主页
      */
     private String htmlUrl;
+
+    private String qq;
+
+    private String csdn;
+
+    private String weibo;
+
+    private String twitter;
+
+    private String facebook;
 }
