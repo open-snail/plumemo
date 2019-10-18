@@ -18,11 +18,10 @@ public interface PostsDao extends BaseDao<Posts> {
     /**
      * 查询文章列表
      * @param page
-     * @param localDateTime
-     * @param keywords
+     * @param condition
      * @return
      */
-    List<PostsVO> selectPostsList(Page<PostsVO> page, @Param("archiveDate") LocalDateTime localDateTime, @Param("keywords") String keywords);
+    List<PostsVO> selectPostsList(Page<PostsVO> page, @Param("condition") PostsVO condition);
 
     /**
      * 看板统计

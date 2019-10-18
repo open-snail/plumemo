@@ -129,4 +129,6 @@ public class PostsVO extends BaseVO<PostsVO> {
 
     private Integer year;
 
+    private String tagsName;
+
 }

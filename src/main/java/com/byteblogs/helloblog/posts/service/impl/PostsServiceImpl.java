@@ -215,7 +215,8 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         if (StringUtils.isNotBlank(postsVO.getKeywords())) {
             postsVO.setKeywords("%" + postsVO.getKeywords() + "%");
         }
-        List<PostsVO> postsVOList = this.postsDao.selectPostsList(page, postsVO.getArchiveDate(), postsVO.getKeywords());
+
+        List<PostsVO> postsVOList = this.postsDao.selectPostsList(page, postsVO);
 
         if (!CollectionUtils.isEmpty(postsVOList)) {
             postsVOList.forEach(postsVO1 -> {

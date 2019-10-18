@@ -21,27 +21,33 @@
 
     <select id="selectPostsList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
         SELECT
-        posts.id,
+        DISTINCT(posts.id),
         title,
-        status,
+        STATUS,
         summary,
         thumbnail,
         sync_status syncStatus,
-        name author,
+        users.NAME author,
         views,
         comments,
         posts.create_time createTime
         FROM
         hello_blog_posts posts
         LEFT JOIN hello_blog_auth_user users ON users.id = posts.author_id
+        LEFT JOIN hello_blog_posts_tags postsTags ON postsTags.posts_id = posts.id
+        LEFT JOIN hello_blog_tags tags ON postsTags.tags_id = tags.id
         <where>
-            <if test="archiveDate != null">
-                BETWEEN DATE_FORMAT( archiveDate, "%Y-%m-01 00:00:00" ) AND DATE_FORMAT( archiveDate, "%Y-%m-01
+            <if test="condition.archiveDate != null">
+                BETWEEN DATE_FORMAT( condition.archiveDate, "%Y-%m-01 00:00:00" ) AND DATE_FORMAT( condition.archiveDate, "%Y-%m-01
                 59:59:59" )
             </if>
 
-            <if test="keywords != null and keywords != ''">
-                AND (title LIKE #{keywords} OR summary LIKE #{keywords})
+            <if test="condition.keywords != null and condition.keywords != ''">
+                AND (title LIKE #{condition.keywords} OR summary LIKE #{condition.keywords})
+            </if>
+
+            <if test="condition.tagsName != null and condition.tagsName != ''">
+                AND tags.name = #{condition.tagsName}
             </if>
         </where>
         ORDER BY posts.create_time DESC
