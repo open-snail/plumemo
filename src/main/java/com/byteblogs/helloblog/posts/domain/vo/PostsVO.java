@@ -127,4 +127,8 @@ public class PostsVO extends BaseVO<PostsVO> {
      */
     private String socialId;
 
+    private Integer year;
+
+    private String tagsName;
+
 }

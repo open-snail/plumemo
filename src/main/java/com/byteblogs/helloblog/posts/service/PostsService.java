@@ -60,6 +60,12 @@ public interface PostsService extends BaseService<Posts> {
     Result getArchiveTotalByDateList(PostsVO postsVO);
 
     /**
+     * 按照年维度查询带有文章标题的归档列表
+     * @return
+     */
+    Result getArchiveGroupYearList(PostsVO postsVO);
+
+    /**
      * 更新文章的状态
      * @param postsVO
      * @return

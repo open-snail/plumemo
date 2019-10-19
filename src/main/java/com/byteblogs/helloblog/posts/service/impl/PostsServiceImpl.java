@@ -149,7 +149,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
                     tagsVO.setId(tags.getId());
                     postsTagsDao.insert(new PostsTags().setPostsId(posts1.getId()).setTagsId(tagsVO.getId()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()));
                 } else {
-                    PostsTags postsTags = this.postsTagsDao.selectOne(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getTagsId, tagsVO.getId()));
+                    PostsTags postsTags = this.postsTagsDao.selectOne(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getPostsId, posts1.getId()).eq(PostsTags::getTagsId, tagsVO.getId()));
                     if (postsTags == null) {
                         postsTagsDao.insert(new PostsTags().setPostsId(posts1.getId()).setTagsId(tagsVO.getId()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()));
                     }
@@ -215,7 +215,8 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         if (StringUtils.isNotBlank(postsVO.getKeywords())) {
             postsVO.setKeywords("%" + postsVO.getKeywords() + "%");
         }
-        List<PostsVO> postsVOList = this.postsDao.selectPostsList(page, postsVO.getArchiveDate(), postsVO.getKeywords());
+
+        List<PostsVO> postsVOList = this.postsDao.selectPostsList(page, postsVO);
 
         if (!CollectionUtils.isEmpty(postsVOList)) {
             postsVOList.forEach(postsVO1 -> {
@@ -243,10 +244,13 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
     @Override
     public Result getArchiveTotalByDateList(PostsVO postsVO) {
+        List<PostsVO> postsVOList = this.postsDao.selectArchiveTotalGroupDateList();
+        return Result.createWithModels(postsVOList);
+    }
 
-        Page page = Optional.ofNullable(PageUtil.checkAndInitPage(postsVO)).orElse(PageUtil.initPage());
-        List<PostsVO> postsVOList = this.postsDao.selectArchiveTotalGroupDateList(page);
-
+    @Override
+    public Result getArchiveGroupYearList(PostsVO postsVO) {
+        List<PostsVO> postsVOList = this.postsDao.selectArchiveGroupYearList();
         return Result.createWithModels(postsVOList);
     }
 

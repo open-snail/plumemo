@@ -77,6 +77,16 @@ public class AuthUser extends Model<AuthUser> {
      */
     private String htmlUrl;
 
+    private String qq;
+
+    private String csdn;
+
+    private String weibo;
+
+    private String twitter;
+
+    private String facebook;
+
     @Override
     protected Serializable pkVal() {
         return this.id;

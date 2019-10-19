@@ -34,7 +34,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         }
         HandlerMethod handlerMethod = (HandlerMethod) object;
         Method method = handlerMethod.getMethod();
-        //检查是否有UserLoginToken注释，没有有则跳过认证
+        //检查是否有LoginRequired注释，没有有则跳过认证
         if (!method.isAnnotationPresent(LoginRequired.class)) {
             return true;
         }

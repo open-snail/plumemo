@@ -18,11 +18,10 @@ public interface PostsDao extends BaseDao<Posts> {
     /**
      * 查询文章列表
      * @param page
-     * @param localDateTime
-     * @param keywords
+     * @param condition
      * @return
      */
-    List<PostsVO> selectPostsList(Page<PostsVO> page, @Param("archiveDate") LocalDateTime localDateTime, @Param("keywords") String keywords);
+    List<PostsVO> selectPostsList(Page<PostsVO> page, @Param("condition") PostsVO condition);
 
     /**
      * 看板统计
@@ -31,11 +30,16 @@ public interface PostsDao extends BaseDao<Posts> {
     PostsVO selectPostsTotal();
 
     /**
-     * 按照时间进行归档
-     * @param page
+     * 按照时间进行归档统计某个时间有多个文章
      * @return
      */
-    List<PostsVO> selectArchiveTotalGroupDateList(Page<PostsVO> page);
+    List<PostsVO> selectArchiveTotalGroupDateList();
+
+    /**
+     * 按照年维度查询带有文章标题的归档列表
+     * @return
+     */
+    List<PostsVO> selectArchiveGroupYearList();
 
     /**
      * 自增浏览量
