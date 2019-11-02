@@ -19,8 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 /**
- * @author: zsg
- * @description:
  * @date: 2019/1/13 10:55
  * @modified:
  */
@@ -31,7 +29,7 @@ public class UploadFileServiceImpl implements UploadFileService {
     public String qiniuyunStore(MultipartFile file) {
 
         //构造一个带指定Zone对象的配置类
-        Configuration cfg = new Configuration(Zone.zone0());
+        Configuration cfg = new Configuration(Zone.autoZone());
         //...其他参数参考类注释
         UploadManager uploadManager = new UploadManager(cfg);
 
