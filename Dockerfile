@@ -21,7 +21,7 @@ EXPOSE 8086
 
 WORKDIR /
 
-RUN /usr/local/maven/apache-maven-3.6.2/bin/mvn -s settings.xml clean package
+RUN /usr/local/maven/apache-maven-3.6.2/bin/mvn clean package
 
 #将本地项目jar包拷贝到Docker容器中的位置
 RUN cp ./target/helloblog-v1.0.1-Alpha.jar ./
