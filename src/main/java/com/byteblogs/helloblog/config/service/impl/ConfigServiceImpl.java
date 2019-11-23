@@ -11,6 +11,7 @@ import com.byteblogs.helloblog.config.dao.ConfigDao;
 import com.byteblogs.helloblog.config.domain.po.Config;
 import com.byteblogs.helloblog.config.domain.vo.ConfigVO;
 import com.byteblogs.helloblog.config.service.ConfigService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -32,6 +33,12 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
     public Result updateConfig(List<ConfigVO> configList) {
 
         if (CollectionUtils.isEmpty(configList)) {
+            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
+        }
+
+        boolean b =
+                configList.stream().anyMatch(configVO -> StringUtils.isBlank(configVO.getConfigKey()) || StringUtils.isBlank(configVO.getConfigValue()));
+        if (b) {
             ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
         }
 

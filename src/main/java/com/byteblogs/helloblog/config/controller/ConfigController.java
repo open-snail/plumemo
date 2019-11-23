@@ -22,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/config")
+@Validated({UpdateConfig.class})
 public class ConfigController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class ConfigController {
 
     @LoginRequired
     @PutMapping("/config/v1/update")
-    public Result updateConfig(@Validated({UpdateConfig.class}) @RequestBody List<ConfigVO> configList) {
+    public Result updateConfig(@RequestBody List<ConfigVO> configList) {
         return configService.updateConfig(configList);
     }
 
