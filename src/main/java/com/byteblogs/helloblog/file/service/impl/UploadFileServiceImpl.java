@@ -30,19 +30,18 @@ public class UploadFileServiceImpl implements UploadFileService {
 
         //构造一个带指定Zone对象的配置类
         Configuration cfg = new Configuration(Zone.autoZone());
+
         //...其他参数参考类注释
         UploadManager uploadManager = new UploadManager(cfg);
 
         //默认不指定key的情况下，以文件内容的hash值作为文件名
-        Auth auth = Auth.create(ConfigCache.getConfig(Constants.QINIU_ACCESS_KEY), ConfigCache.getConfig(Constants.QINIU_SECRET_KEY));
+        Auth auth = Auth.create(ConfigCache.getConfig(Constants.QINIU_ACCESS_KEY),
+                ConfigCache.getConfig(Constants.QINIU_SECRET_KEY));
         String upToken = auth.uploadToken(ConfigCache.getConfig(Constants.QINIU_BUCKET));
         try {
-            Response response = uploadManager.put(file.getInputStream(), IdUtil.simpleUUID() + FileUtil.getSuffix(file.getOriginalFilename()), upToken, null, null);
+            Response response = uploadManager.put(file.getInputStream(), null, upToken, null, null);
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
-
             return ConfigCache.getConfig(Constants.QINIU_IMAGE_DOMAIN) + putRet.key;
         } catch (QiniuException ex) {
             Response r = ex.response;
