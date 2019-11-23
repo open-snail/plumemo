@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
  * <p>
  * 服务实现类
  * </p>
+ *
  * @author byteblogs
  * @since 2019-08-28
  */
@@ -54,7 +55,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
     @Override
     public Result saveCategory(CategoryVO categoryVO) {
 
-        Category category = new Category().setName(categoryVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
+        Category category =
+                new Category().setName(categoryVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
         this.categoryDao.insert(category);
 
         List<TagsVO> tagsList = categoryVO.getTagsList();
@@ -63,7 +65,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
             tagsList.forEach(tagsVO -> {
                 if (tagsVO.getId() == null) {
                     // add
-                    Tags tags = new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
+                    Tags tags =
+                            new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
                     this.tagsDao.insert(tags);
                     tagsVO.setId(tags.getId());
                 }
@@ -78,13 +81,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
     @Override
     public Result getCategoryList(CategoryVO categoryVO) {
 
-        List<Category> categoryList = this.categoryDao.selectList(new LambdaQueryWrapper<Category>().orderByDesc(Category::getCreateTime));
+        List<Category> categoryList =
+                this.categoryDao.selectList(new LambdaQueryWrapper<Category>().orderByDesc(Category::getCreateTime));
 
         List<CategoryVO> categoryPostsTotal = this.categoryDao.selectCategoryPostsTotal();
 
         Map<Long, Integer> map = new HashMap<>();
         if (!CollectionUtils.isEmpty(categoryPostsTotal)) {
-            map = categoryPostsTotal.stream().collect(Collectors.toMap(CategoryVO::getId, CategoryVO::getTotal));
+            map = categoryPostsTotal.stream().collect(Collectors.toMap(CategoryVO::getId, CategoryVO::getTotal,
+                    Integer::sum));
         }
 
         List<CategoryVO> categoryVOList = new ArrayList<>();
@@ -104,21 +109,24 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
         Page page = Optional.ofNullable(PageUtil.checkAndInitPage(categoryVO)).orElse(PageUtil.initPage());
 
         LambdaQueryWrapper<Category> categoryLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        if (categoryVO != null && StringUtils.isNotBlank(categoryVO.getKeywords())){
-            categoryLambdaQueryWrapper.like(Category::getName,categoryVO.getKeywords());
+        if (categoryVO != null && StringUtils.isNotBlank(categoryVO.getKeywords())) {
+            categoryLambdaQueryWrapper.like(Category::getName, categoryVO.getKeywords());
         }
 
-        IPage<Category> categoryIPage = this.categoryDao.selectPage(page, categoryLambdaQueryWrapper.orderByDesc(Category::getCreateTime));
+        IPage<Category> categoryIPage = this.categoryDao.selectPage(page,
+                categoryLambdaQueryWrapper.orderByDesc(Category::getCreateTime));
         List<Category> categoryList = categoryIPage.getRecords();
 
         List<CategoryVO> categoryVOList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(categoryList)) {
             categoryList.forEach(category -> {
-                List<CategoryTags> categoryTags = categoryTagsDao.selectList(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getCategoryId, category.getId()));
+                List<CategoryTags> categoryTags =
+                        categoryTagsDao.selectList(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getCategoryId, category.getId()));
                 List<TagsVO> tagsVOList = new ArrayList<>();
                 if (!CollectionUtils.isEmpty(categoryTags)) {
                     categoryTags.forEach(categoryTags1 -> {
-                        Tags tags = Optional.ofNullable(this.tagsDao.selectById(categoryTags1.getTagsId())).orElse(new Tags());
+                        Tags tags =
+                                Optional.ofNullable(this.tagsDao.selectById(categoryTags1.getTagsId())).orElse(new Tags());
                         tagsVOList.add(new TagsVO().setName(tags.getName()));
                     });
                 }
@@ -134,7 +142,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
 
         Category category = this.categoryDao.selectOne(new LambdaQueryWrapper<Category>().eq(Category::getId, id));
 
-        List<CategoryTags> categoryTags = categoryTagsDao.selectList(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getCategoryId, category.getId()));
+        List<CategoryTags> categoryTags =
+                categoryTagsDao.selectList(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getCategoryId,
+                        category.getId()));
         List<TagsVO> tagsVOList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(categoryTags)) {
             categoryTags.forEach(categoryTags1 -> {
@@ -143,7 +153,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
             });
         }
 
-        CategoryVO categoryVO = new CategoryVO().setId(category.getId()).setName(category.getName()).setTagsList(tagsVOList);
+        CategoryVO categoryVO =
+                new CategoryVO().setId(category.getId()).setName(category.getName()).setTagsList(tagsVOList);
         return Result.createWithModel(categoryVO);
     }
 
@@ -151,7 +162,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
     public Result getCategory(Long id) {
         Category category = this.categoryDao.selectOne(new LambdaQueryWrapper<Category>().eq(Category::getId, id));
 
-        List<CategoryTags> categoryTags = categoryTagsDao.selectList(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getCategoryId, category.getId()));
+        List<CategoryTags> categoryTags =
+                categoryTagsDao.selectList(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getCategoryId,
+                        category.getId()));
         List<TagsVO> tagsVOList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(categoryTags)) {
             categoryTags.forEach(categoryTags1 -> {
@@ -160,29 +173,34 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
             });
         }
 
-        CategoryVO categoryVO = new CategoryVO().setId(category.getId()).setName(category.getName()).setTagsList(tagsVOList);
+        CategoryVO categoryVO =
+                new CategoryVO().setId(category.getId()).setName(category.getName()).setTagsList(tagsVOList);
         return Result.createWithModel(categoryVO);
     }
 
     @Override
     public Result updateCategory(CategoryVO categoryVO) {
 
-        Integer count = this.categoryDao.selectCount(new LambdaQueryWrapper<Category>().eq(Category::getId, categoryVO.getId()));
+        Integer count = this.categoryDao.selectCount(new LambdaQueryWrapper<Category>().eq(Category::getId,
+                categoryVO.getId()));
         if (count.equals(Constants.ZERO)) {
             ExceptionUtil.rollback(ErrorConstants.DATA_NO_EXIST);
         }
 
-        Category category = new Category().setId(categoryVO.getId()).setName(categoryVO.getName()).setUpdateTime(LocalDateTime.now());
+        Category category =
+                new Category().setId(categoryVO.getId()).setName(categoryVO.getName()).setUpdateTime(LocalDateTime.now());
         this.categoryDao.updateById(category);
 
         List<TagsVO> tagsList = categoryVO.getTagsList();
 
-        this.categoryTagsDao.delete(new LambdaUpdateWrapper<CategoryTags>().eq(CategoryTags::getCategoryId, category.getId()));
+        this.categoryTagsDao.delete(new LambdaUpdateWrapper<CategoryTags>().eq(CategoryTags::getCategoryId,
+                category.getId()));
         if (!CollectionUtils.isEmpty(tagsList)) {
             tagsList.forEach(tagsVO -> {
                 if (tagsVO.getId() == null) {
                     // add
-                    Tags tags = new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
+                    Tags tags =
+                            new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
                     this.tagsDao.insert(tags);
                     tagsVO.setId(tags.getId());
                 }

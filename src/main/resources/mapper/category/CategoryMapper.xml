@@ -20,6 +20,6 @@
         LEFT JOIN hello_blog_posts_tags postsTags ON postsTags.tags_id = categoryTags.tags_id
         WHERE
         postsTags.posts_id IS NOT NULL
-        GROUP BY categoryTags.category_id  ,postsTags.posts_id
+        GROUP BY categoryTags.category_id
     </select>
 </mapper>
