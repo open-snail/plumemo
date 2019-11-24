@@ -16,10 +16,12 @@ import java.util.List;
  */
 @Slf4j
 public class LoadConfigListener implements ApplicationListener<ContextRefreshedEvent> {
+
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        ConfigDao configDao = BeanTool.getBean(ConfigDao.class);
-        List<Config> configList = configDao.selectList(null);
+    public void onApplicationEvent(final ContextRefreshedEvent contextRefreshedEvent) {
+
+        final ConfigDao configDao = BeanTool.getBean(ConfigDao.class);
+        final List<Config> configList = configDao.selectList(null);
         configList.forEach(config -> {
             log.debug("config_key: {}, config_vlaue: {}", config.getConfigKey(), config.getConfigValue());
             ConfigCache.putConfig(config.getConfigKey(), config.getConfigValue());
