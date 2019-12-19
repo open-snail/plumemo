@@ -92,6 +92,11 @@ public class Posts extends Model<Posts> {
      */
     private Integer syncStatus;
 
+    /**
+     * 文章分类Id
+     */
+    private Integer categoryId;
+
     @Override
     protected Serializable pkVal() {
         return this.id;

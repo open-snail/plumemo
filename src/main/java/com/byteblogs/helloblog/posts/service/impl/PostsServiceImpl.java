@@ -78,22 +78,17 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
         Posts posts = new Posts();
         posts.setTitle(postsVO.getTitle()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()).setThumbnail(postsVO.getThumbnail());
-        posts.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setAuthorId(userSessionInfo.getId());
+        posts.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId());
         postsDao.insert(posts);
-
         postsAttributeDao.insert(new PostsAttribute().setContent(postsVO.getContent()).setPostsId(posts.getId()));
-
         List<TagsVO> tagsList = postsVO.getTagsList();
-
         if (!CollectionUtils.isEmpty(tagsList)) {
             tagsList.forEach(tagsVO -> {
                 if (tagsVO.getId() == null) {
-                    // add
-                    Tags tags = new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
+                    Tags tags = new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());// add
                     this.tagsDao.insert(tags);
                     tagsVO.setId(tags.getId());
                 }
-
                 postsTagsDao.insert(new PostsTags().setPostsId(posts.getId()).setTagsId(tagsVO.getId()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()));
             });
         }
@@ -123,7 +118,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         }
 
         posts1.setTitle(postsVO.getTitle()).setUpdateTime(LocalDateTime.now()).setThumbnail(postsVO.getThumbnail());
-        posts1.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setAuthorId(userSessionInfo.getId());
+        posts1.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId());
 
         this.postsDao.updateById(posts1);
         this.postsAttributeDao.update(new PostsAttribute().setContent(postsVO.getContent()), new LambdaUpdateWrapper<PostsAttribute>().eq(PostsAttribute::getPostsId, posts1.getId()));
@@ -190,7 +185,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         postsVO.setCreateTime(posts.getCreateTime()).setSummary(posts.getSummary()).setTitle(posts.getTitle()).setId(posts.getId()).setThumbnail(posts.getThumbnail()).setIsComment(posts.getIsComment());
 
         PostsAttribute postsAttribute = this.postsAttributeDao.selectOne(new LambdaQueryWrapper<PostsAttribute>().eq(PostsAttribute::getPostsId, posts.getId()));
-        postsVO.setContent(postsAttribute.getContent()).setViews(posts.getViews()).setComments(posts.getComments());
+        postsVO.setContent(postsAttribute.getContent()).setViews(posts.getViews()).setComments(posts.getComments()).setCategoryId(posts.getCategoryId());
 
         List<PostsTags> postsTagsList = postsTagsDao.selectList(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getPostsId, posts.getId()));
         List<TagsVO> tagsVOList = new ArrayList<>();

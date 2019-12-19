@@ -131,4 +131,7 @@ public class PostsVO extends BaseVO<PostsVO> {
 
     private String tagsName;
 
+    // 文章分类Id
+    private Integer categoryId;
+
 }
