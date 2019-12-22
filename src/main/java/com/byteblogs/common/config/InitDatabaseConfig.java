@@ -28,10 +28,14 @@ public class InitDatabaseConfig {
     private String password;
 
     @PostConstruct
-    public void init() throws SQLException, ClassNotFoundException {
+    public void init() {
 
         //连接数据库
-        Class.forName(driver);
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            log.error("连接数据库异常 {}", e.getMessage());
+        }
         //测试url中是否包含useSSL字段，没有则添加设该字段且禁用
         if (url.indexOf("?") == -1) {
             url = url + "?useSSL=false";
@@ -39,74 +43,94 @@ public class InitDatabaseConfig {
             url = url + "&useSSL=false";
         }
 
-        final Connection conn = DriverManager.getConnection(url, userName, password);
-        final Statement stat = conn.createStatement();
+        Connection conn = null;
+        Statement stat = null;
+        try {
+            conn = DriverManager.getConnection(url, userName, password);
+            stat = conn.createStatement();
+        } catch (SQLException e) {
+            log.error("数据库解析异常 {}", e.getMessage());
+        }
 
         final String[] tables = {"hello_blog_config", "hello_blog_auth_token", "hello_blog_auth_user",
                 "hello_blog_category", "hello_blog_category_tags", "hello_blog_friendship_link", "hello_blog_posts"
                 , "hello_blog_posts_attribute", "hello_blog_posts_comments", "hello_blog_posts_tags", "hello_blog_tags"};
 
-        for (int i = 0; i < tables.length; i++) {
-            //获取数据库表名
-            final ResultSet rs = conn.getMetaData().getTables(null, null, tables[i], null);
-            // 判断表是否存在，如果存在则什么都不做，否则创建表
-            if (rs.next()) {
-                return;
-            } else {
-                switch (tables[i]) {
-                    case "hello_blog_config":
-                        stat.executeUpdate(SqlStatement.createHelloBlogConfig());
-                        stat.executeUpdate(SqlStatement.initData());
-                        log.info("初始化hello_blog_config完成");
-                        break;
-                    case "hello_blog_auth_token":
-                        stat.executeUpdate(SqlStatement.createHelloBlogAuthToken());
-                        log.info("初始化hello_blog_auth_token完成");
-                        break;
-                    case "hello_blog_auth_user":
-                        stat.executeUpdate(SqlStatement.createHelloBlogAuthUser());
-                        log.info("初始化hello_blog_auth_user完成");
-                        break;
-                    case "hello_blog_category":
-                        stat.executeUpdate(SqlStatement.createHelloBlogCategory());
-                        log.info("初始化hello_blog_category完成");
-                        break;
-                    case "hello_blog_category_tags":
-                        stat.executeUpdate(SqlStatement.createHelloBlogCategoryTags());
-                        log.info("初始化hello_blog_category_tags完成");
-                        break;
-                    case "hello_blog_friendship_link":
-                        stat.executeUpdate(SqlStatement.createHelloBlogFriendshipLink());
-                        log.info("初始化hello_blog_friendship_link完成");
-                        break;
-                    case "hello_blog_posts":
-                        stat.executeUpdate(SqlStatement.createHelloBlogPosts());
-                        log.info("初始化hello_blog_posts完成");
-                        break;
-                    case "hello_blog_posts_attribute":
-                        stat.executeUpdate(SqlStatement.createHelloBlogPostsAttribute());
-                        log.info("初始化hello_blog_posts_attribute完成");
-                        break;
-                    case "hello_blog_posts_comments":
-                        stat.executeUpdate(SqlStatement.createHelloBlogPostsComments());
-                        log.info("初始化hello_blog_posts_comments完成");
-                        break;
-                    case "hello_blog_posts_tags":
-                        stat.executeUpdate(SqlStatement.createHelloBlogPostsTags());
-                        log.info("初始化hello_blog_posts_tags完成");
-                        break;
-                    case "hello_blog_tags":
-                        stat.executeUpdate(SqlStatement.createHelloBlogTags());
-                        log.info("初始化hello_blog_tags完成");
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + tables[i]);
+        try {
+            for (int i = 0; i < tables.length; i++) {
+                //获取数据库表名
+                final ResultSet rs = conn.getMetaData().getTables(null, null, tables[i], null);
+                // 判断表是否存在，如果存在则什么都不做，否则创建表
+                if (rs.next()) {
+                    return;
+                } else {
+                    switch (tables[i]) {
+                        case "hello_blog_config":
+                            stat.executeUpdate(SqlStatement.createHelloBlogConfig());
+                            stat.executeUpdate(SqlStatement.initData());
+                            log.info("初始化hello_blog_config完成");
+                            break;
+                        case "hello_blog_auth_token":
+                            stat.executeUpdate(SqlStatement.createHelloBlogAuthToken());
+                            log.info("初始化hello_blog_auth_token完成");
+                            break;
+                        case "hello_blog_auth_user":
+                            stat.executeUpdate(SqlStatement.createHelloBlogAuthUser());
+                            log.info("初始化hello_blog_auth_user完成");
+                            break;
+                        case "hello_blog_category":
+                            stat.executeUpdate(SqlStatement.createHelloBlogCategory());
+                            log.info("初始化hello_blog_category完成");
+                            break;
+                        case "hello_blog_category_tags":
+                            stat.executeUpdate(SqlStatement.createHelloBlogCategoryTags());
+                            log.info("初始化hello_blog_category_tags完成");
+                            break;
+                        case "hello_blog_friendship_link":
+                            stat.executeUpdate(SqlStatement.createHelloBlogFriendshipLink());
+                            log.info("初始化hello_blog_friendship_link完成");
+                            break;
+                        case "hello_blog_posts":
+                            stat.executeUpdate(SqlStatement.createHelloBlogPosts());
+                            log.info("初始化hello_blog_posts完成");
+                            break;
+                        case "hello_blog_posts_attribute":
+                            stat.executeUpdate(SqlStatement.createHelloBlogPostsAttribute());
+                            log.info("初始化hello_blog_posts_attribute完成");
+                            break;
+                        case "hello_blog_posts_comments":
+                            stat.executeUpdate(SqlStatement.createHelloBlogPostsComments());
+                            log.info("初始化hello_blog_posts_comments完成");
+                            break;
+                        case "hello_blog_posts_tags":
+                            stat.executeUpdate(SqlStatement.createHelloBlogPostsTags());
+                            log.info("初始化hello_blog_posts_tags完成");
+                            break;
+                        case "hello_blog_tags":
+                            stat.executeUpdate(SqlStatement.createHelloBlogTags());
+                            log.info("初始化hello_blog_tags完成");
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + tables[i]);
+                    }
                 }
             }
+        } catch (SQLException e) {
+            log.error("数据库解析异常 {}", e.getMessage());
+        } finally {
+            // 释放资源
+            try {
+                stat.close();
+            } catch (SQLException e) {
+                log.error("释放 Statement 失败 {}", e.getMessage());
+            }
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                log.error("释放 Connection 失败 {}", e.getMessage());
+            }
         }
-        // 释放资源
-        stat.close();
-        conn.close();
+
     }
 
     public static class SqlStatement {
@@ -198,6 +222,7 @@ public class InitDatabaseConfig {
                     "  `thumbnail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '封面图',\n" +
                     "  `comments` int(11) NOT NULL DEFAULT 0 COMMENT '评论数',\n" +
                     "  `is_comment` smallint(6) NULL DEFAULT 1 COMMENT '是否打开评论 (0 不打开 1 打开 )',\n" +
+                    "  `category_id` bigint(20) DEFAULT NULL COMMENT '分类主键',\n" +
                     "  `sync_status` smallint(6) NOT NULL DEFAULT 0 COMMENT '同步到byteblogs状态',\n" +
                     "  `status` int(11) NOT NULL DEFAULT 1 COMMENT '状态 1 草稿 2 发布',\n" +
                     "  `summary` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '摘要',\n" +

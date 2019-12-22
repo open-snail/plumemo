@@ -13,6 +13,7 @@
         <result column="views" property="views"/>
         <result column="author_id" property="authorId"/>
         <result column="sync_status" property="syncStatus"/>
+        <result column="category_id" property="categoryId"/>
         <result column="is_comment" property="isComment"/>
         <result column="weight" property="weight"/>
         <result column="create_time" property="createTime"/>
