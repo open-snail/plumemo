@@ -31,6 +31,7 @@
         users.NAME author,
         views,
         comments,
+        posts.category_id as categoryId,
         posts.create_time createTime
         FROM
         hello_blog_posts posts
@@ -50,6 +51,11 @@
             <if test="condition.tagsName != null and condition.tagsName != ''">
                 AND tags.name = #{condition.tagsName}
             </if>
+
+            <if test="condition.categoryId != null and condition.categoryId != ''">
+                AND posts.category_id  = #{condition.categoryId}
+            </if>
+
         </where>
         ORDER BY posts.create_time DESC
     </select>
