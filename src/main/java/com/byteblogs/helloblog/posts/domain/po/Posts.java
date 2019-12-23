@@ -1,6 +1,7 @@
 package com.byteblogs.helloblog.posts.domain.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -96,6 +97,12 @@ public class Posts extends Model<Posts> {
      * 文章分类Id
      */
     private Integer categoryId;
+
+    /**
+     * 文章分类名称
+     */
+    @TableField(exist = false)
+    private String categoryName;
 
     @Override
     protected Serializable pkVal() {

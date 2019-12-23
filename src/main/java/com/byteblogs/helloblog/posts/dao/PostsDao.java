@@ -54,4 +54,6 @@ public interface PostsDao extends BaseDao<Posts> {
      * @return
      */
     int incrementComments(@Param("id") Long id);
+
+    Posts selectOneById(Long id);
 }

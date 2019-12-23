@@ -136,4 +136,9 @@ public class PostsVO extends BaseVO<PostsVO> {
 
     // 是否根据权重排序 0：否 1 是
     private Integer isWeight;
+
+    /**
+     * 文章分类名称
+     */
+    private String categoryName;
 }

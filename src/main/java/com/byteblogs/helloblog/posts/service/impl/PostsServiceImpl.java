@@ -18,7 +18,9 @@ import com.byteblogs.common.util.Markdown2HtmlUtil;
 import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.common.util.PreviewTextUtils;
 import com.byteblogs.common.util.SessionUtil;
+import com.byteblogs.helloblog.category.dao.CategoryDao;
 import com.byteblogs.helloblog.category.dao.TagsDao;
+import com.byteblogs.helloblog.category.domain.po.Category;
 import com.byteblogs.helloblog.category.domain.po.Tags;
 import com.byteblogs.helloblog.category.domain.vo.TagsVO;
 import com.byteblogs.helloblog.posts.dao.PostsAttributeDao;
@@ -183,8 +185,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
     @Override
     public Result getPosts(Long id) {
-
-        Posts posts = this.postsDao.selectById(id);
+        Posts posts = this.postsDao.selectOneById(id);
         if (posts == null) {
             ExceptionUtil.rollback("", ErrorConstants.DATA_NO_EXIST);
         }
@@ -199,7 +200,8 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
                 .setViews(posts.getViews())
                 .setComments(posts.getComments())
                 .setCategoryId(posts.getCategoryId())
-                .setWeight(posts.getWeight());
+                .setWeight(posts.getWeight())
+                .setCategoryName(posts.getCategoryName());
 
         PostsAttribute postsAttribute = this.postsAttributeDao.selectOne(new LambdaQueryWrapper<PostsAttribute>().eq(PostsAttribute::getPostsId, posts.getId()));
         if (postsAttribute!=null){
