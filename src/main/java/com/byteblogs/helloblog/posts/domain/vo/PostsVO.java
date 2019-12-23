@@ -134,4 +134,6 @@ public class PostsVO extends BaseVO<PostsVO> {
     // 文章分类Id
     private Integer categoryId;
 
+    // 是否根据权重排序 0：否 1 是
+    private Integer isWeight;
 }

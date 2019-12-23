@@ -1,6 +1,7 @@
 package com.byteblogs.helloblog.posts.service.impl;
 
 import cn.hutool.http.HttpUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -78,7 +79,8 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
         Posts posts = new Posts();
         posts.setTitle(postsVO.getTitle()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()).setThumbnail(postsVO.getThumbnail());
-        posts.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId());
+        posts.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126))
+                .setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId()).setWeight(postsVO.getWeight());
         postsDao.insert(posts);
         postsAttributeDao.insert(new PostsAttribute().setContent(postsVO.getContent()).setPostsId(posts.getId()));
         List<TagsVO> tagsList = postsVO.getTagsList();
@@ -118,10 +120,16 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         }
 
         posts1.setTitle(postsVO.getTitle()).setUpdateTime(LocalDateTime.now()).setThumbnail(postsVO.getThumbnail());
-        posts1.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId());
+        posts1.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126))
+                .setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId()).setWeight(postsVO.getWeight());
 
         this.postsDao.updateById(posts1);
-        this.postsAttributeDao.update(new PostsAttribute().setContent(postsVO.getContent()), new LambdaUpdateWrapper<PostsAttribute>().eq(PostsAttribute::getPostsId, posts1.getId()));
+        Wrapper<PostsAttribute> wrapper=new LambdaUpdateWrapper<PostsAttribute>().eq(PostsAttribute::getPostsId, posts1.getId());
+        if (this.postsAttributeDao.selectCount(wrapper)>0){
+            this.postsAttributeDao.update(new PostsAttribute().setContent(postsVO.getContent()), wrapper);
+        }else{
+            this.postsAttributeDao.insert(new PostsAttribute().setContent(postsVO.getContent()).setPostsId(posts1.getId()));
+        }
 
         List<TagsVO> tagsList = postsVO.getTagsList();
 
@@ -182,11 +190,21 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         }
 
         PostsVO postsVO = new PostsVO();
-        postsVO.setCreateTime(posts.getCreateTime()).setSummary(posts.getSummary()).setTitle(posts.getTitle()).setId(posts.getId()).setThumbnail(posts.getThumbnail()).setIsComment(posts.getIsComment());
+        postsVO.setId(posts.getId())
+                .setCreateTime(posts.getCreateTime())
+                .setSummary(posts.getSummary())
+                .setTitle(posts.getTitle())
+                .setThumbnail(posts.getThumbnail())
+                .setIsComment(posts.getIsComment())
+                .setViews(posts.getViews())
+                .setComments(posts.getComments())
+                .setCategoryId(posts.getCategoryId())
+                .setWeight(posts.getWeight());
 
         PostsAttribute postsAttribute = this.postsAttributeDao.selectOne(new LambdaQueryWrapper<PostsAttribute>().eq(PostsAttribute::getPostsId, posts.getId()));
-        postsVO.setContent(postsAttribute.getContent()).setViews(posts.getViews()).setComments(posts.getComments()).setCategoryId(posts.getCategoryId());
-
+        if (postsAttribute!=null){
+            postsVO.setContent(postsAttribute.getContent());
+        }
         List<PostsTags> postsTagsList = postsTagsDao.selectList(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getPostsId, posts.getId()));
         List<TagsVO> tagsVOList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(postsTagsList)) {
