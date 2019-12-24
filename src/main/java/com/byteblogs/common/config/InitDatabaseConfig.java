@@ -54,16 +54,15 @@ public class InitDatabaseConfig {
 
         final String[] tables = {"hello_blog_config", "hello_blog_auth_token", "hello_blog_auth_user",
                 "hello_blog_category", "hello_blog_category_tags", "hello_blog_friendship_link", "hello_blog_posts"
-                , "hello_blog_posts_attribute", "hello_blog_posts_comments", "hello_blog_posts_tags", "hello_blog_tags"};
+                , "hello_blog_posts_attribute", "hello_blog_posts_comments", "hello_blog_posts_tags", "hello_blog_tags"
+                ,"hello_blog_auth_user_log"};
 
         try {
             for (int i = 0; i < tables.length; i++) {
                 //获取数据库表名
                 final ResultSet rs = conn.getMetaData().getTables(null, null, tables[i], null);
                 // 判断表是否存在，如果存在则什么都不做，否则创建表
-                if (rs.next()) {
-                    return;
-                } else {
+                if (!rs.next()){
                     switch (tables[i]) {
                         case "hello_blog_config":
                             stat.executeUpdate(SqlStatement.createHelloBlogConfig());
@@ -109,6 +108,10 @@ public class InitDatabaseConfig {
                         case "hello_blog_tags":
                             stat.executeUpdate(SqlStatement.createHelloBlogTags());
                             log.info("初始化hello_blog_tags完成");
+                            break;
+                        case "hello_blog_auth_user_log":
+                            stat.executeUpdate(SqlStatement.createHelloBlogAuthUserLog());
+                            log.info("初始化hello_blog_auth_user_log完成");
                             break;
                         default:
                             throw new IllegalStateException("Unexpected value: " + tables[i]);
@@ -280,6 +283,20 @@ public class InitDatabaseConfig {
                     "  `update_by` bigint(20) NULL DEFAULT NULL COMMENT '更新人',\n" +
                     "  PRIMARY KEY (`id`) USING BTREE\n" +
                     ") ENGINE = InnoDB AUTO_INCREMENT = 0 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '标签表' ROW_FORMAT = Compact;";
+        }
+
+        private static String createHelloBlogAuthUserLog() {
+            return "CREATE TABLE `hello_blog_auth_user_log` (\n" +
+                    "  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',\n" +
+                    "   `user_id` varchar(255) NOT NULL COMMENT '记录用户id(游客取系统id：-1)',\n" +
+                    "  `ip` varbinary(32) NOT NULL COMMENT 'ip地址',\n" +
+                    "  `url` varchar(255) NOT NULL COMMENT '请求的url',\n" +
+                    "  `paramter` varchar(255) DEFAULT NULL COMMENT '需要记录的参数',\n" +
+                    "  `device` varchar(255) DEFAULT NULL COMMENT '来自于哪个设备 eg 手机 型号 电脑浏览器',\n" +
+                    "  `description` varchar(255) DEFAULT NULL COMMENT '描述',\n" +
+                    "   `create_time` datetime NOT NULL COMMENT '创建时间',\n" +
+                    "  PRIMARY KEY (`id`) USING BTREE\n" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户行为日志记录表';";
         }
 
         private static String initData() {
