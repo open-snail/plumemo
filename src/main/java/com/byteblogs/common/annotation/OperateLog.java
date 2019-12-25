@@ -1,5 +1,7 @@
 package com.byteblogs.common.annotation;
 
+import com.byteblogs.common.enums.OperateEnum;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,5 +15,5 @@ public @interface OperateLog {
     String  module();
     
     // 操作编号
-    String code() default "";
+    OperateEnum code() default OperateEnum.GET_POSTS_DEFAULT;
 }

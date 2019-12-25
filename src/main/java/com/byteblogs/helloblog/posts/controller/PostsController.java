@@ -1,9 +1,10 @@
 package com.byteblogs.helloblog.posts.controller;
 
 import com.byteblogs.common.annotation.LoginRequired;
+import com.byteblogs.common.annotation.OperateLog;
 import com.byteblogs.common.base.domain.Result;
+import com.byteblogs.common.enums.OperateEnum;
 import com.byteblogs.common.util.ThrowableUtils;
-import com.byteblogs.common.validator.annotion.NotNull;
 import com.byteblogs.common.validator.group.Update;
 import com.byteblogs.helloblog.posts.domain.validator.CrawlerPosts;
 import com.byteblogs.helloblog.posts.domain.validator.InsertPosts;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 /**
  * @author byteblogs@aliyun.com
  * @since 2019-08-28
@@ -34,6 +36,7 @@ public class PostsController {
     @Autowired
     private PostsService postsService;
 
+    @OperateLog(module = "文章列表", code=OperateEnum.GET_POSTS_DETAIL)
     @GetMapping("/posts/v1/list")
     public Result<PostsVO> getPostsList(PostsVO postsVO) {
         return postsService.getPostsList(postsVO);

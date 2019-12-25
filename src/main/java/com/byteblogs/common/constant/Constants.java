@@ -22,6 +22,9 @@ public class Constants {
     public static final int NINE = 9;
     public static final int TEN = 10;
 
+    // 系统默认ID，代表游客
+    public static final String DEFAULT_USERID="-1";
+
     // 默认文件路径分隔符
     public static final String PATH_SEPARATOR = "/";
 
