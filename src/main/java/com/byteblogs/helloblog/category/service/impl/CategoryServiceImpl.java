@@ -64,7 +64,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
         if (!CollectionUtils.isEmpty(tagsList)) {
             tagsList.forEach(tagsVO -> {
                 if (tagsVO.getId() == null) {
-                    // add
+                    // saveLogs
                     Tags tags =
                             new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
                     this.tagsDao.insert(tags);
@@ -198,7 +198,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
         if (!CollectionUtils.isEmpty(tagsList)) {
             tagsList.forEach(tagsVO -> {
                 if (tagsVO.getId() == null) {
-                    // add
+                    // saveLogs
                     Tags tags =
                             new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
                     this.tagsDao.insert(tags);

@@ -2,6 +2,12 @@ package com.byteblogs.common.enums;
 
 public enum OperateEnum {
 
+
+    /**
+     * 默认类型
+     */
+    GET_POSTS_DEFAULT("000"),
+
     /**
      * 查询文章详情
      */

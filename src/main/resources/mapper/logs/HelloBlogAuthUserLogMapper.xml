@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.byteblogs.helloblog.log.dao.HelloBlogAuthUserLogMapper">
+	<!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,user_id as userId,ip,url,paramter,device,description,code,run_time as runTime,create_time as createTime
+    </sql>
+	
+    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.log.domain.po.HelloBlogAuthUserLog">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="ip" property="ip" />
+		<result column="url" property="url" />
+		<result column="paramter" property="paramter" />
+		<result column="device" property="device" />
+		<result column="code" property="code" />
+		<result column="description" property="description" />
+		<result column="run_time" property="runTime" />
+		<result column="create_time" property="createTime" />
+    </resultMap>
+
+    <select id="selectLogsList" resultType="com.byteblogs.helloblog.log.domain.po.HelloBlogAuthUserLog">
+        SELECT <include refid="Base_Column_List" /> FROM hello_blog_auth_user_log
+        <where>
+            <if test="condition.keywords != null and condition.keywords != ''">
+                AND (title LIKE #{condition.keywords} OR summary LIKE #{condition.keywords})
+            </if>
+        </where>
+        ORDER BY id DESC;
+    </select>
+
+</mapper>
