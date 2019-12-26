@@ -31,7 +31,7 @@
             postsComments.posts_id = #{postsId}
         </where>
 
-        ORDER BY  postsComments.create_time
+        ORDER BY postsComments.create_time DESC
     </select>
 
     <select id="selectPostsCommentsList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsCommentsVO">
