@@ -123,6 +123,11 @@
             <artifactId>remark</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.fusesource</groupId>
+            <artifactId>sigar</artifactId>
+            <version>1.6.4</version>
+        </dependency>
     </dependencies>
 
     <build>
