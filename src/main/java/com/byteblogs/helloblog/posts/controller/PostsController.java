@@ -61,6 +61,7 @@ public class PostsController {
         return postsService.publishByteBlogs(postsVO);
     }
 
+    @OperateLog(module = "获取文章", code=OperateEnum.GET_POSTS_DETAIL)
     @GetMapping("/posts/v1/{id}")
     public Result getPosts(@PathVariable Long id) {
         return this.postsService.getPosts(id);
