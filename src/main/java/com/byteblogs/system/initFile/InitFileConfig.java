@@ -38,9 +38,7 @@ public class InitFileConfig implements ApplicationListener<ApplicationContextEve
         FileOutputStream fos = null;
        try{
            fis = new FileInputStream(new File(RESOURCES_PATH+getFileName()));//创建输入流对象
-           System.err.println(RESOURCES_PATH+getFileName());
            File file=new File(FILE_PATH+getFileName());
-           System.err.println(FILE_PATH+getFileName());
            if (!file.exists()){
                fos = new FileOutputStream(FILE_PATH+getFileName()); //创建输出流对象
                byte datas[] = new byte[1024];//创建搬运工具
