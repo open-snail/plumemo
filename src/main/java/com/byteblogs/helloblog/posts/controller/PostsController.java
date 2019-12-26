@@ -42,6 +42,13 @@ public class PostsController {
         return postsService.getPostsList(postsVO);
     }
 
+    @OperateLog(module = "权重列表", code=OperateEnum.GET_POSTS_DETAIL)
+    @GetMapping("/posts/v1/weightList")
+    public Result<PostsVO> getWeightList(PostsVO postsVO) {
+        postsVO.setIsWeight(1);
+        return postsService.getPostsList(postsVO);
+    }
+
     @GetMapping("/archive/v1/list")
     public Result<PostsVO> getArchiveTotalByDateList(PostsVO postsVO) {
         return postsService.getArchiveTotalByDateList(postsVO);
