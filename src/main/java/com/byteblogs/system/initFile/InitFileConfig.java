@@ -16,7 +16,7 @@ import java.io.IOException;
 public class InitFileConfig implements ApplicationListener<ApplicationContextEvent>, Ordered {
 
     private String FILE_PATH=System.getProperty("java.home").replaceFirst("jre","bin")+File.separator;
-    private String RESOURCES_PATH="src"+File.separator+"main"+File.separator+"resources"+File.separator+"dll"+File.separator;
+    private String RESOURCES_PATH=InitFileConfig.class.getClassLoader().getResource("dll").getPath()+File.separator;
 
     public String getFileName(){
         if (isWindows()){

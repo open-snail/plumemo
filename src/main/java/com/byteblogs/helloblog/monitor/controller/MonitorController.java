@@ -8,7 +8,7 @@ import com.byteblogs.helloblog.monitor.util.RuntimeUtil;
 
 @RestController
 @RequestMapping("monitor")
-public class monitorController {
+public class MonitorController {
     @GetMapping("/monitor/v1/system")
     public Result getSystem() {
         return RuntimeUtil.getProperty();
