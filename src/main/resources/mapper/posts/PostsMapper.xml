@@ -119,6 +119,18 @@
         LEFT JOIN hello_blog_category as category ON category.id=posts.category_id
         WHERE posts.id=#{id}
     </select>
+    <select id="selectPostsListStatistics" resultType="java.util.Map">
+        SELECT
+            ip,
+            device,
+            browser_name as browserName,
+            browser_version as browserVersion,
+            COUNT(1) AS total,
+            (SUM( run_time )/COUNT(1)) AS runTime
+        FROM hello_blog_auth_user_log
+        WHERE code = '001'
+        GROUP BY  ip,device
+    </select>
 
     <update id="incrementView">
        UPDATE hello_blog_posts SET views = views + 1 WHERE id = #{id}

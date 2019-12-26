@@ -9,9 +9,14 @@ public enum OperateEnum {
     GET_POSTS_DEFAULT("000"),
 
     /**
+     * 查询文章列表
+     */
+    GET_POSTS_LIST("001"),
+
+    /**
      * 查询文章详情
      */
-    GET_POSTS_DETAIL("001");
+    GET_POSTS_DETAIL("002");
 
     private final String code;
 

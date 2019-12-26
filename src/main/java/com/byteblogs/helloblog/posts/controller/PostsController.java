@@ -36,13 +36,13 @@ public class PostsController {
     @Autowired
     private PostsService postsService;
 
-    @OperateLog(module = "文章列表", code=OperateEnum.GET_POSTS_DETAIL)
+    @OperateLog(module = "文章列表", code=OperateEnum.GET_POSTS_LIST)
     @GetMapping("/posts/v1/list")
     public Result<PostsVO> getPostsList(PostsVO postsVO) {
         return postsService.getPostsList(postsVO);
     }
 
-    @OperateLog(module = "权重列表", code=OperateEnum.GET_POSTS_DETAIL)
+    @OperateLog(module = "权重列表", code=OperateEnum.GET_POSTS_LIST)
     @GetMapping("/posts/v1/weightList")
     public Result<PostsVO> getWeightList(PostsVO postsVO) {
         postsVO.setIsWeight(1);

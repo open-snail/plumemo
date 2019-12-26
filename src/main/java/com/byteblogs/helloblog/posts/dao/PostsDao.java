@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author byteblogs
@@ -56,4 +57,7 @@ public interface PostsDao extends BaseDao<Posts> {
     int incrementComments(@Param("id") Long id);
 
     Posts selectOneById(Long id);
+
+    List<Map<String, String>> selectPostsListStatistics();
+
 }

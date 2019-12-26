@@ -28,4 +28,6 @@ public interface DashboardService {
      * @return
      */
     String getByteBlogsChatList(PostsVO postsVO);
+
+    Result getPostsStatistics();
 }

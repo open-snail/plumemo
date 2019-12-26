@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -45,5 +47,11 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public String getByteBlogsChatList(PostsVO postsVO) {
         return HttpUtil.get(MessageFormat.format(Constants.BYTE_BLOGS_CHAT_LIST, postsVO.getPage(), postsVO.getSize()));
+    }
+
+    @Override
+    public Result getPostsStatistics() {
+        List<Map<String,String>> statistics=postsDao.selectPostsListStatistics();
+        return Result.createWithModels(statistics);
     }
 }
