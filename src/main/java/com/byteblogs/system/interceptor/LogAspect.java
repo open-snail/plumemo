@@ -1,9 +1,9 @@
 package com.byteblogs.system.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.byteblogs.common.annotation.OperateLog;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.util.DateUtil;
 import com.byteblogs.common.util.HttpContextUtils;
 import com.byteblogs.common.util.JsonUtil;
 import com.byteblogs.helloblog.auth.domain.po.AuthUser;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Optional;
 
 @Aspect
@@ -53,16 +53,17 @@ public class LogAspect {
             helloBlogAuthUserLogVO.setDescription(operateLog.module());//  获取注解上的描述
             helloBlogAuthUserLogVO.setCode(operateLog.code().getCode());// 获取主街上定义的类型
         }
-        // 请求的参数
-        try {
-            String params= Arrays.toString(joinPoint.getArgs());
-            if(params.length()>5000){
-                params = params.substring(0, 4999);
-            }
-            helloBlogAuthUserLogVO.setParamter(params);
-        } catch (Exception e) {e.printStackTrace(); }
-        // 取得用户IP地址
+
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+        // 请求的参数
+        Enumeration<String> enums = request.getParameterNames();
+        JSONObject parameter =new JSONObject();
+        while(enums.hasMoreElements()) {
+            String paramName = enums.nextElement();
+            String paramValue = request.getParameter(String.valueOf(paramName));
+            parameter.put(paramName,paramValue);
+        }
+        helloBlogAuthUserLogVO.setParamter(parameter.toJSONString());
         helloBlogAuthUserLogVO.setIp(HttpContextUtils.getIpAddr(request));
         helloBlogAuthUserLogVO.setUrl(request.getRequestURI());
         helloBlogAuthUserLogVO.setDevice(HttpContextUtils.getOsName(request));

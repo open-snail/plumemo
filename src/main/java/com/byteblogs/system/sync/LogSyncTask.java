@@ -1,6 +1,5 @@
 package com.byteblogs.system.sync;
 
-import com.byteblogs.helloblog.log.domain.po.HelloBlogAuthUserLog;
 import com.byteblogs.helloblog.log.domain.vo.HelloBlogAuthUserLogVO;
 import com.byteblogs.helloblog.log.service.HelloBlogAuthUserLogService;
 import org.springframework.beans.factory.annotation.Autowired;

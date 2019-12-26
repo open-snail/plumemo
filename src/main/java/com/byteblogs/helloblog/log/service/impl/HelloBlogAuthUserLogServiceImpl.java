@@ -42,7 +42,9 @@ public class HelloBlogAuthUserLogServiceImpl extends BaseServiceImpl<HelloBlogAu
                 .setUrl(helloBlogAuthUserLogVO.getUrl())
                 .setCode(helloBlogAuthUserLogVO.getCode())
                 .setUserId(helloBlogAuthUserLogVO.getUserId())
-                .setRunTime(helloBlogAuthUserLogVO.getRunTime());
+                .setRunTime(helloBlogAuthUserLogVO.getRunTime())
+                .setBrowserName(helloBlogAuthUserLogVO.getBrowserName())
+                .setBrowserVersion(helloBlogAuthUserLogVO.getBrowserVersion());
         helloBlogAuthUserLogMapper.insert(helloBlogAuthUserLog);
         return Result.createWithSuccessMessage();
     }

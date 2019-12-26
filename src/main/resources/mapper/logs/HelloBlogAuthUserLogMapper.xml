@@ -3,7 +3,7 @@
 <mapper namespace="com.byteblogs.helloblog.log.dao.HelloBlogAuthUserLogMapper">
 	<!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,user_id as userId,ip,url,paramter,device,description,code,run_time as runTime,create_time as createTime
+        id,user_id as userId,ip,url,paramter,device,description,code,run_time as runTime,create_time as createTime,browser_version as browserVersion,browser_name as browserName
     </sql>
 	
     <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.log.domain.po.HelloBlogAuthUserLog">
@@ -17,6 +17,8 @@
 		<result column="description" property="description" />
 		<result column="run_time" property="runTime" />
 		<result column="create_time" property="createTime" />
+		<result column="browser_version" property="browserVersion" />
+		<result column="browser_name" property="browserName" />
     </resultMap>
 
     <select id="selectLogsList" resultType="com.byteblogs.helloblog.log.domain.po.HelloBlogAuthUserLog">
