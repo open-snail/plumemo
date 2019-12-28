@@ -141,4 +141,9 @@ public class PostsVO extends BaseVO<PostsVO> {
      * 文章分类名称
      */
     private String categoryName;
+
+    /**
+     * 用于归档时保存文章自身列表
+     */
+    private List<PostsVO> archivePosts;
 }

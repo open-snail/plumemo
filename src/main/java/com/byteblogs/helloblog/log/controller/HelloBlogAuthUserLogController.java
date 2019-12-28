@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 用户行为日志记录表: 后端controller类
- * @author generator
+ * @author 青涩知夏
  * @date 2019-12-25 09:10:17
  * @since 1.0
  */

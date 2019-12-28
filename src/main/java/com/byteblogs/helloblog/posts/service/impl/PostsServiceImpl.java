@@ -258,8 +258,12 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     }
 
     @Override
-    public Result getArchiveTotalByDateList(PostsVO postsVO) {
+    public Result<PostsVO> getArchiveTotalByDateList(PostsVO postsVO) {
         List<PostsVO> postsVOList = this.postsDao.selectArchiveTotalGroupDateList();
+        postsVOList.forEach(obj->{
+            // 查询每一个时间点中的文章
+            obj.setArchivePosts(this.postsDao.selectByArchiveDate(obj.getArchiveDate()));
+        });
         return Result.createWithModels(postsVOList);
     }
 

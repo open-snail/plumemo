@@ -1,6 +1,7 @@
 package com.byteblogs.helloblog.dashboard.service.impl;
 
 import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.constant.Constants;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,7 +53,12 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public Result getPostsStatistics() {
-        List<Map<String,String>> statistics=postsDao.selectPostsListStatistics();
-        return Result.createWithModels(statistics);
+        LocalDate localDate=LocalDate.now();
+        List<Map<String,String>> today=postsDao.selectPostsListStatistics(localDate);
+        List<Map<String,String>> yesterday=postsDao.selectPostsListStatistics(localDate.plusDays(-1));
+        JSONObject obj=new JSONObject();
+        obj.put("today",today);
+        obj.put("yesterday",yesterday);
+        return Result.createWithModel(obj);
     }
 }

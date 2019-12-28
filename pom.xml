@@ -128,6 +128,12 @@
             <artifactId>sigar</artifactId>
             <version>1.6.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.byteblogs</groupId>
+            <artifactId>byteblogs-data-boot-start</artifactId>
+            <version>0.0.1-RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>

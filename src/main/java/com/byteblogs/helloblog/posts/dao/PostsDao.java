@@ -6,7 +6,9 @@ import com.byteblogs.helloblog.posts.domain.po.Posts;
 import com.byteblogs.helloblog.posts.domain.vo.PostsVO;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +60,7 @@ public interface PostsDao extends BaseDao<Posts> {
 
     Posts selectOneById(Long id);
 
-    List<Map<String, String>> selectPostsListStatistics();
+    List<Map<String, String>> selectPostsListStatistics(LocalDate date);
 
+    List<PostsVO> selectByArchiveDate(LocalDateTime archiveDate);
 }

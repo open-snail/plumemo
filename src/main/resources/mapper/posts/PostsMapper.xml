@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.byteblogs.helloblog.posts.dao.PostsDao">
 
+    <sql id="BASE_SQL">
+      	id,author_id as authorId,title,thumbnail,comments, is_comment as isComment, sync_status as syncStatus,status,summary,views,weight,category_id as categoryId,create_time as createTime,update_time as updateTime
+   </sql>
+
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.posts.domain.po.Posts">
         <id column="id" property="id"/>
@@ -97,6 +101,7 @@
       FROM
         hello_blog_posts
       GROUP BY DATE_FORMAT( create_time, "%Y-%m-01 00:00:00" )
+      ORDER BY create_time DESC
     </select>
     <select id="selectOneById" resultType="com.byteblogs.helloblog.posts.domain.po.Posts">
         SELECT
@@ -121,15 +126,16 @@
     </select>
     <select id="selectPostsListStatistics" resultType="java.util.Map">
         SELECT
-            ip,
-            device,
-            browser_name as browserName,
-            browser_version as browserVersion,
-            COUNT(1) AS total,
-            (SUM( run_time )/COUNT(1)) AS runTime
+            HOUR( create_time ) AS HOUR,
+            COUNT(1) AS total
         FROM hello_blog_auth_user_log
-        WHERE code = '001'
-        GROUP BY  ip,device
+			WHERE code IN('001', '002') AND  DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(create_time,#{date})
+        GROUP BY  HOUR (create_time)
+    </select>
+    <select id="selectByArchiveDate" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+        SELECT <include refid="BASE_SQL"/>
+        FROM hello_blog_posts
+        WHERE DATE_FORMAT( create_time,"%Y-%m-01 00:00:00")= DATE_FORMAT(#{archiveDate}, "%Y-%m-01 00:00:00" )
     </select>
 
     <update id="incrementView">
