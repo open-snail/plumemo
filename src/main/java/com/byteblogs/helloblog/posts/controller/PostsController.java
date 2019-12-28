@@ -43,7 +43,7 @@ public class PostsController {
     }
 
     @OperateLog(module = "权重列表", code=OperateEnum.GET_POSTS_LIST)
-    @GetMapping("/posts/v1/weightList")
+    @GetMapping("/weight/v1/list")
     public Result<PostsVO> getWeightList(PostsVO postsVO) {
         postsVO.setIsWeight(1);
         return postsService.getPostsList(postsVO);

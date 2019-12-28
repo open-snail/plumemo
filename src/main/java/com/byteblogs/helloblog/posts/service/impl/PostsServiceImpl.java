@@ -89,7 +89,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         if (!CollectionUtils.isEmpty(tagsList)) {
             tagsList.forEach(tagsVO -> {
                 if (tagsVO.getId() == null) {
-                    Tags tags = new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());// add
+                    Tags tags = new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());// saveMenu
                     this.tagsDao.insert(tags);
                     tagsVO.setId(tags.getId());
                 }
@@ -148,7 +148,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
             tagsList.forEach(tagsVO -> {
                 if (tagsVO.getId() == null) {
-                    // add
+                    // saveMenu
                     Tags tags = new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
                     this.tagsDao.insert(tags);
                     tagsVO.setId(tags.getId());
@@ -226,7 +226,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     public Result<PostsVO> getPostsList(PostsVO postsVO) {
         postsVO = Optional.ofNullable(postsVO).orElse(new PostsVO());
 
-        Page page = Optional.ofNullable(PageUtil.checkAndInitPage(postsVO)).orElse(PageUtil.initPage());
+        Page page = Optional.of(PageUtil.checkAndInitPage(postsVO)).orElse(PageUtil.initPage());
         if (StringUtils.isNotBlank(postsVO.getKeywords())) {
             postsVO.setKeywords("%" + postsVO.getKeywords() + "%");
         }
