@@ -49,7 +49,7 @@ public class RuntimeUtil {
             obj.put("fileSeparator",props.getProperty("file.separator")); // 文件分隔符
             obj.put("pathSeparator",props.getProperty("path.separator"));// 路径分隔符
             obj.put("lineSeparator",props.getProperty("line.separator"));// 行分隔符
-            obj.put("userName",props.getProperty("user.name"));// 用户的账户名称
+            obj.put("userNameDir",props.getProperty("user.name"));// 用户的账户名称
             obj.put("userHome",props.getProperty("user.home"));// 用户的主目录
             obj.put("userDir",props.getProperty("user.dir")); // 用户的当前工作目录
         }catch (Exception e){ e.printStackTrace(); }
@@ -61,13 +61,13 @@ public class RuntimeUtil {
         try{
             Sigar sigar = new Sigar();
             Mem mem = sigar.getMem();
-            obj.put("total",mem.getTotal() / 1024L + "K av");// 内存总量
-            obj.put("used", mem.getUsed() / 1024L + "K used");// 当前内存使用量
-            obj.put("free", mem.getFree() / 1024L + "K free");// 当前内存剩余量
+            obj.put("total",mem.getTotal() / 1024L / 1024L);// 内存总量
+            obj.put("used", mem.getUsed() / 1024L / 1024L);// 当前内存使用量
+            obj.put("free", mem.getFree() / 1024L / 1024L);// 当前内存剩余量
             Swap swap = sigar.getSwap();
-            obj.put("swapTotal",swap.getTotal() / 1024L + "K av");// 交换区总量
-            obj.put("swapUsed",swap.getUsed() / 1024L + "K used");// 当前交换区使用量
-            obj.put("swapFree",swap.getFree() / 1024L + "K free");// 当前交换区剩余量
+            obj.put("swapTotal",swap.getTotal() / 1024L / 1024L);// 交换区总量
+            obj.put("swapUsed",swap.getUsed() / 1024L / 1024L);// 当前交换区使用量
+            obj.put("swapFree",swap.getFree() / 1024L / 1024L);// 当前交换区剩余量
         }catch (Exception e){e.printStackTrace();}
         return Result.createWithModel(obj);
     }

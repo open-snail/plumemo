@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.byteblogs.common.annotation.OperateLog;
 import com.byteblogs.common.constant.Constants;
+import com.byteblogs.common.enums.OperateEnum;
 import com.byteblogs.common.util.HttpContextUtils;
 import com.byteblogs.common.util.JsonUtil;
 import com.byteblogs.helloblog.auth.domain.po.AuthUser;
@@ -17,11 +18,13 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Optional;
 
 @Aspect
@@ -55,14 +58,22 @@ public class LogAspect {
         }
 
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        // 请求的参数
-        Enumeration<String> enums = request.getParameterNames();
-        JSONObject parameter =new JSONObject();
-        while(enums.hasMoreElements()) {
-            String paramName = enums.nextElement();
-            String paramValue = request.getParameter(String.valueOf(paramName));
-            parameter.put(paramName,paramValue);
+        JSONObject parameter =new JSONObject();// 保存参数
+        if (helloBlogAuthUserLogVO.getCode().equals(OperateEnum.GET_POSTS_DETAIL.getCode())){
+            Map<String,String> pathVariables = (Map<String,String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+            for (Map.Entry<String,String> map: pathVariables.entrySet()) {
+                parameter.put(map.getKey(),map.getValue());
+            }
+        }else{
+            // 请求的参数
+            Enumeration<String> enums = request.getParameterNames();
+            while(enums.hasMoreElements()) {
+                String paramName = enums.nextElement();
+                String paramValue = request.getParameter(String.valueOf(paramName));
+                parameter.put(paramName,paramValue);
+            }
         }
+
         helloBlogAuthUserLogVO.setParamter(parameter.toJSONString());
         helloBlogAuthUserLogVO.setIp(HttpContextUtils.getIpAddr(request));
         helloBlogAuthUserLogVO.setUrl(request.getRequestURI());
