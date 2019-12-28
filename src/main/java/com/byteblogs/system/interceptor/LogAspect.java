@@ -74,7 +74,7 @@ public class LogAspect {
             }
         }
 
-        helloBlogAuthUserLogVO.setParamter(parameter.toJSONString());
+        helloBlogAuthUserLogVO.setParameter(parameter.toJSONString());
         helloBlogAuthUserLogVO.setIp(HttpContextUtils.getIpAddr(request));
         helloBlogAuthUserLogVO.setUrl(request.getRequestURI());
         helloBlogAuthUserLogVO.setDevice(HttpContextUtils.getOsName(request));

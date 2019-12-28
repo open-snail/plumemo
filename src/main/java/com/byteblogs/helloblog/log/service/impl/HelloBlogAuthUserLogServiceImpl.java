@@ -38,7 +38,7 @@ public class HelloBlogAuthUserLogServiceImpl extends BaseServiceImpl<HelloBlogAu
                 .setCreateTime(helloBlogAuthUserLogVO.getCreateTime())
                 .setDescription(helloBlogAuthUserLogVO.getDescription())
                 .setDevice(helloBlogAuthUserLogVO.getDevice())
-                .setParamter(helloBlogAuthUserLogVO.getParamter())
+                .setParameter(helloBlogAuthUserLogVO.getParameter())
                 .setUrl(helloBlogAuthUserLogVO.getUrl())
                 .setCode(helloBlogAuthUserLogVO.getCode())
                 .setUserId(helloBlogAuthUserLogVO.getUserId())

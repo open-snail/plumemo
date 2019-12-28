@@ -42,7 +42,7 @@ public class HelloBlogAuthUserLog extends Model<HelloBlogAuthUserLog> {
 	/**
 	 * 需要记录的参数
 	 */
-	private String paramter; 
+	private String parameter;
 
 	/**
 	 * 来自于哪个设备 eg 手机 型号 电脑浏览器

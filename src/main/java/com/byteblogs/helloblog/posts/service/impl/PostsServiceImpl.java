@@ -81,7 +81,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
         Posts posts = new Posts();
         posts.setTitle(postsVO.getTitle()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()).setThumbnail(postsVO.getThumbnail());
-        posts.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126))
+        posts.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setIsComment(postsVO.getIsComment())
                 .setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId()).setWeight(postsVO.getWeight());
         postsDao.insert(posts);
         postsAttributeDao.insert(new PostsAttribute().setContent(postsVO.getContent()).setPostsId(posts.getId()));
@@ -122,7 +122,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         }
 
         posts1.setTitle(postsVO.getTitle()).setUpdateTime(LocalDateTime.now()).setThumbnail(postsVO.getThumbnail());
-        posts1.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126))
+        posts1.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setIsComment(postsVO.getIsComment())
                 .setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId()).setWeight(postsVO.getWeight());
 
         this.postsDao.updateById(posts1);
