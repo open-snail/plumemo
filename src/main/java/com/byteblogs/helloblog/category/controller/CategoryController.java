@@ -39,6 +39,8 @@ public class CategoryController {
         return categoryService.saveCategory(categoryVO);
     }
 
+
+    @LoginRequired
     @GetMapping("/statistics/v1/list")
     public  Result statisticsList(CategoryVO categoryVO){
         return categoryService.statisticsList(categoryVO);
