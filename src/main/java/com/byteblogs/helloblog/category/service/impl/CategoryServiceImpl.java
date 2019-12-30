@@ -219,4 +219,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
 
         return Result.createWithSuccessMessage();
     }
+
+    @Override
+    public Result statisticsList(CategoryVO categoryVO) {
+        Page page = Optional.of(PageUtil.checkAndInitPage(categoryVO)).orElse(PageUtil.initPage());
+        LambdaQueryWrapper<CategoryVO> categoryLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.isNotBlank(categoryVO.getKeywords())) {
+            categoryLambdaQueryWrapper.like(CategoryVO::getName, categoryVO.getKeywords());
+        }
+        IPage<CategoryVO> categoryVOList = this.categoryDao.selectStatistics(page,categoryLambdaQueryWrapper);
+        return Result.createWithPaging(categoryVOList.getRecords(), PageUtil.initPageInfo(page));
+    }
 }

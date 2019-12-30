@@ -22,4 +22,10 @@
         postsTags.posts_id IS NOT NULL
         GROUP BY categoryTags.category_id
     </select>
+    <select id="selectStatistics" resultType="com.byteblogs.helloblog.category.domain.vo.CategoryVO">
+        SELECT
+           id,(SELECT COUNT( 1 ) FROM hello_blog_posts WHERE category_id = category.id AND status=2) as total, name
+        FROM
+            hello_blog_category AS category
+    </select>
 </mapper>

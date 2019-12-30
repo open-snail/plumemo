@@ -60,4 +60,6 @@ public interface CategoryService extends BaseService<Category> {
      * @return
      */
     Result deleteCategory(Long id);
+
+    Result statisticsList(CategoryVO categoryVO);
 }

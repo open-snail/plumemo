@@ -58,7 +58,7 @@ public class InitDatabaseConfig implements ApplicationListener<ApplicationContex
         final String[] tables = {"hello_blog_config", "hello_blog_auth_token", "hello_blog_auth_user",
                 "hello_blog_category", "hello_blog_category_tags", "hello_blog_friendship_link", "hello_blog_posts"
                 , "hello_blog_posts_attribute", "hello_blog_posts_comments", "hello_blog_posts_tags", "hello_blog_tags"
-                , "hello_blog_auth_user_log"};
+                , "hello_blog_auth_user_log","hello_blog_menu"};
 
         try {
             for (int i = 0; i < tables.length; i++) {

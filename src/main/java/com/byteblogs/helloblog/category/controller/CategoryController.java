@@ -39,6 +39,11 @@ public class CategoryController {
         return categoryService.saveCategory(categoryVO);
     }
 
+    @GetMapping("/statistics/v1/list")
+    public  Result statisticsList(CategoryVO categoryVO){
+        return categoryService.statisticsList(categoryVO);
+    }
+
     @LoginRequired
     @PutMapping("/category/v1/update")
     public Result updateCategory(@Validated({Update.class}) @RequestBody CategoryVO categoryVO, BindingResult result) {

@@ -45,6 +45,8 @@ public class Category extends Model<Category> {
      */
     private LocalDateTime updateTime;
 
+    private Integer total;
+
 
     @Override
     protected Serializable pkVal() {
