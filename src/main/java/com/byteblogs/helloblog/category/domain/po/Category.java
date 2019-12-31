@@ -1,5 +1,6 @@
 package com.byteblogs.helloblog.category.domain.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -45,6 +46,7 @@ public class Category extends Model<Category> {
      */
     private LocalDateTime updateTime;
 
+    @TableField(exist = false)
     private Integer total;
 
 

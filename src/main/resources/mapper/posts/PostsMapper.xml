@@ -27,14 +27,14 @@
     <select id="selectPostsList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
         SELECT
         DISTINCT(posts.id),
-        title,
-        STATUS,
-        summary,
-        thumbnail,
-        sync_status syncStatus,
-        users.NAME author,
-        views,
-        comments,
+        posts.title,
+        posts.status,
+        posts.summary,
+        posts.thumbnail,
+        posts.sync_status syncStatus,
+        users.name author,
+        posts.views,
+        posts.comments,
         posts.category_id as categoryId,
         category.name as categoryName,
         posts.weight,
@@ -47,22 +47,17 @@
         LEFT JOIN hello_blog_category category ON category.id=posts.category_id
         <where>
             <if test="condition.archiveDate != null">
-                BETWEEN DATE_FORMAT( condition.archiveDate, "%Y-%m-01 00:00:00" ) AND DATE_FORMAT( condition.archiveDate, "%Y-%m-01
-                59:59:59" )
+                BETWEEN DATE_FORMAT( condition.archiveDate, "%Y-%m-01 00:00:00") AND DATE_FORMAT(condition.archiveDate, "%Y-%m-01 59:59:59" )
             </if>
-
             <if test="condition.keywords != null and condition.keywords != ''">
-                AND (title LIKE #{condition.keywords} OR summary LIKE #{condition.keywords})
+                AND (posts.title LIKE #{condition.keywords} OR posts.summary LIKE #{condition.keywords})
             </if>
-
             <if test="condition.tagsName != null and condition.tagsName != ''">
                 AND tags.name = #{condition.tagsName}
             </if>
-
             <if test="condition.categoryId != null and condition.categoryId != ''">
                 AND posts.category_id  = #{condition.categoryId}
             </if>
-
             <if test="condition.postsTagsId != null and condition.postsTagsId != ''">
                 AND postsTags.tags_id = #{condition.postsTagsId}
             </if>

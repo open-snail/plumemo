@@ -81,11 +81,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
     @Override
     public Result getCategoryList(CategoryVO categoryVO) {
 
-        List<Category> categoryList =
-                this.categoryDao.selectList(new LambdaQueryWrapper<Category>().orderByDesc(Category::getCreateTime));
-
+        List<Category> categoryList = this.categoryDao.selectList(new LambdaQueryWrapper<Category>().orderByDesc(Category::getCreateTime));
         List<CategoryVO> categoryPostsTotal = this.categoryDao.selectCategoryPostsTotal();
-
         Map<Long, Integer> map = new HashMap<>();
         if (!CollectionUtils.isEmpty(categoryPostsTotal)) {
             map = categoryPostsTotal.stream().collect(Collectors.toMap(CategoryVO::getId, CategoryVO::getTotal,
