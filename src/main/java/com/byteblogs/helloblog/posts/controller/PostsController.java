@@ -54,6 +54,11 @@ public class PostsController {
         return postsService.getArchiveTotalByDateList(postsVO);
     }
 
+    @GetMapping("/hot/v1/list")
+    public Result getHotPostsList(PostsVO postsVO) {
+        return postsService.getHotPostsList(postsVO);
+    }
+
     @LoginRequired
     @PostMapping("/posts/v1/add")
     public Result savePosts(@Validated({InsertPosts.class}) @RequestBody PostsVO postsVO, BindingResult result) {

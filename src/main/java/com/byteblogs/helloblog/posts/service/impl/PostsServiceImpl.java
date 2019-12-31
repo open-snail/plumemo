@@ -1,8 +1,10 @@
 package com.byteblogs.helloblog.posts.service.impl;
 
 import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,6 +13,7 @@ import com.byteblogs.common.base.domain.vo.BaseVO;
 import com.byteblogs.common.base.domain.vo.UserSessionVO;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.enums.OperateEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.HttpClientDownloader;
 import com.byteblogs.common.util.JsonUtil;
@@ -23,6 +26,9 @@ import com.byteblogs.helloblog.category.dao.TagsDao;
 import com.byteblogs.helloblog.category.domain.po.Category;
 import com.byteblogs.helloblog.category.domain.po.Tags;
 import com.byteblogs.helloblog.category.domain.vo.TagsVO;
+import com.byteblogs.helloblog.log.dao.HelloBlogAuthUserLogMapper;
+import com.byteblogs.helloblog.log.domain.po.HelloBlogAuthUserLog;
+import com.byteblogs.helloblog.log.domain.vo.HelloBlogAuthUserLogVO;
 import com.byteblogs.helloblog.posts.dao.PostsAttributeDao;
 import com.byteblogs.helloblog.posts.dao.PostsDao;
 import com.byteblogs.helloblog.posts.dao.PostsTagsDao;
@@ -72,6 +78,9 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
     @Autowired
     private PostsTagsDao postsTagsDao;
+
+    @Autowired
+    private HelloBlogAuthUserLogMapper helloBlogAuthUserLogMapper;
 
     @Override
     public Result savePosts(PostsVO postsVO) {
@@ -225,14 +234,11 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     @Override
     public Result<PostsVO> getPostsList(PostsVO postsVO) {
         postsVO = Optional.ofNullable(postsVO).orElse(new PostsVO());
-
         Page page = Optional.of(PageUtil.checkAndInitPage(postsVO)).orElse(PageUtil.initPage());
         if (StringUtils.isNotBlank(postsVO.getKeywords())) {
             postsVO.setKeywords("%" + postsVO.getKeywords() + "%");
         }
-
         List<PostsVO> postsVOList = this.postsDao.selectPostsList(page, postsVO);
-
         if (!CollectionUtils.isEmpty(postsVOList)) {
             postsVOList.forEach(postsVO1 -> {
                 List<PostsTags> postsTagsList = postsTagsDao.selectList(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getPostsId, postsVO1.getId()));
@@ -252,7 +258,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
     @Override
     public Result getPlatformArticle(PostsVO postsVO) {
-
         crawler(postsVO);
         return Result.createWithModel(postsVO);
     }
@@ -275,14 +280,12 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
     @Override
     public Result updatePostsStatus(PostsVO postsVO) {
-
         this.postsDao.updateById(new Posts().setId(postsVO.getId()).setStatus(postsVO.getStatus()).setUpdateTime(LocalDateTime.now()));
         return Result.createWithSuccessMessage();
     }
 
     @Override
     public Result publishByteBlogs(PostsVO postsVO) {
-
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         Posts posts = this.postsDao.selectById(postsVO.getId());
         if (posts == null) {
@@ -301,6 +304,23 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         }
 
         return result1;
+    }
+
+    @Override
+    public Result getHotPostsList(PostsVO postsVO) {
+        postsVO = Optional.ofNullable(postsVO).orElse(new PostsVO());
+        Page page = Optional.of(PageUtil.checkAndInitPage(postsVO)).orElse(PageUtil.initPage());
+        if (StringUtils.isNotBlank(postsVO.getKeywords())) {
+            postsVO.setKeywords("%" + postsVO.getKeywords() + "%");
+        }
+        List<HelloBlogAuthUserLogVO> logVOList=helloBlogAuthUserLogMapper.selectListByCode(OperateEnum.GET_POSTS_DETAIL.getCode());
+        List<Long> ids=new ArrayList<>();
+        logVOList.forEach(obj->{
+            JSONObject json=JSONObject.parseObject(obj.getParameter());
+            ids.add(json.getLong("id"));
+        });
+        List<Posts> postsVOList = this.postsDao.selectBatchIds(ids);
+        return Result.createWithPaging(postsVOList, PageUtil.initPageInfo(page));
     }
 
     private void crawler(PostsVO postsVO) {

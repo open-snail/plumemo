@@ -14,4 +14,6 @@ import java.util.List;
  */
 public interface HelloBlogAuthUserLogMapper extends BaseDao<HelloBlogAuthUserLog> {
     List<HelloBlogAuthUserLog> selectLogsList(@Param("page") Page<HelloBlogAuthUserLog> page,@Param("condition") HelloBlogAuthUserLogVO condition);
+
+    List<HelloBlogAuthUserLogVO> selectListByCode(String code);
 }

@@ -74,5 +74,10 @@ public class HelloBlogAuthUserLogVO extends BaseVO<HelloBlogAuthUserLogVO> {
 	 * 浏览器版本号
 	 */
 	private String browserVersion;
+
+	/**
+	 * 统计个数
+	 */
+	private Integer count;
 	// columns END
 }

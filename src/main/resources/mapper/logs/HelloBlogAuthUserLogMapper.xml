@@ -30,5 +30,13 @@
         </where>
         ORDER BY id DESC;
     </select>
+    <select id="selectListByCode" resultType="com.byteblogs.helloblog.log.domain.vo.HelloBlogAuthUserLogVO">
+       SELECT
+            <include refid="Base_Column_List" />,
+            COUNT( 1 ) AS count
+        FROM hello_blog_auth_user_log
+        WHERE CODE = #{code}
+        GROUP BY parameter
+    </select>
 
 </mapper>

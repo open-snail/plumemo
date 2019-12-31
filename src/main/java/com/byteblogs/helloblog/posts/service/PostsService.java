@@ -77,4 +77,6 @@ public interface PostsService extends BaseService<Posts> {
      * @return
      */
     Result publishByteBlogs(PostsVO postsVO);
+
+    Result getHotPostsList(PostsVO postsVO);
 }

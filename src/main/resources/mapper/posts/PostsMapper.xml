@@ -136,6 +136,10 @@
         WHERE DATE_FORMAT( create_time,"%Y-%m-01 00:00:00")= DATE_FORMAT(#{archiveDate}, "%Y-%m-01 00:00:00" )
     </select>
 
+    <select id="selectHotPostsList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+
+    </select>
+
     <update id="incrementView">
        UPDATE hello_blog_posts SET views = views + 1 WHERE id = #{id}
     </update>
