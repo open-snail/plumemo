@@ -9,6 +9,7 @@ import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.constant.ErrorConstants;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.JwtUtil;
+import com.byteblogs.common.util.ToolUtil;
 import com.byteblogs.helloblog.auth.dao.AuthTokenDao;
 import com.byteblogs.helloblog.auth.dao.AuthUserDao;
 import com.byteblogs.helloblog.auth.domain.po.AuthToken;
@@ -68,7 +69,7 @@ public class OauthServiceImpl implements OauthService {
             authUser.setCreateTime(LocalDateTime.now());
             this.authUserDao.insert(authUser);
         }else{
-            if (authUser.getStatus() == Constants.ONE){
+            if (Constants.ONE == ToolUtil.getInteger(authUser.getStatus())){
                 ExceptionUtil.rollback("账户已被禁用,请联系管理员解除限制", ErrorConstants.PARAM_INCORRECT);
             }
         }
