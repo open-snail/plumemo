@@ -134,4 +134,13 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
 
         return Result.createWithSuccessMessage();
     }
+
+    @Override
+    public Result saveAuthUserStatus(AuthUserVO authUserVO) {
+        if (authUserVO.getStatus()!=null){
+            this.authUserDao.updateById(new AuthUser().setId(authUserVO.getId()).setStatus(authUserVO.getStatus()));
+            return Result.createWithSuccessMessage();
+        }
+        return Result.createWithError();
+    }
 }

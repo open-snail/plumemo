@@ -69,6 +69,10 @@ public class OauthServiceImpl implements OauthService {
             this.authUserDao.insert(authUser);
         }
 
+        if (authUser.getStatus()==Constants.ONE){
+            ExceptionUtil.rollback("账户已被禁用,请联系管理员解除限制", ErrorConstants.PARAM_INCORRECT);
+        }
+
         authUserVO.setCreateTime(LocalDateTime.now());
         String token = JwtUtil.getToken(new AuthUserVO().setPassword(authUser.getPassword()).setName(authUser.getName()).setId(authUser.getId()));
 

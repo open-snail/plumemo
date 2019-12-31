@@ -44,4 +44,5 @@ public interface AuthUserService extends BaseService<AuthUser> {
      */
     Result updateUser(AuthUserVO authUserVO);
 
+    Result saveAuthUserStatus(AuthUserVO authUserVO);
 }

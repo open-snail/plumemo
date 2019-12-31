@@ -68,6 +68,11 @@ public class AuthUser extends Model<AuthUser> {
     private String introduction;
 
     /**
+     * 用户状态 0 正常 1 锁定
+     */
+    private Integer status;
+
+    /**
      * 邮箱
      */
     private String email;

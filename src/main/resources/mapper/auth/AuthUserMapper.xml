@@ -10,6 +10,7 @@
         <result column="role_id" property="roleId" />
         <result column="avatar" property="avatar" />
         <result column="create_time" property="createTime" />
+        <result column="status" property="status"/>
     </resultMap>
 
 </mapper>

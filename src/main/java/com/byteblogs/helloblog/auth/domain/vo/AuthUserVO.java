@@ -1,6 +1,8 @@
 package com.byteblogs.helloblog.auth.domain.vo;
 
 import com.byteblogs.common.base.domain.vo.BaseVO;
+import com.byteblogs.common.validator.annotion.IntegerNotNull;
+import com.byteblogs.helloblog.auth.domain.validator.UpdateUsers;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -18,6 +20,7 @@ public class AuthUserVO extends BaseVO<AuthUserVO> {
     /**
      * 主键
      */
+    @IntegerNotNull(groups = {UpdateUsers.class})
     private Long id;
 
     /**
@@ -55,6 +58,8 @@ public class AuthUserVO extends BaseVO<AuthUserVO> {
     private List<String> roles;
 
     private String introduction;
+
+    private Integer status;
 
     /**
      * 邮箱

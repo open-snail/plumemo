@@ -93,4 +93,8 @@ public class Result<T> {
         return result;
     }
 
+    public static <T> Result<T> createWithError() {
+        return createWithErrorMessage("","");
+    }
+
 }

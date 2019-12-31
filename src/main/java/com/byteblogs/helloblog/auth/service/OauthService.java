@@ -12,21 +12,16 @@ public interface OauthService {
 
     /**
      * 获取授权链接
-     * @return
      */
     String oauthLoginByGithub();
 
     /**
      * 保存用户信息
-     * @param authUserVO
-     * @return
      */
     Result saveUserByGithub(AuthUserVO authUserVO);
 
     /**
      * 保存管理员
-     * @param authUserVO
-     * @return
      */
     Result saveAdminByGithub(AuthUserVO authUserVO);
 }
