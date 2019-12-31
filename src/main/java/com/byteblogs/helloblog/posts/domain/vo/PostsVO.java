@@ -146,4 +146,9 @@ public class PostsVO extends BaseVO<PostsVO> {
      * 用于归档时保存文章自身列表
      */
     private List<PostsVO> archivePosts;
+
+    /**
+     * 标签ID
+     */
+    private String postsTagsId;
 }

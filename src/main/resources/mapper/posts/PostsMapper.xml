@@ -63,6 +63,9 @@
                 AND posts.category_id  = #{condition.categoryId}
             </if>
 
+            <if test="condition.postsTagsId != null and condition.postsTagsId != ''">
+                AND postsTags.tags_id = #{condition.postsTagsId}
+            </if>
         </where>
         <choose>
             <when test="condition.isWeight != null and condition.isWeight == 1" >
