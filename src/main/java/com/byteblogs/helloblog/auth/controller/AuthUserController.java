@@ -3,9 +3,12 @@ package com.byteblogs.helloblog.auth.controller;
 import com.byteblogs.common.annotation.LoginRequired;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.util.ThrowableUtils;
+import com.byteblogs.helloblog.auth.domain.po.AuthUserSocial;
 import com.byteblogs.helloblog.auth.domain.validator.UpdateUsers;
+import com.byteblogs.helloblog.auth.domain.vo.AuthUserSocialVO;
 import com.byteblogs.helloblog.auth.domain.vo.AuthUserVO;
 import com.byteblogs.helloblog.auth.service.AuthUserService;
+import com.byteblogs.helloblog.auth.service.AuthUserSocialService;
 import com.byteblogs.helloblog.auth.service.OauthService;
 import com.byteblogs.system.enums.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,9 @@ public class AuthUserController {
 
     @Autowired
     private OauthService oauthService;
+
+    @Autowired
+    private AuthUserSocialService authUserSocialService;
 
     @LoginRequired(role = RoleEnum.USER)
     @GetMapping("/user/v1/get")
@@ -80,5 +86,10 @@ public class AuthUserController {
     @PostMapping("/auth/v1/logout")
     public Result logout() {
         return authUserService.logout();
+    }
+
+    @PostMapping("/social/v1/save")
+    public Result saveSocial(AuthUserSocialVO authUserSocialVO){
+        return this.authUserSocialService.saveAuthUserSocial(authUserSocialVO);
     }
 }

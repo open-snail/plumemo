@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.byteblogs.helloblog.auth.dao.AuthUserSocialDao">
+	<!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,code,account,icon,qr_code as qrCode,show_type as showType,url,remark,create_time as createTime,update_time as updateTime,is_deleted as isDeleted
+    </sql>
+	
+    <resultMap id="BaseResultMap" type="HelloBlogAuthUserSocial">
+		<id column="id" property="id" />
+		<result column="code" property="code" />
+		<result column="account" property="account" />
+		<result column="icon" property="icon" />
+		<result column="qr_code" property="qrCode" />
+		<result column="show_type" property="showType" />
+		<result column="url" property="url" />
+		<result column="remark" property="remark" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="is_deleted" property="isDeleted" />
+    </resultMap>
+	
+</mapper>
