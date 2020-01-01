@@ -12,8 +12,11 @@ import com.byteblogs.common.constant.Constants;
 public class PageUtil {
 
     public static Page checkAndInitPage(BaseVO baseVO) {
-        if (baseVO.getPage() == null || baseVO.getSize() == null) {
-            return new Page();
+        if (baseVO.getPage() == null) {
+             baseVO.setPage(Constants.DEFAULT_PAGE_INDEX);
+        }
+        if (baseVO.getSize() == null){
+            baseVO.setSize(Constants.DEFAULT_PAGE_SIZE);
         }
 
         return new Page(baseVO.getPage(), baseVO.getSize());
