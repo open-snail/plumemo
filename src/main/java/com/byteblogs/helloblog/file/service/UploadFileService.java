@@ -12,8 +12,6 @@ public interface UploadFileService {
 
     /**
      * 上传文件到七牛云
-     * @param file
-     * @return
      */
     String qiniuyunStore(MultipartFile file);
 }

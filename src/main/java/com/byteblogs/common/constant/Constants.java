@@ -41,6 +41,8 @@ public class Constants {
     // 树形路径分隔符
     public static final String TREE_PATH = ".";
 
+    public static final String CLOUD_MUSIC_ID = "cloud_music_id";
+
     public static final String QINIU_ACCESS_KEY = "qiniu_access_key";
 
     public static final String QINIU_SECRET_KEY = "qiniu_secret_key";

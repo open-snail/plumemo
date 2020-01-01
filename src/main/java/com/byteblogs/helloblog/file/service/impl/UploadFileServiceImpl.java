@@ -45,7 +45,6 @@ public class UploadFileServiceImpl implements UploadFileService {
             return ConfigCache.getConfig(Constants.QINIU_IMAGE_DOMAIN) + putRet.key;
         } catch (QiniuException ex) {
             Response r = ex.response;
-            System.err.println(r.toString());
             try {
                 System.err.println(r.bodyString());
             } catch (QiniuException ex2) {
