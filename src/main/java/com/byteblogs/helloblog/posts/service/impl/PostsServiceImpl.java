@@ -319,8 +319,8 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
             JSONObject json=JSONObject.parseObject(obj.getParameter());
             ids.add(json.getLong("id"));
         });
-        List<Posts> postsVOList = this.postsDao.selectBatchIds(ids);
-        return Result.createWithPaging(postsVOList, PageUtil.initPageInfo(page));
+        this.postsDao.selectPage(page,new QueryWrapper<Posts>().in("id",ids));
+        return Result.createWithPaging(page.getRecords(), PageUtil.initPageInfo(page));
     }
 
     private void crawler(PostsVO postsVO) {
