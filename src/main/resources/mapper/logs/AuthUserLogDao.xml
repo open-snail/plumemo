@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.byteblogs.helloblog.log.dao.HelloBlogAuthUserLogMapper">
+<mapper namespace="com.byteblogs.helloblog.log.dao.AuthUserLogDao">
 	<!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,user_id as userId,ip,url,parameter,device,description,code,run_time as runTime,create_time as createTime,browser_version as browserVersion,browser_name as browserName
     </sql>
 	
-    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.log.domain.po.HelloBlogAuthUserLog">
+    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.log.domain.po.AuthUserLog">
 		<id column="id" property="id" />
 		<result column="user_id" property="userId" />
 		<result column="ip" property="ip" />
@@ -21,7 +21,7 @@
 		<result column="browser_name" property="browserName" />
     </resultMap>
 
-    <select id="selectLogsList" resultType="com.byteblogs.helloblog.log.domain.po.HelloBlogAuthUserLog">
+    <select id="selectLogsList" resultType="com.byteblogs.helloblog.log.domain.po.AuthUserLog">
         SELECT <include refid="Base_Column_List" /> FROM hello_blog_auth_user_log
         <where>
             <if test="condition.keywords != null and condition.keywords != ''">
@@ -30,7 +30,7 @@
         </where>
         ORDER BY id DESC;
     </select>
-    <select id="selectListByCode" resultType="com.byteblogs.helloblog.log.domain.vo.HelloBlogAuthUserLogVO">
+    <select id="selectListByCode" resultType="com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO">
        SELECT
             <include refid="Base_Column_List" />,
             COUNT( 1 ) AS count

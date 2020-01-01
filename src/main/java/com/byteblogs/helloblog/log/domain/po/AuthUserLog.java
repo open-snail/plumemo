@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName(value = "hello_blog_auth_user_log")
-public class HelloBlogAuthUserLog extends Model<HelloBlogAuthUserLog> {
+public class AuthUserLog extends Model<AuthUserLog> {
 
 	@TableId(value = "id",type= IdType.AUTO)
 	private Long id;

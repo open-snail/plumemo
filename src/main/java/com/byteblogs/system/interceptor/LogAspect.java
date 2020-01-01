@@ -8,7 +8,7 @@ import com.byteblogs.common.enums.OperateEnum;
 import com.byteblogs.common.util.HttpContextUtils;
 import com.byteblogs.common.util.JsonUtil;
 import com.byteblogs.helloblog.auth.domain.po.AuthUser;
-import com.byteblogs.helloblog.log.domain.vo.HelloBlogAuthUserLogVO;
+import com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO;
 import com.byteblogs.system.sync.LogSyncTask;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -50,16 +50,16 @@ public class LogAspect {
     private void saveLog(ProceedingJoinPoint joinPoint, long time){
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        HelloBlogAuthUserLogVO helloBlogAuthUserLogVO = new HelloBlogAuthUserLogVO();
+        AuthUserLogVO authUserLogVO = new AuthUserLogVO();
         OperateLog operateLog = method.getAnnotation(OperateLog.class);
         if (operateLog != null) {
-            helloBlogAuthUserLogVO.setDescription(operateLog.module());//  获取注解上的描述
-            helloBlogAuthUserLogVO.setCode(operateLog.code().getCode());// 获取主街上定义的类型
+            authUserLogVO.setDescription(operateLog.module());//  获取注解上的描述
+            authUserLogVO.setCode(operateLog.code().getCode());// 获取主街上定义的类型
         }
 
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         JSONObject parameter =new JSONObject();// 保存参数
-        if (helloBlogAuthUserLogVO.getCode().equals(OperateEnum.GET_POSTS_DETAIL.getCode())){
+        if (authUserLogVO.getCode().equals(OperateEnum.GET_POSTS_DETAIL.getCode())){
             Map<String,String> pathVariables = (Map<String,String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
             for (Map.Entry<String,String> map: pathVariables.entrySet()) {
                 parameter.put(map.getKey(),map.getValue());
@@ -74,25 +74,25 @@ public class LogAspect {
             }
         }
 
-        helloBlogAuthUserLogVO.setParameter(parameter.toJSONString());
-        helloBlogAuthUserLogVO.setIp(HttpContextUtils.getIpAddr(request));
-        helloBlogAuthUserLogVO.setUrl(request.getRequestURI());
-        helloBlogAuthUserLogVO.setDevice(HttpContextUtils.getOsName(request));
-        helloBlogAuthUserLogVO.setBrowserName(HttpContextUtils.getBrowserName(request));
-        helloBlogAuthUserLogVO.setBrowserVersion(HttpContextUtils.getBrowserVersion(request));
+        authUserLogVO.setParameter(parameter.toJSONString());
+        authUserLogVO.setIp(HttpContextUtils.getIpAddr(request));
+        authUserLogVO.setUrl(request.getRequestURI());
+        authUserLogVO.setDevice(HttpContextUtils.getOsName(request));
+        authUserLogVO.setBrowserName(HttpContextUtils.getBrowserName(request));
+        authUserLogVO.setBrowserVersion(HttpContextUtils.getBrowserVersion(request));
 
         // 取得用户信息
         String token = Optional.ofNullable(request.getHeader(Constants.AUTHENTICATION)).orElse(null);
         if (!StringUtils.isBlank(token)) {
             AuthUser authUser= JsonUtil.parseObject(JWT.decode(token).getAudience().get(0), AuthUser.class);
-            helloBlogAuthUserLogVO.setUserId(authUser.getId().toString());
+            authUserLogVO.setUserId(authUser.getId().toString());
         }else{
-            helloBlogAuthUserLogVO.setUserId(Constants.DEFAULT_USERID);
+            authUserLogVO.setUserId(Constants.DEFAULT_USERID);
         }
         // 统计时间
-        helloBlogAuthUserLogVO.setRunTime(time);
-        helloBlogAuthUserLogVO.setCreateTime(LocalDateTime.now());
+        authUserLogVO.setRunTime(time);
+        authUserLogVO.setCreateTime(LocalDateTime.now());
         // 保存系统日志
-        logSyncTask.addLog(helloBlogAuthUserLogVO);
+        logSyncTask.addLog(authUserLogVO);
     }
 }

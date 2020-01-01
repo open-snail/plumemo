@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Accessors(chain = true)
-public class HelloBlogAuthUserLogVO extends BaseVO<HelloBlogAuthUserLogVO> {
+public class AuthUserLogVO extends BaseVO<AuthUserLogVO> {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,7 @@
 package com.byteblogs.system.sync;
 
-import com.byteblogs.helloblog.log.domain.vo.HelloBlogAuthUserLogVO;
-import com.byteblogs.helloblog.log.service.HelloBlogAuthUserLogService;
+import com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO;
+import com.byteblogs.helloblog.log.service.AuthUserLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 public class LogSyncTask {
 
     @Autowired
-    private HelloBlogAuthUserLogService sysLogServiceImpl;
+    private AuthUserLogService sysLogServiceImpl;
 
     @Async
-    public void addLog(HelloBlogAuthUserLogVO sysLog){
+    public void addLog(AuthUserLogVO sysLog){
         this.sysLogServiceImpl.saveLogs(sysLog);
     }
 }

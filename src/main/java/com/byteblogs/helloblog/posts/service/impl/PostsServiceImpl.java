@@ -21,14 +21,11 @@ import com.byteblogs.common.util.Markdown2HtmlUtil;
 import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.common.util.PreviewTextUtils;
 import com.byteblogs.common.util.SessionUtil;
-import com.byteblogs.helloblog.category.dao.CategoryDao;
 import com.byteblogs.helloblog.category.dao.TagsDao;
-import com.byteblogs.helloblog.category.domain.po.Category;
 import com.byteblogs.helloblog.category.domain.po.Tags;
 import com.byteblogs.helloblog.category.domain.vo.TagsVO;
-import com.byteblogs.helloblog.log.dao.HelloBlogAuthUserLogMapper;
-import com.byteblogs.helloblog.log.domain.po.HelloBlogAuthUserLog;
-import com.byteblogs.helloblog.log.domain.vo.HelloBlogAuthUserLogVO;
+import com.byteblogs.helloblog.log.dao.AuthUserLogDao;
+import com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO;
 import com.byteblogs.helloblog.posts.dao.PostsAttributeDao;
 import com.byteblogs.helloblog.posts.dao.PostsDao;
 import com.byteblogs.helloblog.posts.dao.PostsTagsDao;
@@ -80,7 +77,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     private PostsTagsDao postsTagsDao;
 
     @Autowired
-    private HelloBlogAuthUserLogMapper helloBlogAuthUserLogMapper;
+    private AuthUserLogDao authUserLogDao;
 
     @Override
     public Result savePosts(PostsVO postsVO) {
@@ -313,7 +310,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         if (StringUtils.isNotBlank(postsVO.getKeywords())) {
             postsVO.setKeywords("%" + postsVO.getKeywords() + "%");
         }
-        List<HelloBlogAuthUserLogVO> logVOList=helloBlogAuthUserLogMapper.selectListByCode(OperateEnum.GET_POSTS_DETAIL.getCode());
+        List<AuthUserLogVO> logVOList= authUserLogDao.selectListByCode(OperateEnum.GET_POSTS_DETAIL.getCode());
         List<Long> ids=new ArrayList<>();
         logVOList.forEach(obj->{
             JSONObject json=JSONObject.parseObject(obj.getParameter());
