@@ -13,4 +13,10 @@ import com.byteblogs.helloblog.auth.domain.vo.AuthUserSocialVO;
 public interface AuthUserSocialService extends BaseService<AuthUserSocial> {
 
     Result saveAuthUserSocial(AuthUserSocialVO authUserSocialVO);
+
+    Result editAuthUserSocial(AuthUserSocialVO authUserSocialVO);
+
+    Result getSocial(Long id);
+
+    Result getSocialList(AuthUserSocialVO authUserSocialVO);
 }

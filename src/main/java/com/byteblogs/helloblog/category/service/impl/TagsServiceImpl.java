@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.helloblog.category.dao.CategoryTagsDao;
@@ -101,7 +101,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
 
         Integer count  = this.tagsDao.selectCount(new LambdaQueryWrapper<Tags>().eq(Tags::getId,tagsVO.getId()));
         if (count.equals(Constants.ZERO)) {
-            ExceptionUtil.rollback("", ErrorConstants.DATA_NO_EXIST);
+            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
         }
 
         this.tagsDao.updateById(new Tags().setId(tagsVO.getId()).setName(tagsVO.getName()).setUpdateTime(LocalDateTime.now()));

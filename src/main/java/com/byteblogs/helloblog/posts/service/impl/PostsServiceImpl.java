@@ -12,7 +12,7 @@ import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.domain.vo.BaseVO;
 import com.byteblogs.common.base.domain.vo.UserSessionVO;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.enums.OperateEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.HttpClientDownloader;
@@ -124,7 +124,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
         Posts posts1 = this.postsDao.selectOne(new LambdaQueryWrapper<Posts>().eq(Posts::getId, postsVO.getId()));
         if (posts1 == null) {
-            ExceptionUtil.rollback("", ErrorConstants.DATA_NO_EXIST);
+            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
         }
 
         posts1.setTitle(postsVO.getTitle()).setUpdateTime(LocalDateTime.now()).setThumbnail(postsVO.getThumbnail());
@@ -179,7 +179,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
         Posts posts = this.postsDao.selectById(id);
         if (posts == null) {
-            ExceptionUtil.rollback("", ErrorConstants.DATA_NO_EXIST);
+            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
         }
 
         this.postsDao.deleteById(id);
@@ -193,7 +193,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     public Result getPosts(Long id) {
         Posts posts = this.postsDao.selectOneById(id);
         if (posts == null) {
-            ExceptionUtil.rollback("", ErrorConstants.DATA_NO_EXIST);
+            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
         }
 
         PostsVO postsVO = new PostsVO();
@@ -286,7 +286,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         Posts posts = this.postsDao.selectById(postsVO.getId());
         if (posts == null) {
-            ExceptionUtil.rollback("数据不存在", ErrorConstants.DATA_NO_EXIST);
+            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
         }
 
         PostsAttribute postsAttribute = this.postsAttributeDao.selectOne(new LambdaQueryWrapper<PostsAttribute>().eq(PostsAttribute::getPostsId, posts.getId()));
@@ -347,7 +347,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
             postsVO.setTitle(cnBlogsVO.getTitle());
             join = String.join("", cnBlogsVO.getContent());
         } else {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
+            ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
         }
         String converted = new Remark().convertFragment(join);
         postsVO.setContent(converted);

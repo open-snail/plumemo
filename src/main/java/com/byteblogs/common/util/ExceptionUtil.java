@@ -1,7 +1,8 @@
 package com.byteblogs.common.util;
 
 import com.byteblogs.common.base.domain.Result;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.constant.ResultConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.exception.BusinessException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,7 +14,6 @@ public class ExceptionUtil {
 
     /**
      * 业务回滚，抛出特定异常：包含错误消息
-     * @param message
      */
     public static void rollback(String message) {
         throw new BusinessException(message);
@@ -21,8 +21,6 @@ public class ExceptionUtil {
 
     /**
      * 业务回滚，抛出特定异常：包含错误消息，错误编码
-     * @param message
-     * @param code
      */
     public static void rollback(String message, String code) {
         throw new BusinessException(message, code);
@@ -30,8 +28,6 @@ public class ExceptionUtil {
 
     /**
      * 业务回滚，抛出特定异常：包含错误消息，错误原因
-     * @param message
-     * @param cause
      */
     public static void rollback(String message, Throwable cause) {
         throw new BusinessException(message, cause);
@@ -39,9 +35,6 @@ public class ExceptionUtil {
 
     /**
      * 业务回滚，抛出特定异常：包含错误消息，错误编码，错误原因
-     * @param message
-     * @param code
-     * @param cause
      */
     public static void rollback(String message, String code, Throwable cause) {
         throw new BusinessException(message, code, cause);
@@ -49,9 +42,18 @@ public class ExceptionUtil {
 
     /**
      * 业务不需回滚，设置result返回
-     * @param message
      */
     public static Result setResult(String message) {
-        return Result.createWithErrorMessage(StringUtils.isBlank(message) ? "系统异常，请稍候..." : message, ErrorConstants.OPERATION_FAIL);
+        return Result.createWithErrorMessage(StringUtils.isBlank(message) ? ResultConstants.ERROR_MESSAGE : message, ResultConstants.OPERATION_FAIL);
+    }
+
+    public static void rollback(ErrorEnum errorEnum) {
+        throw new BusinessException(errorEnum);
+    }
+
+    public static void isRollback(boolean flag, ErrorEnum errorEnum){
+        if (flag){
+            rollback(errorEnum);
+        }
     }
 }

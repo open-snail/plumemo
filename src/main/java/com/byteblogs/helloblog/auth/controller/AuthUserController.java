@@ -2,8 +2,9 @@ package com.byteblogs.helloblog.auth.controller;
 
 import com.byteblogs.common.annotation.LoginRequired;
 import com.byteblogs.common.base.domain.Result;
+import com.byteblogs.common.enums.ErrorEnum;
+import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.ThrowableUtils;
-import com.byteblogs.helloblog.auth.domain.po.AuthUserSocial;
 import com.byteblogs.helloblog.auth.domain.validator.UpdateUsers;
 import com.byteblogs.helloblog.auth.domain.vo.AuthUserSocialVO;
 import com.byteblogs.helloblog.auth.domain.vo.AuthUserVO;
@@ -11,15 +12,11 @@ import com.byteblogs.helloblog.auth.service.AuthUserService;
 import com.byteblogs.helloblog.auth.service.AuthUserSocialService;
 import com.byteblogs.helloblog.auth.service.OauthService;
 import com.byteblogs.system.enums.RoleEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author byteblogs
@@ -88,8 +85,28 @@ public class AuthUserController {
         return authUserService.logout();
     }
 
-    @PostMapping("/social/v1/save")
+    @PostMapping("/social/v1/add")
+    @LoginRequired(role = RoleEnum.ADMIN)
     public Result saveSocial(AuthUserSocialVO authUserSocialVO){
+        ExceptionUtil.isRollback(StringUtils.isBlank(authUserSocialVO.getCode()), ErrorEnum.PARAM_ERROR);
         return this.authUserSocialService.saveAuthUserSocial(authUserSocialVO);
     }
+
+    @PostMapping("/social/v1/update")
+    @LoginRequired(role = RoleEnum.ADMIN)
+    public Result editSocial(AuthUserSocialVO authUserSocialVO){
+        ExceptionUtil.isRollback(authUserSocialVO.getId()==null, ErrorEnum.PARAM_ERROR);
+        return this.authUserSocialService.editAuthUserSocial(authUserSocialVO);
+    }
+
+    @GetMapping("/social/v1/{id}")
+    public Result editSocial(@PathVariable("id") Long id){
+        return this.authUserSocialService.getSocial(id);
+    }
+
+    @GetMapping("/social/v1/list")
+    public Result getSocialList(AuthUserSocialVO authUserSocialVO){
+        return authUserSocialService.getSocialList(authUserSocialVO);
+    }
+
 }

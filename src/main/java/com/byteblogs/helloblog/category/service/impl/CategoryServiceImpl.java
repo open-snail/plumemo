@@ -7,7 +7,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.constant.ResultConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.helloblog.category.dao.CategoryDao;
@@ -181,7 +182,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
         Integer count = this.categoryDao.selectCount(new LambdaQueryWrapper<Category>().eq(Category::getId,
                 categoryVO.getId()));
         if (count.equals(Constants.ZERO)) {
-            ExceptionUtil.rollback(ErrorConstants.DATA_NO_EXIST);
+            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
         }
 
         Category category =

@@ -1,7 +1,8 @@
 package com.byteblogs.common.handler;
 
 import com.byteblogs.common.base.domain.Result;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.constant.ResultConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -30,52 +31,46 @@ public class RestExceptionHandler {
     @ResponseBody
     public Result requestNotReadable(HttpMessageNotReadableException ex){
         log.error("异常类 HttpMessageNotReadableException {},",ex.getMessage());
-        return Result.createWithErrorMessage("参数异常", ErrorConstants.PARAM_INCORRECT);
+        return Result.createWithErrorMessage(ErrorEnum.PARAM_INCORRECT);
     }
 
     /**
      * 400错误
-     * @param ex
-     * @return
      */
     @ExceptionHandler({TypeMismatchException.class})
     @ResponseBody
     public Result requestTypeMismatch(TypeMismatchException ex){
         log.error("异常类 TypeMismatchException {},",ex.getMessage());
-        return Result.createWithErrorMessage("参数异常", ErrorConstants.PARAM_INCORRECT);
+        return Result.createWithErrorMessage(ErrorEnum.PARAM_INCORRECT);
     }
 
     /**
      * 400错误
-     * @param ex
-     * @return
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
     @ResponseBody
     public Result requestMissingServletRequest(MissingServletRequestParameterException ex){
         log.error("异常类 MissingServletRequestParameterException {},",ex.getMessage());
-        return Result.createWithErrorMessage("参数异常", ErrorConstants.PARAM_INCORRECT);
+        return Result.createWithErrorMessage(ErrorEnum.PARAM_INCORRECT);
     }
 
     /**
      * 405错误
-     * @return
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     @ResponseBody
     public Result request405(){
         log.error("异常类 HttpRequestMethodNotSupportedException ");
-        return Result.createWithErrorMessage("参数异常", ErrorConstants.PARAM_INCORRECT);
+        return Result.createWithErrorMessage(ErrorEnum.PARAM_INCORRECT);
     }
 
     /**
      * 415错误
-     * @return
      */
     @ExceptionHandler({HttpMediaTypeNotSupportedException.class})
     @ResponseBody
     public Result request415(HttpMediaTypeNotSupportedException ex){
         log.error("异常类 HttpMediaTypeNotSupportedException {}",ex.getMessage());
-        return Result.createWithErrorMessage("参数异常", ErrorConstants.PARAM_INCORRECT);
+        return Result.createWithErrorMessage(ErrorEnum.PARAM_INCORRECT);
     }
 }

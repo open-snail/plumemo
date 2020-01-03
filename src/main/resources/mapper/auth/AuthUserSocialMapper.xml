@@ -5,8 +5,9 @@
     <sql id="Base_Column_List">
         id,code,account,icon,qr_code as qrCode,show_type as showType,url,remark,create_time as createTime,update_time as updateTime,is_deleted as isDeleted
     </sql>
-	
-    <resultMap id="BaseResultMap" type="HelloBlogAuthUserSocial">
+
+
+    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.auth.domain.po.AuthUserSocial">
 		<id column="id" property="id" />
 		<result column="code" property="code" />
 		<result column="account" property="account" />
@@ -19,5 +20,15 @@
 		<result column="update_time" property="updateTime" />
 		<result column="is_deleted" property="isDeleted" />
     </resultMap>
-	
+
+	<select id="selectSocialList" resultType="com.byteblogs.helloblog.auth.domain.vo.AuthUserSocialVO">
+		SELECT <include refid="Base_Column_List"/> FROM hello_blog_auth_user_social
+		<where>
+			<if test="condition.keywords != null and condition.keywords != ''">
+				code LIKE #{condition.keywords}
+			</if>
+		</where>
+		ORDER BY create_time DESC
+	</select>
+
 </mapper>

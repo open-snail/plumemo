@@ -87,7 +87,7 @@ public class LogAspect {
             AuthUser authUser= JsonUtil.parseObject(JWT.decode(token).getAudience().get(0), AuthUser.class);
             authUserLogVO.setUserId(authUser.getId().toString());
         }else{
-            authUserLogVO.setUserId(Constants.DEFAULT_USERID);
+            authUserLogVO.setUserId(Constants.DEFAULT_USER_ID);
         }
         // 统计时间
         authUserLogVO.setRunTime(time);

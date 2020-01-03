@@ -3,7 +3,8 @@ package com.byteblogs.system.interceptor;
 import com.byteblogs.common.annotation.LoginRequired;
 import com.byteblogs.common.base.domain.vo.UserSessionVO;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.constant.ResultConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.SessionUtil;
 import com.byteblogs.system.enums.RoleEnum;
@@ -43,7 +44,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (loginRequired.required()) {
             // 执行认证
             if (token == null) {
-                ExceptionUtil.rollback("无token，请重新登录", ErrorConstants.INVALID_TOKEN);
+                ExceptionUtil.rollback(ErrorEnum.INVALID_TOKEN);
             }
 
             RoleEnum role = loginRequired.role();
@@ -54,7 +55,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (role == RoleEnum.ADMIN) {
                 UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
                 if (role != RoleEnum.getEnumTypeMap().get(userSessionInfo.getRoleId())) {
-                    ExceptionUtil.rollback("", ErrorConstants.ACCESS_NO_PRIVILEGE);
+                    ExceptionUtil.rollback(ErrorEnum.ACCESS_NO_PRIVILEGE);
                 }
             }
 

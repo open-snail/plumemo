@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.domain.vo.UserSessionVO;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.common.util.SessionUtil;
@@ -115,7 +115,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
     public Result updateUser(AuthUserVO authUserVO) {
 
         if (authUserVO == null) {
-            ExceptionUtil.rollback("参数异常", ErrorConstants.PARAM_INCORRECT);
+            ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
         }
 
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();

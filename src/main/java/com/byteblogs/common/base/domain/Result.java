@@ -1,7 +1,8 @@
 package com.byteblogs.common.base.domain;
 
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.constant.ResultConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
@@ -37,16 +38,16 @@ public class Result<T> {
     }
 
     public static <T> Result<T> createWithSuccessMessage() {
-        Result result = createWithSuccessFlag(Constants.YES);
-        result.setResultCode(ErrorConstants.OPERATION_SUCCESS);
-        result.setMessage("操作成功！");
+        Result result = createWithSuccessFlag(ResultConstants.YES);
+        result.setResultCode(ResultConstants.OPERATION_SUCCESS);
+        result.setMessage(ResultConstants.SUCCESS_MESSAGE);
         return result;
     }
 
     public static <T> Result<T> createWithSuccessMessage(String message) {
-        Result result = createWithSuccessFlag(Constants.YES);
-        result.setResultCode(ErrorConstants.OPERATION_SUCCESS);
-        result.setMessage(StringUtils.isBlank(message) ? "操作成功！" : message);
+        Result result = createWithSuccessFlag(ResultConstants.YES);
+        result.setResultCode(ResultConstants.OPERATION_SUCCESS);
+        result.setMessage(StringUtils.isBlank(message) ? ResultConstants.SUCCESS_MESSAGE : message);
         return result;
     }
 
@@ -87,14 +88,16 @@ public class Result<T> {
     }
 
     public static <T> Result<T> createWithErrorMessage(String message, String errorCode) {
-        Result result = createWithSuccessFlag(Constants.NO);
-        result.setMessage(StringUtils.isBlank(message) ? "操作失败！" : message);
-        result.setResultCode(StringUtils.isBlank(errorCode) ? ErrorConstants.OPERATION_FAIL : errorCode);
+        Result result = createWithSuccessFlag(ResultConstants.NO);
+        result.setMessage(message);
+        result.setResultCode(errorCode);
         return result;
+    }
+    public static <T> Result<T> createWithErrorMessage(ErrorEnum errorEnum) {
+        return createWithErrorMessage(errorEnum.getMsg(),errorEnum.getCode());
     }
 
     public static <T> Result<T> createWithError() {
-        return createWithErrorMessage("","");
+        return createWithErrorMessage(ErrorEnum.ERROR);
     }
-
 }

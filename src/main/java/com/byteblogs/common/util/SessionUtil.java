@@ -8,8 +8,8 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.byteblogs.common.base.domain.vo.UserSessionVO;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ErrorConstants;
 import com.byteblogs.common.context.BeanTool;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.helloblog.auth.dao.AuthTokenDao;
 import com.byteblogs.helloblog.auth.dao.AuthUserDao;
 import com.byteblogs.helloblog.auth.domain.po.AuthToken;
@@ -49,13 +49,13 @@ public class SessionUtil {
         try {
             authUser = JsonUtil.parseObject(JWT.decode(token).getAudience().get(0), AuthUser.class);
         } catch (JWTDecodeException j) {
-            ExceptionUtil.rollback("token解析失败", ErrorConstants.INVALID_TOKEN);
+            ExceptionUtil.rollback(ErrorEnum.INVALID_TOKEN);
         }
 
         AuthUserDao userDao = BeanTool.getBean(AuthUserDao.class);
         AuthUser user = userDao.selectById(authUser.getId());
         if (user == null) {
-            ExceptionUtil.rollback("用户不存在，请重新登录", ErrorConstants.LOGIN_ERROR);
+            ExceptionUtil.rollback(ErrorEnum.LOGIN_ERROR);
         }
 
         // 验证 token
@@ -63,13 +63,13 @@ public class SessionUtil {
         try {
             jwtVerifier.verify(token);
         } catch (JWTVerificationException e) {
-            ExceptionUtil.rollback("token验证失败", ErrorConstants.LOGIN_ERROR);
+            ExceptionUtil.rollback(ErrorEnum.INVALID_TOKEN);
         }
 
         AuthTokenDao authTokenDao = BeanTool.getBean(AuthTokenDao.class);
         Integer count = authTokenDao.selectCount(new LambdaQueryWrapper<AuthToken>().eq(AuthToken::getToken, token).eq(AuthToken::getUserId, user.getId()).ge(AuthToken::getExpireTime, LocalDateTime.now()));
         if (count.equals(Constants.ZERO)) {
-            ExceptionUtil.rollback("token验证失败", ErrorConstants.LOGIN_ERROR);
+            ExceptionUtil.rollback(ErrorEnum.INVALID_TOKEN);
         }
 
         UserSessionVO userSessionVO = new UserSessionVO();

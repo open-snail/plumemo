@@ -6,7 +6,8 @@ import cn.hutool.http.HttpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.constant.ResultConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.JwtUtil;
 import com.byteblogs.common.util.ToolUtil;
@@ -54,7 +55,7 @@ public class OauthServiceImpl implements OauthService {
     public Result saveUserByGithub(AuthUserVO authUserVO) {
         log.debug("saveUserByGithub {}", authUserVO);
         if (authUserVO == null || StringUtils.isBlank(authUserVO.getSocialId())) {
-            ExceptionUtil.rollback("参数异常", ErrorConstants.PARAM_INCORRECT);
+            ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
         }
 
         AuthUser authUser = this.authUserDao.selectOne(new LambdaQueryWrapper<AuthUser>().eq(AuthUser::getSocialId, authUserVO.getSocialId()));
@@ -70,7 +71,7 @@ public class OauthServiceImpl implements OauthService {
             this.authUserDao.insert(authUser);
         }else{
             if (Constants.ONE == ToolUtil.getInteger(authUser.getStatus())){
-                ExceptionUtil.rollback("账户已被禁用,请联系管理员解除限制", ErrorConstants.PARAM_INCORRECT);
+                ExceptionUtil.rollback(ErrorEnum.LOGIN_DISABLE);
             }
         }
         authUserVO.setCreateTime(LocalDateTime.now());
@@ -85,7 +86,7 @@ public class OauthServiceImpl implements OauthService {
     public Result saveAdminByGithub(AuthUserVO authUserVO) {
         log.debug("saveAdminByGithub {}", authUserVO);
         if (authUserVO == null || StringUtils.isBlank(authUserVO.getSocialId())) {
-            ExceptionUtil.rollback("参数异常", ErrorConstants.DATA_NO_EXIST);
+            ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
         }
 
         AuthUser authUser;
@@ -103,7 +104,7 @@ public class OauthServiceImpl implements OauthService {
         } else {
             authUser = this.authUserDao.selectOne(new LambdaQueryWrapper<AuthUser>().eq(AuthUser::getRoleId, RoleEnum.ADMIN.getRoleId()).eq(AuthUser::getSocialId, authUserVO.getSocialId()));
             if (authUser == null) {
-                ExceptionUtil.rollback("无权限", ErrorConstants.ACCESS_NO_PRIVILEGE);
+                ExceptionUtil.rollback(ErrorEnum.ACCESS_NO_PRIVILEGE);
             }
         }
 

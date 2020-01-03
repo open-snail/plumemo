@@ -5,7 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.constant.ResultConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.helloblog.config.dao.ConfigDao;
 import com.byteblogs.helloblog.config.domain.po.Config;
@@ -33,13 +34,12 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
     public Result updateConfig(List<ConfigVO> configList) {
 
         if (CollectionUtils.isEmpty(configList)) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
+            ExceptionUtil.rollback(ErrorEnum.PARAM_INCORRECT);
         }
 
-        boolean b =
-                configList.stream().anyMatch(configVO -> StringUtils.isBlank(configVO.getConfigKey()) || StringUtils.isBlank(configVO.getConfigValue()));
+        boolean b = configList.stream().anyMatch(configVO -> StringUtils.isBlank(configVO.getConfigKey()) || StringUtils.isBlank(configVO.getConfigValue()));
         if (b) {
-            ExceptionUtil.rollback("", ErrorConstants.PARAM_INCORRECT);
+            ExceptionUtil.rollback(ErrorEnum.PARAM_INCORRECT);
         }
 
         configList.forEach(configVO -> {

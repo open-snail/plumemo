@@ -3,9 +3,6 @@ package com.byteblogs.helloblog.posts.domain.vo;
 import com.byteblogs.common.base.domain.vo.BaseVO;
 import com.byteblogs.common.validator.annotion.IntegerNotNull;
 import com.byteblogs.common.validator.annotion.NotBlank;
-import com.byteblogs.common.validator.annotion.Numeric;
-import com.byteblogs.common.validator.group.Insert;
-import com.byteblogs.common.validator.group.Update;
 import com.byteblogs.helloblog.category.domain.vo.TagsVO;
 import com.byteblogs.helloblog.posts.domain.validator.CrawlerPosts;
 import com.byteblogs.helloblog.posts.domain.validator.InsertPosts;
@@ -14,7 +11,6 @@ import com.byteblogs.helloblog.posts.domain.validator.UpdateStatus;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 

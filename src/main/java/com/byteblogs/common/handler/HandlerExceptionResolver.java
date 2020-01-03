@@ -1,7 +1,8 @@
 package com.byteblogs.common.handler;
 
 import com.byteblogs.common.base.domain.Result;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.constant.ResultConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.exception.ApiInvalidParamException;
 import com.byteblogs.common.exception.BusinessException;
 import com.byteblogs.common.util.ErrorMessageUtil;
@@ -31,7 +32,7 @@ public class HandlerExceptionResolver implements org.springframework.web.servlet
         }
 
         // 组装错误提示信息
-        String errorCode = exception instanceof BusinessException ? ((BusinessException) exception).getCode() : ErrorConstants.OPERATION_FAIL;
+        String errorCode = exception instanceof BusinessException ? ((BusinessException) exception).getCode(): ErrorEnum.ERROR.getCode();
         String message = ErrorMessageUtil.getErrorMessage(errorCode, null);
         if (exception instanceof ApiInvalidParamException) {
             //定义错误编码

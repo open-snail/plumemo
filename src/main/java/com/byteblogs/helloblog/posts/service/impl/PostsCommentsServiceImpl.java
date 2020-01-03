@@ -5,7 +5,7 @@ import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.domain.vo.UserSessionVO;
 import com.byteblogs.common.base.service.impl.BaseServiceImpl;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.common.util.SessionUtil;
@@ -14,7 +14,6 @@ import com.byteblogs.helloblog.posts.dao.PostsDao;
 import com.byteblogs.helloblog.posts.domain.po.PostsComments;
 import com.byteblogs.helloblog.posts.domain.vo.PostsCommentsVO;
 import com.byteblogs.helloblog.posts.service.PostsCommentsService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +54,7 @@ public class PostsCommentsServiceImpl extends BaseServiceImpl<PostsCommentsDao, 
         } else {
             PostsComments parentPostsComments = this.postsCommentsDao.selectById(postsCommentsVO.getParentId());
             if (parentPostsComments == null) {
-                ExceptionUtil.rollback("参数异常", ErrorConstants.DATA_NO_EXIST);
+                ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
             }
 
             postsComments.setParentId(postsCommentsVO.getParentId());

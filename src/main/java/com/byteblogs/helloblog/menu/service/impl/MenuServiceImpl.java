@@ -1,11 +1,8 @@
 package com.byteblogs.helloblog.menu.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.byteblogs.common.base.domain.Result;
-import com.byteblogs.common.constant.ErrorConstants;
+import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.helloblog.menu.dao.MenuDao;
@@ -37,7 +34,7 @@ public class MenuServiceImpl implements MenuService {
     public Result getMenu(Long id) {
         Menu menu=menuDao.selectById(id);
         if (menu==null){
-            ExceptionUtil.rollback("", ErrorConstants.DATA_NO_EXIST);
+            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
         }
         return Result.createWithModel(menu);
     }

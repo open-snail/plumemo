@@ -1,9 +1,12 @@
 package com.byteblogs.helloblog.auth.domain.vo;
 
 import com.byteblogs.common.base.domain.vo.BaseVO;
+import com.byteblogs.common.validator.annotion.IntegerNotNull;
+import com.byteblogs.common.validator.annotion.NotBlank;
+import com.byteblogs.helloblog.auth.domain.validator.InsertSocial;
+import com.byteblogs.helloblog.auth.domain.validator.UpdateSocial;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
 import java.time.LocalDateTime;
 
 /**
@@ -15,12 +18,14 @@ import java.time.LocalDateTime;
 public class AuthUserSocialVO extends BaseVO<AuthUserSocialVO> {
 
     // columns START
+	@IntegerNotNull(groups = {UpdateSocial.class})
 	private Long id;
 
 	/**
 	 * qq、csdn、wechat、weibo、email等
 	 */
-	private String code; 
+	@NotBlank(groups = {InsertSocial.class})
+	private String code;
 
 	/**
 	 * 社交账户
@@ -67,5 +72,4 @@ public class AuthUserSocialVO extends BaseVO<AuthUserSocialVO> {
 	 */
 	private Integer isDeleted;
 	// columns END
-
 }
