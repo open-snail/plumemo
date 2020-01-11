@@ -9,39 +9,40 @@ import org.springframework.web.bind.annotation.RestController;
 import com.byteblogs.helloblog.monitor.util.RuntimeUtil;
 
 @RestController
-@RequestMapping("monitor")
+@RequestMapping("/monitor")
 public class MonitorController {
-    @GetMapping("/monitor/v1/system")
+
+    @GetMapping("/system/v1/get")
     @LoginRequired(role = RoleEnum.ADMIN)
     public Result getSystem() {
         return RuntimeUtil.getProperty();
     }
 
-    @GetMapping("/monitor/v1/memory")
+    @GetMapping("/memory/v1/get")
     @LoginRequired(role = RoleEnum.ADMIN)
     public Result getMemory() {
         return RuntimeUtil.getMemory();
     }
 
-    @GetMapping("/monitor/v1/cpu")
+    @GetMapping("/cpu/v1/get")
     @LoginRequired(role = RoleEnum.ADMIN)
     public Result getCpu() {
         return RuntimeUtil.getCpu();
     }
 
-    @GetMapping("/monitor/v1/file")
+    @GetMapping("/file/v1/get")
     @LoginRequired(role = RoleEnum.ADMIN)
     public Result getFile() {
         return RuntimeUtil.getFile();
     }
 
-    @GetMapping("/monitor/v1/net")
+    @GetMapping("/net/v1/get")
     @LoginRequired(role = RoleEnum.ADMIN)
     public Result getNet() {
         return RuntimeUtil.getNet();
     }
 
-    @GetMapping("/monitor/v1/ethernet")
+    @GetMapping("/ethernet/v1/get")
     @LoginRequired(role = RoleEnum.ADMIN)
     public Result getEthernet() {
         return RuntimeUtil.getEthernet();

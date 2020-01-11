@@ -1,5 +1,6 @@
 package com.byteblogs.helloblog.monitor.util;
  
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.util.Map;
 import java.util.Properties;
@@ -19,6 +20,11 @@ import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.Swap;
 
 public class RuntimeUtil {
+
+    /**
+     * 获取系统属性
+     * @return
+     */
     public static Result<JSONObject> getProperty(){
         JSONObject obj=new JSONObject();
         try{
@@ -55,19 +61,32 @@ public class RuntimeUtil {
         }catch (Exception e){ e.printStackTrace(); }
         return Result.createWithModel(obj);
     }
- 
+
+    /**
+     * 获取内存信息
+     * @return
+     */
     public static Result<JSONObject> getMemory(){
         JSONObject obj=new JSONObject();
         try{
             Sigar sigar = new Sigar();
             Mem mem = sigar.getMem();
-            obj.put("total",mem.getTotal() / 1024L / 1024L);// 内存总量
-            obj.put("used", mem.getUsed() / 1024L / 1024L);// 当前内存使用量
-            obj.put("free", mem.getFree() / 1024L / 1024L);// 当前内存剩余量
-            Swap swap = sigar.getSwap();
-            obj.put("swapTotal",swap.getTotal() / 1024L / 1024L);// 交换区总量
-            obj.put("swapUsed",swap.getUsed() / 1024L / 1024L);// 当前交换区使用量
-            obj.put("swapFree",swap.getFree() / 1024L / 1024L);// 当前交换区剩余量
+            BigDecimal total = BigDecimal.valueOf(mem.getTotal()).divide(BigDecimal.valueOf(1024 * 1024 * 1024), BigDecimal.ROUND_HALF_UP);
+            BigDecimal used = BigDecimal.valueOf(mem.getUsed()).divide(BigDecimal.valueOf(1024 * 1024 * 1024), BigDecimal.ROUND_HALF_UP);
+            BigDecimal free = BigDecimal.valueOf(mem.getFree()).divide(BigDecimal.valueOf(1024 * 1024 * 1024), BigDecimal.ROUND_HALF_UP);
+            // 内存总量
+            obj.put("total",total);
+            // 当前内存使用量
+            obj.put("used", used);
+            // 当前内存剩余量
+            obj.put("free", free);
+            // 使用率
+            obj.put("usedRatio",(used.divide(total,3, BigDecimal.ROUND_HALF_UP)
+                    .multiply(BigDecimal.valueOf(100))).setScale(2,BigDecimal.ROUND_HALF_UP));
+//            Swap swap = sigar.getSwap();
+//            obj.put("swapTotal",swap.getTotal() / 1024L / 1024L);// 交换区总量
+//            obj.put("swapUsed",swap.getUsed() / 1024L / 1024L);// 当前交换区使用量
+//            obj.put("swapFree",swap.getFree() / 1024L / 1024L);// 当前交换区剩余量
         }catch (Exception e){e.printStackTrace();}
         return Result.createWithModel(obj);
     }
@@ -94,7 +113,12 @@ public class RuntimeUtil {
         }
         return Result.createWithModel(obj);
     }
- 
+
+    /**
+     * 获取CPU信息
+     * @param cpu
+     * @return
+     */
     private static JSONObject getCpuPerc(CpuPerc cpu) {
         JSONObject obj=new JSONObject();
         obj.put("user", CpuPerc.format(cpu.getUser()));// 用户使用率
@@ -158,7 +182,11 @@ public class RuntimeUtil {
         }catch (Exception e){e.printStackTrace();}
         return Result.createWithModel(obj);
     }
- 
+
+    /**
+     * 获取网络信息
+     * @return
+     */
     public static Result<JSONObject> getNet() {
         JSONObject jsonObject = new JSONObject();
         try{
@@ -191,6 +219,10 @@ public class RuntimeUtil {
         return Result.createWithModel(jsonObject);
     }
 
+    /**
+     * 获取网卡信息
+     * @return
+     */
     public static Result<JSONObject> getEthernet() {
         JSONObject jsonObject = new JSONObject();
         try{
