@@ -45,7 +45,7 @@ public class DashboardController {
     }
 
     @LoginRequired
-    @GetMapping("/blog-total/v1/postStatistics")
+    @GetMapping("/post-statistics/v1/list")
     public Result getPostsStatistics() {
         return dashboardService.getPostsStatistics();
     }
