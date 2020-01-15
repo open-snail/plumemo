@@ -28,4 +28,5 @@ public interface CategoryDao extends BaseDao<Category> {
     List<CategoryVO> selectCategoryPostsTotal();
     IPage<CategoryVO> selectStatistics(Page page, @Param(Constants.WRAPPER) Wrapper<CategoryVO> queryWrapper);
 
+    IPage<Category> selectListPage(@Param("page") Page page, @Param("condition") CategoryVO categoryVO);
 }

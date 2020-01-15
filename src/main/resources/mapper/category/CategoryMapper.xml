@@ -11,6 +11,8 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+    <sql id="BASE_SQL">id,name,sort,create_time, create_by, update_time, update_by</sql>
+
     <select id="selectCategoryPostsTotal" resultType="com.byteblogs.helloblog.category.domain.vo.CategoryVO">
        SELECT
         categoryTags.category_id id,
@@ -27,5 +29,18 @@
            id,(SELECT COUNT( 1 ) FROM hello_blog_posts WHERE category_id = category.id AND status=2) as total, name
         FROM
             hello_blog_category AS category
+    </select>
+    <select id="selectListPage" resultType="com.byteblogs.helloblog.category.domain.po.Category">
+        SELECT <include refid="BASE_SQL"/>
+        FROM hello_blog_category
+        <where>
+            <if test="condition.keywords != null and condition.keywords != ''">
+                AND name like #{condition.name}
+            </if>
+            <if test="condition.name != null and condition.name != ''">
+                AND name = #{condition.name}
+            </if>
+        </where>
+        ORDER BY create_time DESC
     </select>
 </mapper>

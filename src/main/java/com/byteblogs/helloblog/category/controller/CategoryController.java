@@ -61,7 +61,7 @@ public class CategoryController {
 
     @LoginRequired
     @GetMapping("/category-tags/v1/list")
-    public Result getCategoryTagsList( CategoryVO categoryVO) {
+    public Result getCategoryTagsList(CategoryVO categoryVO) {
         return categoryService.getCategoryTagsList(categoryVO);
     }
 

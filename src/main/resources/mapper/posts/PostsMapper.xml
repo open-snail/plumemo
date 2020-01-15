@@ -49,6 +49,9 @@
             <if test="condition.archiveDate != null">
                 BETWEEN DATE_FORMAT( condition.archiveDate, "%Y-%m-01 00:00:00") AND DATE_FORMAT(condition.archiveDate, "%Y-%m-01 59:59:59" )
             </if>
+            <if test="condition.createTime != null">
+                AND posts.create_time = #{condition.createTime}
+            </if>
             <if test="condition.keywords != null and condition.keywords != ''">
                 AND (posts.title LIKE #{condition.keywords} OR posts.summary LIKE #{condition.keywords})
             </if>
@@ -60,6 +63,15 @@
             </if>
             <if test="condition.postsTagsId != null and condition.postsTagsId != ''">
                 AND postsTags.tags_id = #{condition.postsTagsId}
+            </if>
+            <if test="condition.title != null and condition.title != ''">
+                AND posts.title = #{condition.title}
+            </if>
+            <if test="condition.isPublishByteBlogs != null and condition.isPublishByteBlogs != ''">
+                AND posts.sync_status = #{condition.isPublishByteBlogs}
+            </if>
+            <if test="condition.status != null and condition.status != ''">
+                AND posts.status = #{condition.status}
             </if>
         </where>
         <choose>
