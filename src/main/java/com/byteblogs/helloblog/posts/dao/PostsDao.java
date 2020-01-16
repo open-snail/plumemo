@@ -60,8 +60,6 @@ public interface PostsDao extends BaseDao<Posts> {
 
     Posts selectOneById(Long id);
 
-    List<Map<String, String>> selectPostsListStatistics(LocalDate date);
-
     List<PostsVO> selectByArchiveDate(LocalDateTime archiveDate);
 
     List<PostsVO> selectHotPostsList(Page<PostsVO> page, @Param("condition") PostsVO condition);

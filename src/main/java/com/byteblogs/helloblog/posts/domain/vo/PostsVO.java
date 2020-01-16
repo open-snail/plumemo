@@ -116,6 +116,12 @@ public class PostsVO extends BaseVO<PostsVO> {
 
     private Integer draftTotal;
 
+    private Integer publishTotal;
+
+    private Integer syncTotal;
+
+    private Integer todayPublishTotal;
+
     private LocalDateTime archiveDate;
 
     /**

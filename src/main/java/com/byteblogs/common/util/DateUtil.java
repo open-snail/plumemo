@@ -2,10 +2,13 @@ package com.byteblogs.common.util;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class DateUtil {
+
+    public static final LocalTime MAX = LocalTime.of(23,59,59);
 
     /**
      * 将LocalDateTime转为自定义的时间格式的字符串

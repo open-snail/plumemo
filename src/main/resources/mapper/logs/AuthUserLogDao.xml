@@ -39,4 +39,13 @@
         GROUP BY parameter
     </select>
 
+    <select id="selectPostsListStatistics" resultType="com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO">
+        SELECT
+           DATE_FORMAT(create_time,'%Y-%m-%d %H:00:00') AS createTime,
+           COUNT(*) AS count
+        FROM hello_blog_auth_user_log
+			WHERE code IN('002') AND create_time >= #{startTime} and create_time &lt;= #{endTime}
+        GROUP BY DATE_FORMAT(create_time,'%Y-%m-%d %H:%i')
+    </select>
+
 </mapper>

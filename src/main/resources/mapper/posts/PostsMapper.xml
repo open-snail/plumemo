@@ -134,14 +134,6 @@
         LEFT JOIN hello_blog_category as category ON category.id=posts.category_id
         WHERE posts.id=#{id}
     </select>
-    <select id="selectPostsListStatistics" resultType="java.util.Map">
-        SELECT
-            HOUR( create_time ) AS HOUR,
-            COUNT(1) AS total
-        FROM hello_blog_auth_user_log
-			WHERE code IN('001', '002') AND  DATE_FORMAT(create_time,'%Y-%m-%d')=DATE_FORMAT(create_time,#{date})
-        GROUP BY  HOUR (create_time)
-    </select>
     <select id="selectByArchiveDate" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
         SELECT <include refid="BASE_SQL"/>
         FROM hello_blog_posts
