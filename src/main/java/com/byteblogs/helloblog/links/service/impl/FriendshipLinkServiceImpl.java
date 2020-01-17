@@ -1,8 +1,11 @@
 package com.byteblogs.helloblog.links.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.service.impl.BaseServiceImpl;
+import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.helloblog.links.dao.FriendshipLinkDao;
 import com.byteblogs.helloblog.links.domain.po.FriendshipLink;
 import com.byteblogs.helloblog.links.domain.vo.FriendshipLinkVO;
@@ -14,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author byteblogs
@@ -27,28 +31,26 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
 
     @Override
     public Result getFriendshipLinkList(FriendshipLinkVO friendshipLinkVO) {
+        Page<FriendshipLink> page = Optional.of(PageUtil.checkAndInitPage(friendshipLinkVO)).orElse(PageUtil.initPage());
         LambdaQueryWrapper<FriendshipLink> objectLambdaQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(friendshipLinkVO.getKeywords())) {
-            objectLambdaQueryWrapper.and(
-                    i -> i.like(FriendshipLink::getName, friendshipLinkVO.getKeywords())
-            );
+            objectLambdaQueryWrapper.and(i -> i.like(FriendshipLink::getName, friendshipLinkVO.getKeywords()));
         }
-
-        List<FriendshipLink> friendshipLinkList = friendshipLinkDao.selectList(objectLambdaQueryWrapper.orderByAsc(FriendshipLink::getSort));
+        friendshipLinkDao.selectPage(page,objectLambdaQueryWrapper.orderByAsc(FriendshipLink::getSort));
         List<FriendshipLinkVO> friendshipLinkVOList = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(friendshipLinkList)) {
-            friendshipLinkList.forEach(friendshipLink -> {
+        if (!CollectionUtils.isEmpty(page.getRecords())) {
+            page.getRecords().forEach(friendshipLink -> {
                 friendshipLinkVOList.add(new FriendshipLinkVO()
                         .setName(friendshipLink.getName())
                         .setDescription(friendshipLink.getDescription())
                         .setHref(friendshipLink.getHref())
                         .setLogo(friendshipLink.getLogo())
                         .setId(friendshipLink.getId())
+                        .setSort(friendshipLink.getSort())
                 );
             });
         }
-
-        return Result.createWithModels(friendshipLinkVOList);
+        return Result.createWithPaging(friendshipLinkVOList, PageUtil.initPageInfo(page));
     }
 
     @Override

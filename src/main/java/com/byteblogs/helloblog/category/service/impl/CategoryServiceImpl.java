@@ -55,23 +55,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
 
     @Override
     public Result saveCategory(CategoryVO categoryVO) {
-
-        Category category =
-                new Category().setName(categoryVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
+        Category category = new Category().setName(categoryVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
         this.categoryDao.insert(category);
 
         List<TagsVO> tagsList = categoryVO.getTagsList();
-
         if (!CollectionUtils.isEmpty(tagsList)) {
             tagsList.forEach(tagsVO -> {
                 if (tagsVO.getId() == null) {
-                    // saveLogs
-                    Tags tags =
-                            new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
+                    Tags tags = new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now());
                     this.tagsDao.insert(tags);
                     tagsVO.setId(tags.getId());
                 }
-
                 categoryTagsDao.insert(new CategoryTags().setCategoryId(category.getId()).setTagsId(tagsVO.getId()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()));
             });
         }

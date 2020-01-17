@@ -24,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -63,7 +64,6 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
         List<TagsVO> tagsList = new ArrayList<>();
         if (tagsVO == null || tagsVO.getPage() == null || tagsVO.getSize() == null) {
             List<Tags> records = this.tagsDao.selectList(new LambdaQueryWrapper<Tags>().orderByDesc(Tags::getCreateTime));
-
             if (!CollectionUtils.isEmpty(records)) {
                 records.forEach(tags -> {
                     tagsList.add(new TagsVO().setId(tags.getId()).setName(tags.getName()));
@@ -71,22 +71,16 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
             }
             return Result.createWithModels(tagsList);
         }
-
         LambdaQueryWrapper<Tags> tagsLambdaQueryWrapper = new LambdaQueryWrapper<Tags>();
         if (StringUtils.isNotBlank(tagsVO.getKeywords())){
             tagsLambdaQueryWrapper.like(Tags::getName, tagsVO.getKeywords());
         }
-
-        Page page = PageUtil.checkAndInitPage(tagsVO);
-        IPage<Tags> tagsIPage = this.tagsDao.selectPage(page,tagsLambdaQueryWrapper.orderByDesc(Tags::getCreateTime));
-        List<Tags> records = tagsIPage.getRecords();
-        if (!CollectionUtils.isEmpty(records)) {
-            records.forEach(tags -> {
-                tagsList.add(new TagsVO().setId(tags.getId()).setName(tags.getName()));
-            });
+        if (StringUtils.isNotBlank(tagsVO.getName())){
+            tagsLambdaQueryWrapper.eq(Tags::getName, tagsVO.getName());
         }
-
-        return Result.createWithPaging(tagsList, PageUtil.initPageInfo(page));
+        Page page = PageUtil.checkAndInitPage(tagsVO);
+        IPage<TagsVO> tagsIPage = this.tagsDao.selectPage(page,tagsLambdaQueryWrapper.orderByDesc(Tags::getCreateTime));
+        return Result.createWithPaging(tagsIPage.getRecords(), PageUtil.initPageInfo(page));
     }
 
     @Override
