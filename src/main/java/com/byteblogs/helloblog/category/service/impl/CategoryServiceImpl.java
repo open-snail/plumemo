@@ -171,14 +171,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
             ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
         }
 
-        Category category =
-                new Category().setId(categoryVO.getId()).setName(categoryVO.getName()).setUpdateTime(LocalDateTime.now());
+        Category category = new Category().setId(categoryVO.getId()).setName(categoryVO.getName()).setUpdateTime(LocalDateTime.now());
         this.categoryDao.updateById(category);
 
         List<TagsVO> tagsList = categoryVO.getTagsList();
 
-        this.categoryTagsDao.delete(new LambdaUpdateWrapper<CategoryTags>().eq(CategoryTags::getCategoryId,
-                category.getId()));
+        this.categoryTagsDao.delete(new LambdaUpdateWrapper<CategoryTags>().eq(CategoryTags::getCategoryId, category.getId()));
         if (!CollectionUtils.isEmpty(tagsList)) {
             tagsList.forEach(tagsVO -> {
                 if (tagsVO.getId() == null) {

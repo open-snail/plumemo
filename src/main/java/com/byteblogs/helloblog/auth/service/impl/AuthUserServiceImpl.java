@@ -45,6 +45,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         AuthUser authUser = this.authUserDao.selectById(userSessionInfo.getId());
         return Result.createWithModel(new AuthUserVO()
+                .setStatus(authUser.getStatus())
                 .setRoles(Collections.singletonList(RoleEnum.getEnumTypeMap().get(authUser.getRoleId()).getRoleName()))
                 .setName(authUser.getName())
                 .setQq(authUser.getQq())
@@ -83,8 +84,13 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         Page page = Optional.ofNullable(PageUtil.checkAndInitPage(authUserVO)).orElse(PageUtil.initPage());
         LambdaQueryWrapper<AuthUser> authUserLambdaQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(authUserVO.getKeywords())) {
-            authUserLambdaQueryWrapper.and(i -> i.like(AuthUser::getName, authUserVO.getKeywords())
-            );
+            authUserLambdaQueryWrapper.like(AuthUser::getName, authUserVO.getKeywords());
+        }
+        if (StringUtils.isNotBlank(authUserVO.getName())) {
+            authUserLambdaQueryWrapper.eq(AuthUser::getName, authUserVO.getName());
+        }
+        if (authUserVO.getStatus()!=null){
+            authUserLambdaQueryWrapper.eq(AuthUser::getStatus, authUserVO.getStatus());
         }
 
         IPage<AuthUser> authUserIPage = this.authUserDao.selectPage(page, authUserLambdaQueryWrapper.orderByDesc(AuthUser::getRoleId).orderByDesc(AuthUser::getCreateTime));
@@ -94,6 +100,8 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         if (!CollectionUtils.isEmpty(records)) {
             records.forEach(authUser -> {
                 authUserVOList.add(new AuthUserVO()
+                        .setId(authUser.getId())
+                        .setStatus(authUser.getStatus())
                         .setName(authUser.getName())
                         .setRoleId(authUser.getRoleId())
                         .setIntroduction(authUser.getIntroduction())

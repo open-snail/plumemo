@@ -37,4 +37,7 @@ public interface FriendshipLinkService extends BaseService<FriendshipLink> {
      * @return
      */
     Result saveFriendshipLink(FriendshipLinkVO friendshipLinkVO);
+
+    Result getFriendshipLink(Long id);
+
 }

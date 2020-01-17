@@ -51,6 +51,12 @@ public class FriendshipLinkController {
     }
 
     @LoginRequired
+    @GetMapping("/link/v1/{id}")
+    public Result getFriendshipLink(@PathVariable Long id) {
+        return friendshipLinkService.getFriendshipLink(id);
+    }
+
+    @LoginRequired
     @DeleteMapping("/link/v1/{id}")
     public Result deleteFriendshipLink(@PathVariable Long id) {
         return friendshipLinkService.deleteFriendshipLink(id);

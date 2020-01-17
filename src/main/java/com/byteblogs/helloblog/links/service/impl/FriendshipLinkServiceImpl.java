@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.service.impl.BaseServiceImpl;
+import com.byteblogs.common.enums.ErrorEnum;
+import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.helloblog.links.dao.FriendshipLinkDao;
 import com.byteblogs.helloblog.links.domain.po.FriendshipLink;
@@ -35,6 +37,12 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
         LambdaQueryWrapper<FriendshipLink> objectLambdaQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(friendshipLinkVO.getKeywords())) {
             objectLambdaQueryWrapper.and(i -> i.like(FriendshipLink::getName, friendshipLinkVO.getKeywords()));
+        }
+        if (StringUtils.isNotBlank(friendshipLinkVO.getHref())) {
+            objectLambdaQueryWrapper.like(FriendshipLink::getHref,friendshipLinkVO.getHref());
+        }
+        if (StringUtils.isNotBlank(friendshipLinkVO.getName())) {
+            objectLambdaQueryWrapper.eq(FriendshipLink::getName,friendshipLinkVO.getName());
         }
         friendshipLinkDao.selectPage(page,objectLambdaQueryWrapper.orderByAsc(FriendshipLink::getSort));
         List<FriendshipLinkVO> friendshipLinkVOList = new ArrayList<>();
@@ -86,5 +94,20 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
         );
 
         return Result.createWithSuccessMessage();
+    }
+
+    @Override
+    public Result getFriendshipLink(Long id) {
+        FriendshipLink friendshipLink = this.friendshipLinkDao.selectById(id);
+        if (friendshipLink == null) {
+            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
+        }
+        FriendshipLinkVO friendshipLinkVO=new FriendshipLinkVO()
+                .setDescription(friendshipLink.getDescription())
+                .setHref(friendshipLink.getHref())
+                .setLogo(friendshipLink.getLogo())
+                .setName(friendshipLink.getName())
+                .setId(friendshipLink.getId());
+        return Result.createWithModel(friendshipLinkVO);
     }
 }
