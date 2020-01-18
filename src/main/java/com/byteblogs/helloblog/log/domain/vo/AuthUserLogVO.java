@@ -79,5 +79,18 @@ public class AuthUserLogVO extends BaseVO<AuthUserLogVO> {
 	 * 统计个数
 	 */
 	private Integer count;
-	// columns END
+
+	private Integer userTotal;
+
+	private Integer viewTotal;
+
+	private String title;
+
+	private LocalDateTime startTime;
+
+	private LocalDateTime endTime;
+
+	private Integer index;
+
+	private String type;
 }

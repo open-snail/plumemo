@@ -5,6 +5,7 @@ import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.util.ThrowableUtils;
 import com.byteblogs.common.validator.group.Page;
 import com.byteblogs.helloblog.dashboard.service.DashboardService;
+import com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO;
 import com.byteblogs.helloblog.posts.domain.vo.PostsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * @author: byteblogs
@@ -46,7 +49,14 @@ public class DashboardController {
 
     @LoginRequired
     @GetMapping("/post-statistics/v1/list")
-    public Result getPostsStatistics() {
-        return dashboardService.getPostsStatistics();
+    public Result getPostsStatistics(@Valid AuthUserLogVO authUserLogVO) {
+        return dashboardService.getPostsStatistics(authUserLogVO);
     }
+
+    @LoginRequired
+    @GetMapping("/post-ranking/v1/list")
+    public Result getPostsRanking(@Valid AuthUserLogVO authUserLogVO) {
+        return dashboardService.getPostsRanking(authUserLogVO);
+    }
+
 }

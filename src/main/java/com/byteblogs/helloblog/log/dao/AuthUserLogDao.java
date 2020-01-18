@@ -22,9 +22,19 @@ public interface AuthUserLogDao extends BaseDao<AuthUserLog> {
 
     /**
      * 查询文章访问统计
+     *
      * @param startTime
      * @param endTime
      * @return
      */
-    List<AuthUserLogVO> selectPostsListStatistics(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
+    List<AuthUserLogVO> selectPostsListStatistics(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime,@Param("type") String type);
+
+    /**
+     * 查询文章的排名
+     *
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<AuthUserLogVO> selectPostsRanking(Page page,@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 }

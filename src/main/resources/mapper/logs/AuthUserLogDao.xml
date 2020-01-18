@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.byteblogs.helloblog.log.dao.AuthUserLogDao">
-	<!-- 通用查询结果列 -->
+    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,user_id as userId,ip,url,parameter,device,description,code,run_time as runTime,create_time as createTime,browser_version as browserVersion,browser_name as browserName
     </sql>
-	
+
     <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.log.domain.po.AuthUserLog">
-		<id column="id" property="id" />
-		<result column="user_id" property="userId" />
-		<result column="ip" property="ip" />
-		<result column="url" property="url" />
-		<result column="parameter" property="parameter" />
-		<result column="device" property="device" />
-		<result column="code" property="code" />
-		<result column="description" property="description" />
-		<result column="run_time" property="runTime" />
-		<result column="create_time" property="createTime" />
-		<result column="browser_version" property="browserVersion" />
-		<result column="browser_name" property="browserName" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="ip" property="ip"/>
+        <result column="url" property="url"/>
+        <result column="parameter" property="parameter"/>
+        <result column="device" property="device"/>
+        <result column="code" property="code"/>
+        <result column="description" property="description"/>
+        <result column="run_time" property="runTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="browser_version" property="browserVersion"/>
+        <result column="browser_name" property="browserName"/>
     </resultMap>
 
     <select id="selectLogsList" resultType="com.byteblogs.helloblog.log.domain.po.AuthUserLog">
-        SELECT <include refid="Base_Column_List" /> FROM hello_blog_auth_user_log
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM hello_blog_auth_user_log
         <where>
             <if test="condition.keywords != null and condition.keywords != ''">
                 AND (title LIKE #{condition.keywords} OR summary LIKE #{condition.keywords})
@@ -31,9 +33,9 @@
         ORDER BY id DESC;
     </select>
     <select id="selectListByCode" resultType="com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO">
-       SELECT
-            <include refid="Base_Column_List" />,
-            COUNT( 1 ) AS count
+        SELECT
+        <include refid="Base_Column_List"/>,
+        COUNT( 1 ) AS count
         FROM hello_blog_auth_user_log
         WHERE CODE = #{code}
         GROUP BY parameter
@@ -41,11 +43,43 @@
 
     <select id="selectPostsListStatistics" resultType="com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO">
         SELECT
-           DATE_FORMAT(create_time,'%Y-%m-%d %H:00:00') AS createTime,
-           COUNT(*) AS count
+        <choose>
+            <when test="type == 'day'">
+                DATE_FORMAT(create_time,'%Y-%m-%d %H:00:00')
+            </when>
+            <when test="type == 'week'">
+                DATE_FORMAT(create_time,'%Y-%m-%d 00:00:00')
+            </when>
+            <when test="type =='month'">
+                DATE_FORMAT(create_time,'%Y-%m-00 00:00:00')
+            </when>
+            <when test="type == 'year'">
+                DATE_FORMAT(create_time,'%Y-01-01 00:00:00')
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        AS createTime,
+        COUNT(*) AS viewTotal
         FROM hello_blog_auth_user_log
-			WHERE code IN('002') AND create_time >= #{startTime} and create_time &lt;= #{endTime}
-        GROUP BY DATE_FORMAT(create_time,'%Y-%m-%d %H:%i')
+        WHERE code IN('002') AND create_time >= #{startTime} and create_time &lt;= #{endTime}
+        GROUP BY
+        createTime
+
     </select>
 
+    <select id="selectPostsRanking" resultType="com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO">
+        SELECT
+            COUNT( * ) viewTotal,
+            parameter,
+            COUNT( DISTINCT ( user_id ) ) userTotal
+        FROM
+            hello_blog_auth_user_log
+        WHERE
+            `code` = '002' AND create_time >= #{startTime} and create_time &lt;= #{endTime}
+        GROUP BY
+            parameter
+        ORDER BY
+            viewTotal DESC
+    </select>
 </mapper>
