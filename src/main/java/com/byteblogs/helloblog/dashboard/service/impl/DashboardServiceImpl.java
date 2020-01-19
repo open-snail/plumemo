@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.constant.Constants;
+import com.byteblogs.common.enums.DateTypeEnum;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.DateUtil;
 import com.byteblogs.common.util.ExceptionUtil;
@@ -23,10 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.text.MessageFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,44 +85,67 @@ public class DashboardServiceImpl implements DashboardService {
                 authUserLogVO.getType());
         todayList.addAll(yesterdayList);
 
+        DateTypeEnum dateTypeEnum = DateTypeEnum.valueOf(authUserLogVO.getType().toUpperCase());
         List<AuthUserLogVO> chartVO = new ArrayList<>();
-        if ("day".equals(authUserLogVO.getType())) {
 
-            LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN);
-            getDate(localDateTime, 48, authUserLogVO.getType(), chartVO, todayList);
-        } else if ("week".equals(authUserLogVO.getType())) {
+        switch (dateTypeEnum){
+            case DAY:
+                getDate( LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN),
+                        48, dateTypeEnum, chartVO, todayList);
+                break;
+            case WEEK:
+                getDate(LocalDateTime.of(LocalDate.now().with(DayOfWeek.of(1)), LocalTime.MIN),
+                        7, dateTypeEnum, chartVO, todayList);
+                break;
+            case MONTH:
+                int curMonth = LocalDateTime.now().with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
+                getDate(LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()), LocalTime.MIN),
+                        curMonth, dateTypeEnum, chartVO, todayList);
 
-            LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now().with(DayOfWeek.of(1)).minusWeeks(1), LocalTime.MIN);
-            getDate(localDateTime, 14, authUserLogVO.getType(), chartVO, todayList);
-        } else if ("month".equals(authUserLogVO.getType())) {
-
-            int curMonth = LocalDateTime.now().with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
-            getDate(LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()), LocalTime.MIN),
-                    curMonth, authUserLogVO.getType(), chartVO, todayList);
-
-            int preMonth = LocalDateTime.now().minusMonths(1).with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
-            getDate(LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()),
-                    LocalTime.MIN).minusMonths(1), preMonth, authUserLogVO.getType(), chartVO, todayList);
-        } else if ("year".equals(authUserLogVO.getType())) {
-
-            getDate(LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfYear()).minusYears(1), LocalTime.MIN),
-                    24, authUserLogVO.getType(), chartVO, todayList);
-
+                int preMonth = LocalDateTime.now().minusMonths(1).with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
+                getDate(LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()),
+                        LocalTime.MIN).minusMonths(1), preMonth, dateTypeEnum, chartVO, todayList);
+                break;
+            case YEAR:
+                getDate(LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfYear()).minusYears(1), LocalTime.MIN),
+                        24, dateTypeEnum, chartVO, todayList);
+                break;
+            default:
+                long days = Duration.between(authUserLogVO.getStartTime(), authUserLogVO.getEndTime()).toDays();
+                getDate( LocalDateTime.of(authUserLogVO.getStartTime().toLocalDate().minusDays(1), LocalTime.MIN),
+                        (int) days, dateTypeEnum, chartVO, todayList);
+                break;
         }
 
-
-        return Result.createWithModels(chartVO).setExtra(chartVO);
+        System.out.println(JSONObject.toJSON(chartVO).toString());
+        return Result.createWithModels(chartVO);
     }
 
-    private void getDate(LocalDateTime localDateTime, Integer size, String type, List<AuthUserLogVO> chartVO, List<AuthUserLogVO> todayList) {
+    /**
+     * 查询日期
+     * @param localDateTime
+     * @param size
+     * @param dateTypeEnum
+     * @param chartVO
+     * @param todayList
+     */
+    private void getDate(LocalDateTime localDateTime, Integer size, DateTypeEnum dateTypeEnum, List<AuthUserLogVO> chartVO, List<AuthUserLogVO> todayList) {
         for (int i = 0; i < size; i++) {
             AuthUserLogVO authUserLogVO1 = new AuthUserLogVO();
-            if ("day".equals(type)) {
-                authUserLogVO1.setCreateTime(localDateTime.plusHours(i));
-            } else if ("year".equals(type)) {
-                authUserLogVO1.setCreateTime(localDateTime.plusMonths(i));
-            } else {
-                authUserLogVO1.setCreateTime(localDateTime.plusDays(i));
+            switch (dateTypeEnum){
+                case DAY:
+                    authUserLogVO1.setCreateTime(localDateTime.plusHours(i));
+                    break;
+                case YEAR:
+                    authUserLogVO1.setCreateTime(localDateTime.plusMonths(i));
+                    break;
+                case WEEK:
+                    authUserLogVO1.setCreateTime(localDateTime.plusDays(i));
+                    authUserLogVO1.setIndex(authUserLogVO1.getCreateTime().getDayOfWeek().getValue());
+                    break;
+                default:
+                    authUserLogVO1.setCreateTime(localDateTime.plusDays(i));
+                    break;
             }
 
             for (AuthUserLogVO userLogVO : todayList) {
@@ -177,21 +198,35 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     private void getTime(AuthUserLogVO authUserLogVO) {
-
+        DateTypeEnum dateTypeEnum = DateTypeEnum.valueOf(authUserLogVO.getType().toUpperCase());
         LocalDateTime startTime = LocalDateTime.now();
         LocalDateTime endTime = LocalDateTime.now();
-        if ("day".equals(authUserLogVO.getType())) {
-            startTime = LocalDateTime.of(startTime.toLocalDate(), LocalTime.MIN);
-            endTime = LocalDateTime.of(endTime.toLocalDate(), DateUtil.MAX);
-        } else if ("week".equals(authUserLogVO.getType())) {
-            startTime = LocalDateTime.of(startTime.toLocalDate().with(DayOfWeek.of(Constants.ONE)), LocalTime.MIN);
-            endTime = LocalDateTime.of(endTime.toLocalDate().with(DayOfWeek.of(Constants.SEVEN)), DateUtil.MAX);
-        } else if ("month".equals(authUserLogVO.getType())) {
-            startTime = LocalDateTime.of(startTime.toLocalDate().with(TemporalAdjusters.firstDayOfMonth()), LocalTime.MIN);
-            endTime = LocalDateTime.of(endTime.toLocalDate().with(TemporalAdjusters.lastDayOfMonth()), DateUtil.MAX);
-        } else if ("year".equals(authUserLogVO.getType())) {
-            startTime = LocalDateTime.of(startTime.toLocalDate().with(TemporalAdjusters.firstDayOfYear()), LocalTime.MIN);
-            endTime = LocalDateTime.of(endTime.toLocalDate().with(TemporalAdjusters.lastDayOfYear()), DateUtil.MAX);
+
+        switch (dateTypeEnum){
+            case DAY:
+                startTime = LocalDateTime.of(startTime.toLocalDate(), LocalTime.MIN);
+                endTime = LocalDateTime.of(endTime.toLocalDate(), DateUtil.MAX);
+                break;
+            case WEEK:
+                startTime = LocalDateTime.of(startTime.toLocalDate().with(DayOfWeek.of(Constants.ONE)), LocalTime.MIN);
+                endTime = LocalDateTime.of(endTime.toLocalDate().with(DayOfWeek.of(Constants.SEVEN)), DateUtil.MAX);
+                break;
+            case MONTH:
+                startTime = LocalDateTime.of(startTime.toLocalDate().with(TemporalAdjusters.firstDayOfMonth()), LocalTime.MIN);
+                endTime = LocalDateTime.of(endTime.toLocalDate().with(TemporalAdjusters.lastDayOfMonth()), DateUtil.MAX);
+                break;
+            case YEAR:
+                startTime = LocalDateTime.of(startTime.toLocalDate().with(TemporalAdjusters.firstDayOfYear()), LocalTime.MIN);
+                endTime = LocalDateTime.of(endTime.toLocalDate().with(TemporalAdjusters.lastDayOfYear()), DateUtil.MAX);
+                break;
+            default:
+                startTime = authUserLogVO.getStartTime();
+                endTime = authUserLogVO.getEndTime();
+                if (startTime == null || endTime == null){
+                    startTime = LocalDateTime.now();
+                    endTime = LocalDateTime.now();
+                }
+                break;
         }
 
         authUserLogVO.setStartTime(startTime).setEndTime(endTime);

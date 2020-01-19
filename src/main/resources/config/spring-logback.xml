@@ -72,15 +72,15 @@
     <logger name="java.sql.ResultSet" level="DEBUG"/>
 
     <!-- 组件的日志输出：name：找到组件的父级包名，level：输出级别 -->
-    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework" level="DEBUG"/>
     <logger name="org.apache.http" level="WARN"/>
     <logger name="sun.rmi" level="WARN"/>
-    <logger name="com.zaxxer" level="WARN"/>
+    <logger name="com.zaxxer" level="DEBUG"/>
     <logger name="cn.hhj.system.listener.LoadConfigListener" level="WARN"/>
     <logger name="org.hibernate" level="WARN"/>
-    <logger name="com.baomidou.mybatisplus.core" level="WARN"/>
-    <logger name="org.mybatis.spring.mapper" level="WARN"/>
-    <logger name="com.baomidou.mybatisplus.extension" level="WARN"/>
+    <logger name="com.baomidou.mybatisplus.core" level="DEBUG"/>
+    <logger name="org.mybatis.spring.mapper" level="DEBUG"/>
+    <logger name="com.baomidou.mybatisplus.extension" level="DEBUG"/>
 
     <!-- 表示 >=DEBUG 级别的日志的输出方式 -->
     <root level="DEBUG">
