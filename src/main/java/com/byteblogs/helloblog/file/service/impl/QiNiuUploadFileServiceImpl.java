@@ -23,20 +23,16 @@ import java.io.IOException;
  * @modified:
  */
 @Service
-public class UploadFileServiceImpl implements UploadFileService {
+public class QiNiuUploadFileServiceImpl implements UploadFileService {
 
     @Override
-    public String qiniuyunStore(MultipartFile file) {
-
-        //构造一个带指定Zone对象的配置类
+    public String saveFileStore(MultipartFile file) {
+        // 构造一个带指定Zone对象的配置类
         Configuration cfg = new Configuration(Zone.autoZone());
-
         //...其他参数参考类注释
         UploadManager uploadManager = new UploadManager(cfg);
-
-        //默认不指定key的情况下，以文件内容的hash值作为文件名
-        Auth auth = Auth.create(ConfigCache.getConfig(Constants.QINIU_ACCESS_KEY),
-                ConfigCache.getConfig(Constants.QINIU_SECRET_KEY));
+        // 默认不指定key的情况下，以文件内容的hash值作为文件名
+        Auth auth = Auth.create(ConfigCache.getConfig(Constants.QINIU_ACCESS_KEY), ConfigCache.getConfig(Constants.QINIU_SECRET_KEY));
         String upToken = auth.uploadToken(ConfigCache.getConfig(Constants.QINIU_BUCKET));
         try {
             Response response = uploadManager.put(file.getInputStream(), null, upToken, null, null);
@@ -53,7 +49,6 @@ public class UploadFileServiceImpl implements UploadFileService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return "";
     }
 }

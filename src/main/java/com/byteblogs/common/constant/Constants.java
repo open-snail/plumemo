@@ -43,6 +43,12 @@ public class Constants {
 
     public static final String CLOUD_MUSIC_ID = "cloud_music_id";
 
+    public static final String QINIU="qiniu";
+
+    public static final String COS="cos";
+
+    public static final String STORE_TYPE = "store_type";
+
     public static final String QINIU_ACCESS_KEY = "qiniu_access_key";
 
     public static final String QINIU_SECRET_KEY = "qiniu_secret_key";
