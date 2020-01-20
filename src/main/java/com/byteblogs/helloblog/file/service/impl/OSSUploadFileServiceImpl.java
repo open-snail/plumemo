@@ -7,16 +7,7 @@ import com.aliyun.oss.model.*;
 import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.util.FileUtil;
-import com.byteblogs.helloblog.config.domain.po.Config;
 import com.byteblogs.helloblog.file.service.UploadFileService;
-import com.google.gson.Gson;
-import com.qiniu.common.QiniuException;
-import com.qiniu.common.Zone;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.util.Auth;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
