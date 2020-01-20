@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,7 +38,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
         if (CollectionUtils.isEmpty(configList)) {
             ExceptionUtil.rollback(ErrorEnum.PARAM_INCORRECT);
         }
-
         boolean b = configList.stream().anyMatch(configVO -> StringUtils.isBlank(configVO.getConfigKey()) || StringUtils.isBlank(configVO.getConfigValue()));
         if (b) {
             ExceptionUtil.rollback(ErrorEnum.PARAM_INCORRECT);
@@ -55,15 +56,17 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
 
     @Override
     public Result getConfigList(ConfigVO configVO) {
-
-        List<Config> configs = this.configDao.selectList(new LambdaQueryWrapper<Config>().eq(Config::getType, configVO.getType()));
-
+        List<Config> configs;
+        if (configVO.getType()==1||configVO.getType()==4){
+            configs = this.configDao.selectList(new LambdaQueryWrapper<Config>().in(Config::getType, configVO.getType(),3));
+        }else{
+            configs = this.configDao.selectList(new LambdaQueryWrapper<Config>().eq(Config::getType, configVO.getType()));
+        }
         List<ConfigVO> configVOList = new ArrayList<>();
         configs.forEach(config -> {
             ConfigVO configVO1 = new ConfigVO();
             configVOList.add(configVO1.setConfigKey(config.getConfigKey()).setConfigValue(config.getConfigValue()));
         });
-
         return Result.createWithModels(configVOList);
     }
 

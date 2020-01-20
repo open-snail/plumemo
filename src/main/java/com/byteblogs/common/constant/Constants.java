@@ -46,7 +46,7 @@ public class Constants {
     // 文件上传类型配置项
     public static final String QINIU="qiniu";
     public static final String COS="cos";
-    public static final String OSS="oss";
+    public static final String ALIYUN_OSS="aliyun_oss";
     public static final String STORE_TYPE = "store_type";
 
     // 七牛云配置
@@ -62,12 +62,12 @@ public class Constants {
     public static final String COS_IMAGE_DOMAIN = "cos_image_domain";
 
     // 阿里OSS配置
-    public static final String OSS_ACCESS_KEY = "oss_access_key";
-    public static final String OSS_SECRET_KEY = "oss_secret_key";
-    public static final String OSS_BUCKET = "oss_bucket";
-    public static final String OSS_IMAGE_DOMAIN = "oss_image_domain";
-    public static final String OSS_ENDPOINT="oss_endpoint";
-    public static final String OSS_PATH="oss_path";
+    public static final String ALIYUN_OSS_ACCESS_KEY = "aliyun_oss_access_key";
+    public static final String ALIYUN_OSS_SECRET_KEY = "aliyun_oss_secret_key";
+    public static final String ALIYUN_OSS_BUCKET = "aliyun_oss_bucket";
+    public static final String ALIYUN_OSS_IMAGE_DOMAIN = "aliyun_oss_image_domain";
+    public static final String ALIYUN_OSS_ENDPOINT="aliyun_oss_endpoint";
+    public static final String ALIYUN_OSS_PATH="aliyun_oss_path";
 
     // header认证字段
     public static final String AUTHENTICATION = "Authorization";

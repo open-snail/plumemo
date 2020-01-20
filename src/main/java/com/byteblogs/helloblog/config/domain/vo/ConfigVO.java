@@ -8,6 +8,8 @@ import com.byteblogs.helloblog.config.domain.validator.UpdateConfig;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * @author byteblogs
  * @since 2019-08-28
@@ -15,8 +17,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class ConfigVO extends BaseVO<ConfigVO> {
-
-    @IntegerNotNull(groups = {QueryConfigList.class, UpdateConfig.class})
     private Integer type;
 
     @NotBlank(groups = {UpdateConfig.class})

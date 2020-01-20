@@ -4,7 +4,7 @@ import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.helloblog.file.service.UploadFileService;
 import com.byteblogs.helloblog.file.service.impl.COSUploadFileServiceImpl;
-import com.byteblogs.helloblog.file.service.impl.OSSUploadFileServiceImpl;
+import com.byteblogs.helloblog.file.service.impl.ALiYunOSSUploadFileServiceImpl;
 import com.byteblogs.helloblog.file.service.impl.QiNiuUploadFileServiceImpl;
 
 import java.util.Map;
@@ -23,8 +23,8 @@ public class UploadFileFactory {
         if (ConfigCache.getConfig(Constants.STORE_TYPE).equals(Constants.COS)){
             uploadFileServiceMap.put(Constants.STORE_TYPE,new COSUploadFileServiceImpl());
         }
-        if (ConfigCache.getConfig(Constants.STORE_TYPE).equals(Constants.OSS)){
-            uploadFileServiceMap.put(Constants.STORE_TYPE,new OSSUploadFileServiceImpl());
+        if (ConfigCache.getConfig(Constants.STORE_TYPE).equals(Constants.ALIYUN_OSS)){
+            uploadFileServiceMap.put(Constants.STORE_TYPE,new ALiYunOSSUploadFileServiceImpl());
         }
     }
 
