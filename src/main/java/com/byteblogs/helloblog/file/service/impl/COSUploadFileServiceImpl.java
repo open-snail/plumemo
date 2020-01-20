@@ -21,7 +21,7 @@ import java.io.IOException;
  * @modified:
  */
 @Service
-public class CosUploadFileServiceImpl implements UploadFileService {
+public class COSUploadFileServiceImpl implements UploadFileService {
 
     @Override
     public String saveFileStore(MultipartFile file) {

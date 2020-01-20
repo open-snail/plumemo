@@ -128,10 +128,17 @@
             <artifactId>sigar</artifactId>
             <version>1.6.4</version>
         </dependency>
+        <!--  byteBlog服务  -->
         <dependency>
             <groupId>com.byteblogs</groupId>
             <artifactId>byteblogs-data-boot-start</artifactId>
             <version>0.0.1-RELEASE</version>
+        </dependency>
+        <!--  OSS文件服务  -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.8.0</version>
         </dependency>
 
     </dependencies>

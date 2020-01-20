@@ -7,7 +7,7 @@ spring:
     active: dev
   datasource:
     name: helloblog
-    url:  ${MYSQL_DATABASE:jdbc:mysql://localhost:3306/helloblog?useSSL=false&characterEncoding=utf8}
+    url:  ${MYSQL_DATABASE:jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8}
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
     type: com.zaxxer.hikari.HikariDataSource
@@ -21,6 +21,13 @@ spring:
       pool-name: helloblog
       max-lifetime: 1800000
       connection-test-query: SELECT 1
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB  #设置支持的单个上传文件大小
+      max-request-size: 6MB  #设置最大的请求文件大小，设置总体大小的请求
+      file-size-threshold: 512KB #当上传文件达到指定配置量的时候，会将文件内容写入到磁盘
+      location: /   #设置上传文件的临时目录
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*/*.xml

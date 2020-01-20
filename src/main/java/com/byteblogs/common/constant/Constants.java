@@ -43,19 +43,31 @@ public class Constants {
 
     public static final String CLOUD_MUSIC_ID = "cloud_music_id";
 
+    // 文件上传类型配置项
     public static final String QINIU="qiniu";
-
     public static final String COS="cos";
-
+    public static final String OSS="oss";
     public static final String STORE_TYPE = "store_type";
 
+    // 七牛云配置
     public static final String QINIU_ACCESS_KEY = "qiniu_access_key";
-
     public static final String QINIU_SECRET_KEY = "qiniu_secret_key";
-
     public static final String QINIU_BUCKET = "qiniu_bucket";
-
     public static final String QINIU_IMAGE_DOMAIN = "qiniu_image_domain";
+
+    // 腾讯COS配置
+    public static final String COS_ACCESS_KEY = "cos_access_key";
+    public static final String COS_SECRET_KEY = "cos_secret_key";
+    public static final String COS_BUCKET = "cos_bucket";
+    public static final String COS_IMAGE_DOMAIN = "cos_image_domain";
+
+    // 阿里OSS配置
+    public static final String OSS_ACCESS_KEY = "oss_access_key";
+    public static final String OSS_SECRET_KEY = "oss_secret_key";
+    public static final String OSS_BUCKET = "oss_bucket";
+    public static final String OSS_IMAGE_DOMAIN = "oss_image_domain";
+    public static final String OSS_ENDPOINT="oss_endpoint";
+    public static final String OSS_PATH="oss_path";
 
     // header认证字段
     public static final String AUTHENTICATION = "Authorization";
