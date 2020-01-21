@@ -12,6 +12,7 @@ import com.byteblogs.helloblog.config.dao.ConfigDao;
 import com.byteblogs.helloblog.config.domain.po.Config;
 import com.byteblogs.helloblog.config.domain.vo.ConfigVO;
 import com.byteblogs.helloblog.config.service.ConfigService;
+import com.byteblogs.helloblog.file.factory.UploadFileFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,9 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
                 this.configDao.update(new Config().setConfigValue(configVO.getConfigValue()),
                         new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configVO.getConfigKey()));
                 ConfigCache.putConfig(configVO.getConfigKey(), configVO.getConfigValue());
+                if (configVO.getConfigKey().equals(Constants.STORE_TYPE)){
+                    UploadFileFactory.doCache();
+                }
             }
         });
 

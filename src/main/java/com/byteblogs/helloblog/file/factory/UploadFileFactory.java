@@ -8,35 +8,33 @@ import com.byteblogs.helloblog.file.service.impl.ALiYunOSSUploadFileServiceImpl;
 import com.byteblogs.helloblog.file.service.impl.DefaultUploadFileServiceImpl;
 import com.byteblogs.helloblog.file.service.impl.QiNiuUploadFileServiceImpl;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
  * 文件存储实例工厂
  */
 public class UploadFileFactory {
-    private static final Map<String, UploadFileService> uploadFileServiceMap = new ConcurrentHashMap<>();
+
+    private static UploadFileService uploadFileService;
 
     static {
         doCache();
     }
 
     public static UploadFileService getUploadFileService(){
-        return uploadFileServiceMap.get(Constants.STORE_TYPE);
+        return uploadFileService;
     }
 
     public static void doCache(){
         if (ConfigCache.getConfig(Constants.STORE_TYPE).equals(Constants.QINIU)){
-            uploadFileServiceMap.put(Constants.STORE_TYPE,new QiNiuUploadFileServiceImpl());
+            uploadFileService=new QiNiuUploadFileServiceImpl();
         }
         if (ConfigCache.getConfig(Constants.STORE_TYPE).equals(Constants.COS)){
-            uploadFileServiceMap.put(Constants.STORE_TYPE,new COSUploadFileServiceImpl());
+            uploadFileService=new COSUploadFileServiceImpl();
         }
         if (ConfigCache.getConfig(Constants.STORE_TYPE).equals(Constants.ALIYUN_OSS)){
-            uploadFileServiceMap.put(Constants.STORE_TYPE,new ALiYunOSSUploadFileServiceImpl());
+            uploadFileService=new ALiYunOSSUploadFileServiceImpl();
         }
         if (ConfigCache.getConfig(Constants.STORE_TYPE).equals(Constants.DEFAULT_TYPE)){
-            uploadFileServiceMap.put(Constants.STORE_TYPE,new DefaultUploadFileServiceImpl());
+            uploadFileService=new DefaultUploadFileServiceImpl();
         }
     }
 }
