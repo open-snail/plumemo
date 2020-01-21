@@ -43,7 +43,7 @@ public class Constants {
 
     // 文件上传类型配置项
     public static final String STORE_TYPE = "store_type";
-    public static final String DEFAULT_TYPE="empty";
+    public static final String DEFAULT_TYPE="default";
     public static final String ALIYUN_OSS="aliyun_oss";
     public static final String QINIU="qiniu";
     public static final String COS="cos";

@@ -33,7 +33,7 @@ public class DefaultUploadFileTemplateServiceImpl implements UploadFileTemplateS
         } catch (final IOException e) {
             e.printStackTrace();
         }
-        return ConfigCache.getConfig(Constants.DEFAULT_IMAGE_DOMAIN) + filePath + fileName;
+        return ConfigCache.getConfig(Constants.DEFAULT_IMAGE_DOMAIN)+Constants.FILE_URL+fileName;
     }
 
     @Override
