@@ -1,11 +1,9 @@
 package com.byteblogs.common.handler;
 
 import com.byteblogs.common.base.domain.Result;
-import com.byteblogs.common.constant.ResultConstants;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.exception.ApiInvalidParamException;
 import com.byteblogs.common.exception.BusinessException;
-import com.byteblogs.common.util.ErrorMessageUtil;
 import com.byteblogs.common.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -32,8 +30,9 @@ public class HandlerExceptionResolver implements org.springframework.web.servlet
         }
 
         // 组装错误提示信息
-        String errorCode = exception instanceof BusinessException ? ((BusinessException) exception).getCode(): ErrorEnum.ERROR.getCode();
-        String message = ErrorMessageUtil.getErrorMessage(errorCode, null);
+        String errorCode = exception instanceof BusinessException ? ((BusinessException) exception).getCode() : ErrorEnum.ERROR.getCode();
+        String message = ErrorEnum.getErrorEnumMap(errorCode).getZhMsg();
+
         if (exception instanceof ApiInvalidParamException) {
             //定义错误编码
             //errorCode = 10001;

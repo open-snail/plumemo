@@ -8,12 +8,13 @@ import com.byteblogs.common.enums.ErrorEnum;
  */
 public class BusinessException extends RuntimeException {
 
+    private static final long serialVersionUID = -4214098630082643472L;
     // 异常编码
     private String code;
 
     public BusinessException(ErrorEnum errorEnum) {
-        super(errorEnum.getMsg());
-        this.code=errorEnum.getCode();
+        super(errorEnum.getMsg(errorEnum.getCode()));
+        this.code = errorEnum.getCode();
     }
 
     public BusinessException(String message) {

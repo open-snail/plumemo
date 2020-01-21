@@ -1,6 +1,5 @@
 package com.byteblogs.common.base.domain;
 
-import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.constant.ResultConstants;
 import com.byteblogs.common.enums.ErrorEnum;
 import lombok.Data;
@@ -12,6 +11,7 @@ import java.util.List;
 
 /**
  * 用于向前端返回统一的结果对象
+ *
  * @param <T>
  */
 @Data
@@ -93,8 +93,9 @@ public class Result<T> {
         result.setResultCode(errorCode);
         return result;
     }
+
     public static <T> Result<T> createWithErrorMessage(ErrorEnum errorEnum) {
-        return createWithErrorMessage(errorEnum.getMsg(),errorEnum.getCode());
+        return createWithErrorMessage(errorEnum.getMsg(errorEnum.getCode()), errorEnum.getCode());
     }
 
     public static <T> Result<T> createWithError() {
