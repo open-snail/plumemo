@@ -1,7 +1,5 @@
 package com.byteblogs.common.util;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.UUID;
 
 /**

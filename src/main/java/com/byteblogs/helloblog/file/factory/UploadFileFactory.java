@@ -1,5 +1,6 @@
 package com.byteblogs.helloblog.file.factory;
 
+import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.validator.annotion.NotNull;
 import com.byteblogs.helloblog.file.service.UploadFileTemplateService;
@@ -20,7 +21,7 @@ public class UploadFileFactory {
      * @return
      */
     public static UploadFileTemplateService getUploadFileService() {
-        return uploadFileServiceMap.get(Constants.STORE_TYPE);
+        return uploadFileServiceMap.get(ConfigCache.getConfig(Constants.STORE_TYPE));
     }
 
     /**

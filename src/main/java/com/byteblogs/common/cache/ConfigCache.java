@@ -1,5 +1,7 @@
 package com.byteblogs.common.cache;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,6 +19,6 @@ public class ConfigCache {
     }
 
     public static String getConfig(String key) {
-        return configCache.get(key);
+        return StringUtils.trim(configCache.get(key));
     }
 }

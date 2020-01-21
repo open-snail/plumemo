@@ -55,7 +55,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
     @Override
     public Result getConfigList(final ConfigVO configVO) {
         final List<Config> configs;
-        if (configVO.getType() == 1 || configVO.getType() == 4) {
+        if (configVO.getType() == Constants.ONE || configVO.getType() == Constants.FOUR || configVO.getType()==Constants.FIVE) {
             configs = this.configDao.selectList(new LambdaQueryWrapper<Config>().in(Config::getType, configVO.getType(), 3));
         } else {
             configs = this.configDao.selectList(new LambdaQueryWrapper<Config>().eq(Config::getType, configVO.getType()));
