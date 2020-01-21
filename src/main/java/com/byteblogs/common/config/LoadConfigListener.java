@@ -5,18 +5,15 @@ import com.byteblogs.common.context.BeanTool;
 import com.byteblogs.helloblog.config.dao.ConfigDao;
 import com.byteblogs.helloblog.config.domain.po.Config;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Slf4j
-@Component
-@DependsOn({"configDao"})
+//@Component
+//@DependsOn({"dataSource"})
 public class LoadConfigListener {
 
-    @PostConstruct
+    //    @PostConstruct
     public void init() {
         final ConfigDao configDao = BeanTool.getBean(ConfigDao.class);
         final List<Config> configList = configDao.selectList(null);
