@@ -12,8 +12,8 @@ public class LogSyncTask {
     @Autowired
     private AuthUserLogService sysLogServiceImpl;
 
-    @Async
-    public void addLog(AuthUserLogVO sysLog){
+    @Async(value = "asyncExecutor")
+    public void addLog(AuthUserLogVO sysLog) {
         this.sysLogServiceImpl.saveLogs(sysLog);
     }
 }

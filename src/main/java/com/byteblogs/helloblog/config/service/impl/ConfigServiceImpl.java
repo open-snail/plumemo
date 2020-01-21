@@ -5,22 +5,18 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.common.constant.ResultConstants;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.helloblog.config.dao.ConfigDao;
 import com.byteblogs.helloblog.config.domain.po.Config;
 import com.byteblogs.helloblog.config.domain.vo.ConfigVO;
 import com.byteblogs.helloblog.config.service.ConfigService;
-import com.byteblogs.helloblog.file.factory.UploadFileFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,12 +30,13 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
     private ConfigDao configDao;
 
     @Override
-    public Result updateConfig(List<ConfigVO> configList) {
+    public Result updateConfig(final List<ConfigVO> configList) {
 
         if (CollectionUtils.isEmpty(configList)) {
             ExceptionUtil.rollback(ErrorEnum.PARAM_INCORRECT);
         }
-        boolean b = configList.stream().anyMatch(configVO -> StringUtils.isBlank(configVO.getConfigKey()) || StringUtils.isBlank(configVO.getConfigValue()));
+
+        final boolean b = configList.stream().anyMatch(configVO -> StringUtils.isBlank(configVO.getConfigKey()) || StringUtils.isBlank(configVO.getConfigValue()));
         if (b) {
             ExceptionUtil.rollback(ErrorEnum.PARAM_INCORRECT);
         }
@@ -49,9 +46,6 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
                 this.configDao.update(new Config().setConfigValue(configVO.getConfigValue()),
                         new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configVO.getConfigKey()));
                 ConfigCache.putConfig(configVO.getConfigKey(), configVO.getConfigValue());
-                if (configVO.getConfigKey().equals(Constants.STORE_TYPE)){
-                    UploadFileFactory.doCache();
-                }
             }
         });
 
@@ -59,18 +53,20 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
     }
 
     @Override
-    public Result getConfigList(ConfigVO configVO) {
-        List<Config> configs;
-        if (configVO.getType()==1||configVO.getType()==4){
-            configs = this.configDao.selectList(new LambdaQueryWrapper<Config>().in(Config::getType, configVO.getType(),3));
-        }else{
+    public Result getConfigList(final ConfigVO configVO) {
+        final List<Config> configs;
+        if (configVO.getType() == 1 || configVO.getType() == 4) {
+            configs = this.configDao.selectList(new LambdaQueryWrapper<Config>().in(Config::getType, configVO.getType(), 3));
+        } else {
             configs = this.configDao.selectList(new LambdaQueryWrapper<Config>().eq(Config::getType, configVO.getType()));
         }
-        List<ConfigVO> configVOList = new ArrayList<>();
+
+        final List<ConfigVO> configVOList = new ArrayList<>();
         configs.forEach(config -> {
-            ConfigVO configVO1 = new ConfigVO();
+            final ConfigVO configVO1 = new ConfigVO();
             configVOList.add(configVO1.setConfigKey(config.getConfigKey()).setConfigValue(config.getConfigValue()));
         });
+
         return Result.createWithModels(configVOList);
     }
 
