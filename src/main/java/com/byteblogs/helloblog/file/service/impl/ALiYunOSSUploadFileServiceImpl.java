@@ -1,6 +1,5 @@
 package com.byteblogs.helloblog.file.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.*;
 import com.aliyun.oss.internal.OSSHeaders;
 import com.aliyun.oss.model.*;
@@ -14,10 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
-public class ALiYunOSSUploadFileServiceImpl implements UploadFileService {
+public class ALiYunOSSUploadFileServiceImpl extends UploadFileService {
 
     @Override
-    public String saveFileStore(MultipartFile file){
+    public String doSaveFileStore(MultipartFile file){
         OSS ossClient = new OSSClientBuilder()
                 .build(ConfigCache.getConfig(Constants.ALIYUN_OSS_ENDPOINT),
                         ConfigCache.getConfig(Constants.ALIYUN_OSS_ACCESS_KEY),
@@ -28,8 +27,7 @@ public class ALiYunOSSUploadFileServiceImpl implements UploadFileService {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setHeader(OSSHeaders.OSS_STORAGE_CLASS, StorageClass.Standard.toString());
             putObjectRequest.setMetadata(metadata);
-            PutObjectResult putObjectResult=ossClient.putObject(putObjectRequest);
-            System.err.println(JSONObject.toJSON(putObjectResult));
+            ossClient.putObject(putObjectRequest);
             return ConfigCache.getConfig(Constants.ALIYUN_OSS_IMAGE_DOMAIN)+fileName;
         } catch (IOException e) {
             return "";

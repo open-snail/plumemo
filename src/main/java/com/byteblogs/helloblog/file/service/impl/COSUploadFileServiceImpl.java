@@ -2,51 +2,38 @@ package com.byteblogs.helloblog.file.service.impl;
 
 import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
+import com.byteblogs.common.util.FileUtil;
 import com.byteblogs.helloblog.file.service.UploadFileService;
-import com.google.gson.Gson;
-import com.qiniu.common.QiniuException;
-import com.qiniu.common.Zone;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.util.Auth;
+import com.qcloud.cos.COSClient;
+import com.qcloud.cos.ClientConfig;
+import com.qcloud.cos.auth.BasicCOSCredentials;
+import com.qcloud.cos.auth.COSCredentials;
+import com.qcloud.cos.model.PutObjectRequest;
+import com.qcloud.cos.region.Region;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-/**
- * @date: 2019/1/13 10:55
- * @modified:
- */
 @Service
-public class COSUploadFileServiceImpl implements UploadFileService {
+public class COSUploadFileServiceImpl extends UploadFileService {
 
     @Override
-    public String saveFileStore(MultipartFile file) {
-        // 构造一个带指定Zone对象的配置类
-        Configuration cfg = new Configuration(Zone.autoZone());
-        //...其他参数参考类注释
-        UploadManager uploadManager = new UploadManager(cfg);
-        // 默认不指定key的情况下，以文件内容的hash值作为文件名
-        Auth auth = Auth.create(ConfigCache.getConfig(Constants.QINIU_ACCESS_KEY), ConfigCache.getConfig(Constants.QINIU_SECRET_KEY));
-        String upToken = auth.uploadToken(ConfigCache.getConfig(Constants.QINIU_BUCKET));
-        try {
-            Response response = uploadManager.put(file.getInputStream(), null, upToken, null, null);
-            //解析上传成功的结果
-            DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            return ConfigCache.getConfig(Constants.QINIU_IMAGE_DOMAIN) + putRet.key;
-        } catch (QiniuException ex) {
-            Response r = ex.response;
-            try {
-                System.err.println(r.bodyString());
-            } catch (QiniuException ex2) {
-                //ignore
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public String doSaveFileStore(MultipartFile file) {
+        COSClient cosClient = null;
+        try{
+            COSCredentials cred = new BasicCOSCredentials(ConfigCache.getConfig(Constants.COS_ACCESS_KEY), ConfigCache.getConfig(Constants.COS_SECRET_KEY));
+            Region region = new Region(ConfigCache.getConfig(Constants.COS_REGION));
+            ClientConfig clientConfig=new ClientConfig(region);
+            cosClient = new COSClient(cred, clientConfig);
+            String fileName = FileUtil.createSingleFilePath(ConfigCache.getConfig(Constants.COS_PATH),file.getOriginalFilename());
+            PutObjectRequest putObjectRequest = new PutObjectRequest(ConfigCache.getConfig(Constants.COS_BUCKET), fileName, file.getInputStream(),null);
+            cosClient.putObject(putObjectRequest);
+            return ConfigCache.getConfig(Constants.COS_IMAGE_DOMAIN)+fileName;
+        }catch (IOException e){
+            return "";
+        }finally {
+            if (cosClient!=null){cosClient.shutdown();}
         }
-        return "";
     }
 }
