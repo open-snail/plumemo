@@ -2,6 +2,7 @@ package com.byteblogs.helloblog.file.service.impl;
 
 import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
+import com.byteblogs.common.util.FileUtil;
 import com.byteblogs.helloblog.file.service.UploadFileService;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
@@ -27,7 +28,7 @@ public class QiNiuUploadFileServiceImpl extends UploadFileService {
         Auth auth = Auth.create(ConfigCache.getConfig(Constants.QINIU_ACCESS_KEY), ConfigCache.getConfig(Constants.QINIU_SECRET_KEY));
         String upToken = auth.uploadToken(ConfigCache.getConfig(Constants.QINIU_BUCKET));
         try {
-            Response response = uploadManager.put(file.getInputStream(), null, upToken, null, null);
+            Response response = uploadManager.put(file.getInputStream(), FileUtil.createSingleFileName(file.getOriginalFilename()), upToken, null, null);
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
             return ConfigCache.getConfig(Constants.QINIU_IMAGE_DOMAIN) + putRet.key;
         } catch (IOException e) { e.printStackTrace(); }
