@@ -1,7 +1,6 @@
 package com.byteblogs.common.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.context.BeanTool;
 import com.byteblogs.helloblog.config.dao.ConfigDao;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
 
 @Component
 @DependsOn(value = "configDao")
