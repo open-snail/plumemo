@@ -131,8 +131,8 @@
         <!--  byteBlog服务  -->
         <dependency>
             <groupId>com.byteblogs</groupId>
-            <artifactId>byteblogs-data-boot-start</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <artifactId>byteblogs-data-boot-starter</artifactId>
+            <version>0.0.2-RELEASE</version>
         </dependency>
         <!--  阿里云OSS服务  -->
         <dependency>
