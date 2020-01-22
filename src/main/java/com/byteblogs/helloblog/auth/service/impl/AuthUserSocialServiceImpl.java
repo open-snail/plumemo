@@ -34,7 +34,7 @@ public class AuthUserSocialServiceImpl extends ServiceImpl<AuthUserSocialDao,Aut
                 .setQrCode(authUserSocialVO.getQrCode())
                 .setRemark(authUserSocialVO.getRemark())
                 .setUrl(authUserSocialVO.getUrl())
-                .setIsDeleted(0)
+                .setIsEnabled(authUserSocialVO.getIsEnabled())
                 .setCreateTime(LocalDateTime.now())
                 .setUpdateTime(LocalDateTime.now());
         authUserSocialDao.insert(authUserSocial);
@@ -52,7 +52,7 @@ public class AuthUserSocialServiceImpl extends ServiceImpl<AuthUserSocialDao,Aut
                 .setQrCode(authUserSocialVO.getQrCode())
                 .setRemark(authUserSocialVO.getRemark())
                 .setUrl(authUserSocialVO.getUrl())
-                .setIsDeleted(authUserSocialVO.getIsDeleted())
+                .setIsEnabled(authUserSocialVO.getIsEnabled())
                 .setUpdateTime(LocalDateTime.now());
         authUserSocialDao.updateById(authUserSocial);
         return Result.createWithSuccessMessage();

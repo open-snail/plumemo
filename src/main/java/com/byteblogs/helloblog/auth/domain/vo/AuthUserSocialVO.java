@@ -70,6 +70,6 @@ public class AuthUserSocialVO extends BaseVO<AuthUserSocialVO> {
 	/**
 	 * 是否删除
 	 */
-	private Integer isDeleted;
+	private Integer isEnabled;
 	// columns END
 }

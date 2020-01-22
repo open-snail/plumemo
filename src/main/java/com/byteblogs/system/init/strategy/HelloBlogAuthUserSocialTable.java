@@ -41,7 +41,7 @@ public class HelloBlogAuthUserSocialTable implements TableInfoService {
                 "  `remark` varchar(255) DEFAULT NULL COMMENT '备注',\n" +
                 "  `create_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
                 "  `update_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',\n" +
-                "  `is_deleted` smallint(6) NOT NULL DEFAULT '0' COMMENT '是否删除',\n" +
+                "  `is_enabled` smallint(6) NOT NULL DEFAULT '0' COMMENT '是否启用',\n" +
                 "  PRIMARY KEY (`id`) USING BTREE\n" +
                 ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户表社交信息表';";
     }

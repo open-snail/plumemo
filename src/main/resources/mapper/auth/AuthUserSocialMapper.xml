@@ -3,7 +3,7 @@
 <mapper namespace="com.byteblogs.helloblog.auth.dao.AuthUserSocialDao">
 	<!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,code,account,icon,qr_code as qrCode,show_type as showType,url,remark,create_time as createTime,update_time as updateTime,is_deleted as isDeleted
+        id,code,account,icon,qr_code as qrCode,show_type as showType,url,remark,create_time as createTime,update_time as updateTime,is_enabled as isEnabled
     </sql>
 
 
@@ -18,15 +18,18 @@
 		<result column="remark" property="remark" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
-		<result column="is_deleted" property="isDeleted" />
+		<result column="is_enabled" property="isEnabled" />
     </resultMap>
 
 	<select id="selectSocialList" resultType="com.byteblogs.helloblog.auth.domain.vo.AuthUserSocialVO">
 		SELECT <include refid="Base_Column_List"/> FROM hello_blog_auth_user_social
 		<where>
-			<if test="condition.keywords != null and condition.keywords != ''">
-				code LIKE #{condition.keywords}
-			</if>
+			<if test="condition.keywords != null and condition.keywords != ''">AND code LIKE #{condition.keywords}</if>
+			<if test="condition.isEnabled != null and condition.isEnabled != ''">AND is_enabled=#{condition.isEnabled}</if>
+			<if test="condition.code != null and condition.code != ''">AND code=#{condition.code}</if>
+			<if test="condition.account != null and condition.account != ''">AND account=#{condition.account}</if>
+			<if test="condition.showType != null and condition.showType != ''">AND show_type=#{condition.showType}</if>
+			<if test="condition.remark != null and condition.remark != ''">AND remark=#{condition.remark}</if>
 		</where>
 		ORDER BY create_time DESC
 	</select>

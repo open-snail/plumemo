@@ -81,8 +81,8 @@ public class AuthUserSocial extends Model<AuthUserSocial> {
 	/**
 	 * 是否删除
 	 */
-	@TableField(value = "is_deleted")
-	private Integer isDeleted;
+	@TableField(value = "is_enabled")
+	private Integer isEnabled;
 	// columns END
 
 	@Override
