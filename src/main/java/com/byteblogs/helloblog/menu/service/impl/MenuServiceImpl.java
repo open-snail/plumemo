@@ -25,8 +25,12 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Result saveMenu(MenuVO menuVO) {
-        Menu menu=new Menu().setIcon(menuVO.getIcon()).setParentId(menuVO.getParentId()).setSort(menuVO.getSort()).setTitle(menuVO.getTitle()).setUrl(menuVO.getUrl());
-        menuDao.insert(menu);
+        menuDao.insert(new Menu()
+                .setIcon(menuVO.getIcon())
+                .setParentId(menuVO.getParentId())
+                .setSort(menuVO.getSort())
+                .setTitle(menuVO.getTitle())
+                .setUrl(menuVO.getUrl()));
         return Result.createWithSuccessMessage();
     }
 
@@ -52,7 +56,15 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Result updateMenu(MenuVO menuVO) {
-        this.menuDao.updateById(new Menu().setId(menuVO.getId()).setIcon(menuVO.getIcon()).setTitle(menuVO.getTitle()).setParentId(menuVO.getParentId()).setSort(menuVO.getSort()).setUrl(menuVO.getUrl()));
+        this.menuDao.updateById(
+                new Menu()
+                .setId(menuVO.getId())
+                .setIcon(menuVO.getIcon())
+                .setTitle(menuVO.getTitle())
+                .setParentId(menuVO.getParentId())
+                .setSort(menuVO.getSort())
+                .setUrl(menuVO.getUrl())
+        );
         return Result.createWithSuccessMessage();
     }
 

@@ -19,12 +19,12 @@
         SELECT <include refid="Base_Column_List" />
         FROM hello_blog_menu
         <where>
-			<if test="condition.keywords != null and condition.keywords != ''">
-				 title LIKE #{condition.keywords}
-			</if>
-			<if test="condition.title != null and condition.title != ''">
-				AND title = #{condition.title}
-			</if>
+			<if test="condition.keywords != null and condition.keywords != ''">title LIKE #{condition.keywords}</if>
+			<if test="condition.title != null and condition.title != ''">AND title = #{condition.title}</if>
+			<if test="condition.parentId != null">AND parent_id = #{condition.parentId}</if>
+			<if test="condition.icon != null and condition.icon != ''">AND icon = #{condition.icon}</if>
+			<if test="condition.sort != null and condition.sort != ''">AND sort = #{condition.sort}</if>
+			<if test="condition.url != null and condition.url != ''">AND url LIKE '%${condition.url}%'</if>
 		</where>
 		ORDER BY sort DESC
     </select>

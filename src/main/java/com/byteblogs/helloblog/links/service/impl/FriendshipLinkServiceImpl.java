@@ -44,7 +44,7 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
         if (StringUtils.isNotBlank(friendshipLinkVO.getName())) {
             objectLambdaQueryWrapper.eq(FriendshipLink::getName,friendshipLinkVO.getName());
         }
-        friendshipLinkDao.selectPage(page,objectLambdaQueryWrapper.orderByAsc(FriendshipLink::getSort));
+        friendshipLinkDao.selectPage(page,objectLambdaQueryWrapper.orderByDesc(FriendshipLink::getSort));
         List<FriendshipLinkVO> friendshipLinkVOList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(page.getRecords())) {
             page.getRecords().forEach(friendshipLink -> {
@@ -71,6 +71,7 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
                         .setLogo(friendshipLinkVO.getLogo())
                         .setName(friendshipLinkVO.getName())
                         .setId(friendshipLinkVO.getId())
+                        .setSort(friendshipLinkVO.getSort())
         );
 
         return Result.createWithSuccessMessage();
@@ -91,6 +92,7 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
                         .setHref(friendshipLinkVO.getHref())
                         .setLogo(friendshipLinkVO.getLogo())
                         .setName(friendshipLinkVO.getName())
+                        .setSort(friendshipLinkVO.getSort())
         );
 
         return Result.createWithSuccessMessage();
@@ -107,7 +109,8 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
                 .setHref(friendshipLink.getHref())
                 .setLogo(friendshipLink.getLogo())
                 .setName(friendshipLink.getName())
-                .setId(friendshipLink.getId());
+                .setId(friendshipLink.getId())
+                .setSort(friendshipLink.getSort());
         return Result.createWithModel(friendshipLinkVO);
     }
 }

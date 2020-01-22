@@ -27,7 +27,7 @@ public class MenuController {
      * 新增菜单表
      */
     @PostMapping("/menu/v1/add")
-    public Result saveMenu(MenuVO menuVO){
+    public Result saveMenu(@RequestBody MenuVO menuVO){
         return menuService.saveMenu(menuVO);
     }
     
@@ -54,8 +54,7 @@ public class MenuController {
      * 更新菜单表
      */
     @PutMapping("/menu/v1/update")
-    public Result updateMenu(@Validated({UpdatePosts.class}) @RequestBody MenuVO menuVO, BindingResult result){
-        ThrowableUtils.checkParamArgument(result);
+    public Result updateMenu(@RequestBody MenuVO menuVO){
         return menuService.updateMenu(menuVO);
     }
 
@@ -66,6 +65,4 @@ public class MenuController {
     public Result delete(@PathVariable Long id){
         return menuService.deleteMenu(id);
     }
-    
-    
 }

@@ -12,6 +12,9 @@ import lombok.experimental.Accessors;
 public class FriendshipLinkVO extends BaseVO<FriendshipLinkVO> {
 
     @NotBlank(groups = {InsertLink.class, UpdateLink.class})
+    private Long id;
+
+    @NotBlank(groups = {InsertLink.class, UpdateLink.class})
     private String name;
 
     @NotBlank(groups = {InsertLink.class, UpdateLink.class})

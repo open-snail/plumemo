@@ -22,8 +22,6 @@ public class MenuVO extends BaseVO<MenuVO> {
 	private static final long serialVersionUID = 1L;
 
     // columns START
-
-	@NotBlank(groups = {InsertMenu.class, UpdateMenu.class})
 	private Long id; 
 
 	/**
