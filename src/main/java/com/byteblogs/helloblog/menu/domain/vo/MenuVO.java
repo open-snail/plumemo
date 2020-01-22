@@ -1,17 +1,7 @@
 package com.byteblogs.helloblog.menu.domain.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.byteblogs.common.base.domain.vo.BaseVO;
-import com.byteblogs.common.validator.annotion.NotBlank;
-import com.byteblogs.helloblog.menu.domain.validator.InsertMenu;
-import com.byteblogs.helloblog.menu.domain.validator.UpdateMenu;
-import com.byteblogs.helloblog.posts.domain.validator.InsertPosts;
-import com.byteblogs.helloblog.posts.domain.validator.UpdatePosts;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 
