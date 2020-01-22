@@ -21,16 +21,23 @@
         <result column="browser_name" property="browserName"/>
     </resultMap>
 
-    <select id="selectLogsList" resultType="com.byteblogs.helloblog.log.domain.po.AuthUserLog">
+    <select id="selectLogsList" resultType="com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO">
         SELECT
         <include refid="Base_Column_List"/>
         FROM hello_blog_auth_user_log
         <where>
-            <if test="condition.keywords != null and condition.keywords != ''">
-                AND (title LIKE #{condition.keywords} OR summary LIKE #{condition.keywords})
-            </if>
+            <if test="condition.userId != null and condition.userId != ''">AND user_id=#{condition.userId} </if>
+            <if test="condition.ip != null and condition.ip != ''">AND ip=#{condition.ip} </if>
+            <if test="condition.url != null and condition.url != ''">AND url LIKE '%${condition.url}%' </if>
+            <if test="condition.parameter != null and condition.parameter != ''">AND parameter LIKE '%${condition.parameter}%' </if>
+            <if test="condition.device != null and condition.device != ''">AND device LIKE '%${condition.device}%' </if>
+            <if test="condition.description != null and condition.description != ''">AND description LIKE '%${condition.description}%' </if>
+            <if test="condition.code != null and condition.code != ''">AND code = #{condition.code} </if>
+            <if test="condition.browserName != null and condition.browserName != ''">AND browser_name LIKE '%${condition.browserName}%' </if>
+            <if test="condition.browserVersion != null and condition.browserVersion != ''">AND browser_version = #{condition.browserVersion} </if>
+            <if test="condition.createTime != null">and DATE_FORMAT(#{condition.createTime},'%Y-%m-%d')=DATE_FORMAT(create_time, '%Y-%m-%d')  </if>
         </where>
-        ORDER BY id DESC;
+        ORDER BY id DESC
     </select>
     <select id="selectListByCode" resultType="com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO">
         SELECT

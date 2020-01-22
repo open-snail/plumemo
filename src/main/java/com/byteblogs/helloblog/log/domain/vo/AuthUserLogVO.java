@@ -65,6 +65,7 @@ public class AuthUserLogVO extends BaseVO<AuthUserLogVO> {
 	 * 日志类型
 	 */
 	private String code;
+	private String codeName;
 
 	/**
 	 * 浏览器名称

@@ -20,11 +20,13 @@ public interface AuthUserLogService extends BaseService<AuthUserLog> {
     /**
      * 查询用户行为日志记录表
      */
-    Result getLogs(Long id);
+    Result<AuthUserLogVO> getLogs(Long id);
 
     
     /**
      * 分页查询用户行为日志记录表
      */
-    Result getLogsList(AuthUserLogVO authUserLogVO);
+    Result<AuthUserLogVO> getLogsList(AuthUserLogVO authUserLogVO);
+
+    Result<AuthUserLogVO> deleteLogs(Long id);
 }

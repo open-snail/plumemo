@@ -23,16 +23,21 @@ public class AuthUserLogController {
      * 查询用户行为日志记录表
      */
     @GetMapping("/logs/v1/{id}")
-    public Result query(@PathVariable Long id){
+    public Result<AuthUserLogVO> query(@PathVariable Long id){
         return authUserLogServiceImpl.getLogs(id);
     }
-    
-    
+
+    @DeleteMapping("/logs/v1/{id}")
+    public Result<AuthUserLogVO> deleteLogs(@PathVariable Long id){
+        return authUserLogServiceImpl.deleteLogs(id);
+    }
+
+
     /**
      * 分页查询用户行为日志记录表
      */
-    @PostMapping("/logs/v1/list")
-    public Result queryPage(AuthUserLogVO authUserLogVO){
+    @GetMapping("/logs/v1/list")
+    public Result<AuthUserLogVO> queryPage(AuthUserLogVO authUserLogVO){
         return authUserLogServiceImpl.getLogsList(authUserLogVO);
     }
 }

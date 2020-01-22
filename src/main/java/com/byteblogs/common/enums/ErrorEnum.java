@@ -50,7 +50,7 @@ public enum ErrorEnum {
         return zhMsg;
     }
 
-    public String getMsg(@NotBlank String code) {
+    public static String getMsg(@NotBlank String code) {
         if (SystemLanguageEnum.EN.getCode().equalsIgnoreCase(Locale.getDefault().getLanguage())) {
             return errorEnumMap.get(code).enMsg;
         } else {
