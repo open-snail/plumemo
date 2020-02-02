@@ -11,6 +11,7 @@ import com.byteblogs.helloblog.auth.domain.vo.AuthUserVO;
 import com.byteblogs.helloblog.auth.service.AuthUserService;
 import com.byteblogs.helloblog.auth.service.AuthUserSocialService;
 import com.byteblogs.helloblog.auth.service.OauthService;
+import com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO;
 import com.byteblogs.system.enums.RoleEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,20 @@ public class AuthUserController {
         return authUserService.getUserInfo(authUserVO);
     }
 
+    @DeleteMapping("/user/v1/{id}")
     @LoginRequired(role = RoleEnum.ADMIN)
-    @GetMapping("/status/v1/update")
-    public Result saveAuthUserStatus(@Validated({UpdateUsers.class}) AuthUserVO authUserVO, BindingResult result) {
-        ThrowableUtils.checkParamArgument(result);
+    public Result deleteUser(@PathVariable Long id){
+        return authUserService.deleteUsers(id);
+    }
+
+
+    @LoginRequired(role = RoleEnum.ADMIN)
+    @PutMapping("/status/v1/update")
+    public Result saveAuthUserStatus(@RequestBody AuthUserVO authUserVO) {
         return authUserService.saveAuthUserStatus(authUserVO);
     }
+
+
 
     @GetMapping("/master/v1/get")
     public Result getMasterUserInfo() {
