@@ -14,11 +14,14 @@ public class FileUtil {
      */
     public static String getSuffix(String fileName) {
         int pos = fileName.lastIndexOf(".");
+        if (pos == -1) {
+            return ".png";
+        }
         return fileName.substring(pos);
     }
 
-    public static String createSingleFilePath(String parentPath,String fileName) {
-        return parentPath+createSingleFileName(fileName);
+    public static String createSingleFilePath(String parentPath, String fileName) {
+        return parentPath + createSingleFileName(fileName);
     }
 
     /**
