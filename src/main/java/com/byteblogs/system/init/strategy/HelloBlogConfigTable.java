@@ -43,10 +43,35 @@ public class HelloBlogConfigTable implements TableInfoService {
     }
 
     private static String initData() {
-        return "INSERT INTO `hello_blog_config` VALUES (1, 'name', 'helloblog', 0),(2, 'domain', 'http://127.0.0.1', 0),(3, 'keywords', 'java', 0)," +
-                "(4, 'description', 'java', 0),(5, 'metas', '1.1.1', 0),(6, 'copyright', 'Copyright @ ByteBlogs', 0)," +
-                "(7, 'icp', 'xxxx', 0),(8, 'qiniu_access_key', '', 1),(9, 'qiniu_secret_key', '', 1),(10, 'qiniu_bucket', '', 1)," +
-                "(11, 'qiniu_image_domain', '', 1);";
+        return "INSERT INTO `hello_blog_config` VALUES " +
+                "(1, 'name', 'helloblog', 0)," +
+                "(2, 'domain', 'http://127.0.0.1', 0)," +
+                "(3, 'keywords', 'java', 0)," +
+                "(4, 'description', 'java', 0)," +
+                "(5, 'metas', '1.1.1', 0)," +
+                "(6, 'copyright', 'Copyright @ ByteBlogs', 0)," +
+                "(7, 'icp', 'xxxx', 0)," +
+                "(8, 'qiniu_access_key', '', 1)," +
+                "(9, 'qiniu_secret_key', '', 1)," +
+                "(10, 'qiniu_bucket', '', 1)," +
+                "(11, 'qiniu_image_domain', '', 1)," +
+                "(12, 'cloud_music_id', '', 2)," +
+                "(14, 'store_type', 'default', 3)," +
+                "(15, 'aliyun_oss_access_key', '', 4)," +
+                "(16, 'aliyun_oss_secret_key', '', 4)," +
+                "(17, 'aliyun_oss_bucket', '', 4)," +
+                "(18, 'aliyun_oss_endpoint', '', 4)," +
+                "(19, 'aliyun_oss_path', '', 4)," +
+                "(20, 'aliyun_oss_image_domain', '', 4)," +
+                "(21, 'cos_access_key', '', 5)," +
+                "(22, 'cos_secret_key', '', 5)," +
+                "(23, 'cos_bucket', '', 5)," +
+                "(24, 'cos_region', '', 5)," +
+                "(25, 'cos_image_domain', '', 5)," +
+                "(26, 'cos_path', '', 5)," +
+                "(27, 'default_path', 'D:/helloblog/blog/', 6)," +
+                "(28, 'default_image_domain', 'http://127.0.0.1:8086/', 6)" +
+                ";";
     }
 
 }

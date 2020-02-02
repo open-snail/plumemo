@@ -86,4 +86,7 @@ public class Constants {
     //异常类型
     public static final String DELIMITER_TO = "@";
     public static final String DELIMITER_COLON = ":";
+
+    // 正则表达式
+    public static final String IP_REGEX="(\\\\d{1,3}|\\\\*)";
 }
