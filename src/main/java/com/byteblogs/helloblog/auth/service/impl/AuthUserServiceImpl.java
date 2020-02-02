@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -91,7 +90,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         if (StringUtils.isNotBlank(authUserVO.getName())) {
             authUserLambdaQueryWrapper.eq(AuthUser::getName, authUserVO.getName());
         }
-        if (authUserVO.getStatus()!=null){
+        if (authUserVO.getStatus() != null) {
             authUserLambdaQueryWrapper.eq(AuthUser::getStatus, authUserVO.getStatus());
         }
 
@@ -123,6 +122,30 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
     }
 
     @Override
+    public Result updateAdmin(AuthUserVO authUserVO) {
+
+        if (authUserVO == null) {
+            ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
+        }
+
+        UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
+        this.authUserDao.updateById(new AuthUser()
+                .setId(userSessionInfo.getId())
+                .setEmail(authUserVO.getEmail())
+                .setAvatar(authUserVO.getAvatar())
+                .setQq(authUserVO.getQq())
+                .setWeibo(authUserVO.getWeibo())
+                .setCsdn(authUserVO.getCsdn())
+                .setFacebook(authUserVO.getFacebook())
+                .setTwitter(authUserVO.getTwitter())
+                .setName(authUserVO.getName())
+                .setIntroduction(authUserVO.getIntroduction())
+        );
+
+        return Result.createWithSuccessMessage();
+    }
+
+    @Override
     public Result updateUser(AuthUserVO authUserVO) {
         if (authUserVO == null) {
             ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
@@ -141,7 +164,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
                 .setStatus(authUserVO.getStatus())
         );
         // 锁定了账户，强制用户下线
-        if (authUserVO.getStatus() == Constants.ONE){
+        if (authUserVO.getStatus() == Constants.ONE) {
             this.authTokenDao.delete(new LambdaQueryWrapper<AuthToken>().eq(AuthToken::getUserId, authUserVO.getId()));
         }
         return Result.createWithSuccessMessage();
@@ -149,7 +172,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
 
     @Override
     public Result saveAuthUserStatus(AuthUserVO authUserVO) {
-        if (authUserVO.getStatus()!=null){
+        if (authUserVO.getStatus() != null) {
             this.authUserDao.updateById(new AuthUser().setId(authUserVO.getId()).setStatus(authUserVO.getStatus()));
             return Result.createWithSuccessMessage();
         }

@@ -13,6 +13,7 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
     /**
      * 获取用户信息
+     *
      * @param authUserVO
      * @return
      */
@@ -20,12 +21,14 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
     /**
      * 获取作者信息
+     *
      * @return
      */
     Result getMasterUserInfo();
 
     /**
      * 获取用户列表
+     *
      * @param authUserVO
      * @return
      */
@@ -33,12 +36,22 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
     /**
      * 退出登录
+     *
      * @return
      */
     Result logout();
 
     /**
+     * 更新管理员个人资料
+     *
+     * @param authUserVO
+     * @return
+     */
+    Result updateAdmin(AuthUserVO authUserVO);
+
+    /**
      * 更新个人资料
+     *
      * @param authUserVO
      * @return
      */

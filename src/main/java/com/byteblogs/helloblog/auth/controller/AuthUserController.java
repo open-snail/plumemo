@@ -76,9 +76,16 @@ public class AuthUserController {
 
     @LoginRequired
     @PutMapping("/admin/v1/update")
+    public Result updateAdmin(@RequestBody AuthUserVO authUserVO) {
+        return authUserService.updateAdmin(authUserVO);
+    }
+
+    @LoginRequired
+    @PutMapping("/user/v1/update")
     public Result updateUser(@RequestBody AuthUserVO authUserVO) {
         return authUserService.updateUser(authUserVO);
     }
+
 
     @PostMapping("/auth/v1/logout")
     public Result logout() {
@@ -87,25 +94,25 @@ public class AuthUserController {
 
     @PostMapping("/social/v1/add")
     @LoginRequired(role = RoleEnum.ADMIN)
-    public Result saveSocial(@RequestBody AuthUserSocialVO authUserSocialVO){
+    public Result saveSocial(@RequestBody AuthUserSocialVO authUserSocialVO) {
         ExceptionUtil.isRollback(StringUtils.isBlank(authUserSocialVO.getCode()), ErrorEnum.PARAM_ERROR);
         return this.authUserSocialService.saveAuthUserSocial(authUserSocialVO);
     }
 
     @PutMapping("/social/v1/update")
     @LoginRequired(role = RoleEnum.ADMIN)
-    public Result editSocial(@RequestBody AuthUserSocialVO authUserSocialVO){
-        ExceptionUtil.isRollback(authUserSocialVO.getId()==null, ErrorEnum.PARAM_ERROR);
+    public Result editSocial(@RequestBody AuthUserSocialVO authUserSocialVO) {
+        ExceptionUtil.isRollback(authUserSocialVO.getId() == null, ErrorEnum.PARAM_ERROR);
         return this.authUserSocialService.editAuthUserSocial(authUserSocialVO);
     }
 
     @GetMapping("/social/v1/{id}")
-    public Result getSocial(@PathVariable("id") Long id){
+    public Result getSocial(@PathVariable("id") Long id) {
         return this.authUserSocialService.getSocial(id);
     }
 
     @GetMapping("/social/v1/list")
-    public Result getSocialList(AuthUserSocialVO authUserSocialVO){
+    public Result getSocialList(AuthUserSocialVO authUserSocialVO) {
         return authUserSocialService.getSocialList(authUserSocialVO);
     }
 
