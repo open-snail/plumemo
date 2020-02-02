@@ -124,12 +124,9 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
 
     @Override
     public Result updateUser(AuthUserVO authUserVO) {
-
         if (authUserVO == null) {
             ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
         }
-
-//        UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         this.authUserDao.updateById(new AuthUser()
                 .setId(authUserVO.getId())
                 .setEmail(authUserVO.getEmail())
@@ -147,7 +144,6 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         if (authUserVO.getStatus() == Constants.ONE){
             this.authTokenDao.delete(new LambdaQueryWrapper<AuthToken>().eq(AuthToken::getUserId, authUserVO.getId()));
         }
-
         return Result.createWithSuccessMessage();
     }
 
