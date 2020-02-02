@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.domain.vo.UserSessionVO;
+import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -105,6 +107,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
                         .setName(authUser.getName())
                         .setRoleId(authUser.getRoleId())
                         .setIntroduction(authUser.getIntroduction())
+                        .setStatus(authUser.getStatus())
                 );
             });
         }
@@ -126,9 +129,9 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
             ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
         }
 
-        UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
+//        UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         this.authUserDao.updateById(new AuthUser()
-                .setId(userSessionInfo.getId())
+                .setId(authUserVO.getId())
                 .setEmail(authUserVO.getEmail())
                 .setAvatar(authUserVO.getAvatar())
                 .setQq(authUserVO.getQq())
@@ -138,7 +141,12 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
                 .setTwitter(authUserVO.getTwitter())
                 .setName(authUserVO.getName())
                 .setIntroduction(authUserVO.getIntroduction())
+                .setStatus(authUserVO.getStatus())
         );
+        // 锁定了账户，强制用户下线
+        if (authUserVO.getStatus() == Constants.ONE){
+            this.authTokenDao.delete(new LambdaQueryWrapper<AuthToken>().eq(AuthToken::getUserId, authUserVO.getId()));
+        }
 
         return Result.createWithSuccessMessage();
     }
