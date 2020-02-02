@@ -149,8 +149,20 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
 
     @Override
     public Result saveAuthUserStatus(AuthUserVO authUserVO) {
-        if (authUserVO.getStatus()!=null){
+        if (authUserVO.getStatus()!=null
+                && authUserVO.getId()!=null
+                && this.authUserDao.selectCount(new LambdaQueryWrapper<AuthUser>()
+                    .eq(AuthUser::getId,authUserVO.getId()).eq(AuthUser::getRoleId,Constants.TWO))==0){
             this.authUserDao.updateById(new AuthUser().setId(authUserVO.getId()).setStatus(authUserVO.getStatus()));
+            return Result.createWithSuccessMessage();
+        }
+        return Result.createWithError();
+    }
+
+    @Override
+    public Result deleteUsers(Long id) {
+        if (id!=null && this.authUserDao.selectCount(new LambdaQueryWrapper<AuthUser>().eq(AuthUser::getId,id).eq(AuthUser::getRoleId,Constants.TWO))==0){
+            this.authUserDao.deleteById(id);
             return Result.createWithSuccessMessage();
         }
         return Result.createWithError();
