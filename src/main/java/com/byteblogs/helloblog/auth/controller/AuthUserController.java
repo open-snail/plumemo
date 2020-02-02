@@ -43,7 +43,8 @@ public class AuthUserController {
     }
 
     @DeleteMapping("/user/v1/{id}")
-    public Result deleteLogs(@PathVariable Long id){
+    @LoginRequired(role = RoleEnum.ADMIN)
+    public Result deleteUser(@PathVariable Long id){
         return authUserService.deleteUsers(id);
     }
 
