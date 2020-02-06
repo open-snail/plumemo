@@ -51,7 +51,7 @@ public class Constants {
     // 上传文件路径
     public static final String DEFAULT_PATH="default_path";
     public static final String DEFAULT_IMAGE_DOMAIN="default_image_domain";
-    public static final String FILE_URL="/api/hello-blog-service/files/";
+    public static final String FILE_URL="/files/";
 
     // 七牛云配置
     public static final String QINIU_ACCESS_KEY = "qiniu_access_key";

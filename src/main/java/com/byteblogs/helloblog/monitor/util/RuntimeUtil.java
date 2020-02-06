@@ -23,7 +23,6 @@ public class RuntimeUtil {
 
     /**
      * 获取系统属性
-     * @return
      */
     public static Result<JSONObject> getProperty(){
         JSONObject obj=new JSONObject();
@@ -64,7 +63,6 @@ public class RuntimeUtil {
 
     /**
      * 获取内存信息
-     * @return
      */
     public static Result<JSONObject> getMemory(){
         JSONObject obj=new JSONObject();
@@ -81,8 +79,7 @@ public class RuntimeUtil {
             // 当前内存剩余量
             obj.put("free", free);
             // 使用率
-            obj.put("usedRatio",(used.divide(total,3, BigDecimal.ROUND_HALF_UP)
-                    .multiply(BigDecimal.valueOf(100))).setScale(2,BigDecimal.ROUND_HALF_UP));
+            obj.put("usedRatio",(used.divide(total,3, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100))).setScale(2,BigDecimal.ROUND_HALF_UP));
 //            Swap swap = sigar.getSwap();
 //            obj.put("swapTotal",swap.getTotal() / 1024L / 1024L);// 交换区总量
 //            obj.put("swapUsed",swap.getUsed() / 1024L / 1024L);// 当前交换区使用量
@@ -90,7 +87,7 @@ public class RuntimeUtil {
         }catch (Exception e){e.printStackTrace();}
         return Result.createWithModel(obj);
     }
- 
+
     public static Result<JSONArray> getCpu(){
         JSONArray obj=new JSONArray();
         try{
@@ -116,8 +113,6 @@ public class RuntimeUtil {
 
     /**
      * 获取CPU信息
-     * @param cpu
-     * @return
      */
     private static JSONObject getCpuPerc(CpuPerc cpu) {
         JSONObject obj=new JSONObject();
@@ -185,7 +180,6 @@ public class RuntimeUtil {
 
     /**
      * 获取网络信息
-     * @return
      */
     public static Result<JSONObject> getNet() {
         JSONObject jsonObject = new JSONObject();
@@ -221,7 +215,6 @@ public class RuntimeUtil {
 
     /**
      * 获取网卡信息
-     * @return
      */
     public static Result<JSONObject> getEthernet() {
         JSONObject jsonObject = new JSONObject();
