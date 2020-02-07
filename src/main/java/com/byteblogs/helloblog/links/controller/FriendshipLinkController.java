@@ -45,8 +45,7 @@ public class FriendshipLinkController {
 
     @LoginRequired
     @PutMapping("/link/v1/update")
-    public Result updateFriendshipLink(@Validated({UpdateLink.class}) @RequestBody FriendshipLinkVO friendshipLinkVO, BindingResult result) {
-        ThrowableUtils.checkParamArgument(result);
+    public Result updateFriendshipLink(@RequestBody FriendshipLinkVO friendshipLinkVO) {
         return friendshipLinkService.updateFriendshipLink(friendshipLinkVO);
     }
 

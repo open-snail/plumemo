@@ -63,18 +63,20 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
 
     @Override
     public Result updateFriendshipLink(FriendshipLinkVO friendshipLinkVO) {
+        if(friendshipLinkVO.getId()!=null){
+            this.friendshipLinkDao.updateById(
+                    new FriendshipLink()
+                            .setDescription(friendshipLinkVO.getDescription())
+                            .setHref(friendshipLinkVO.getHref())
+                            .setLogo(friendshipLinkVO.getLogo())
+                            .setName(friendshipLinkVO.getName())
+                            .setId(friendshipLinkVO.getId())
+                            .setSort(friendshipLinkVO.getSort())
+            );
 
-        this.friendshipLinkDao.updateById(
-                new FriendshipLink()
-                        .setDescription(friendshipLinkVO.getDescription())
-                        .setHref(friendshipLinkVO.getHref())
-                        .setLogo(friendshipLinkVO.getLogo())
-                        .setName(friendshipLinkVO.getName())
-                        .setId(friendshipLinkVO.getId())
-                        .setSort(friendshipLinkVO.getSort())
-        );
-
-        return Result.createWithSuccessMessage();
+            return Result.createWithSuccessMessage();
+        }
+        return Result.createWithError();
     }
 
     @Override
