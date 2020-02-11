@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.domain.vo.UserSessionVO;
+import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
@@ -89,7 +90,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         if (StringUtils.isNotBlank(authUserVO.getName())) {
             authUserLambdaQueryWrapper.eq(AuthUser::getName, authUserVO.getName());
         }
-        if (authUserVO.getStatus()!=null){
+        if (authUserVO.getStatus() != null) {
             authUserLambdaQueryWrapper.eq(AuthUser::getStatus, authUserVO.getStatus());
         }
 
@@ -105,6 +106,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
                         .setName(authUser.getName())
                         .setRoleId(authUser.getRoleId())
                         .setIntroduction(authUser.getIntroduction())
+                        .setStatus(authUser.getStatus())
                 );
             });
         }
@@ -120,7 +122,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
     }
 
     @Override
-    public Result updateUser(AuthUserVO authUserVO) {
+    public Result updateAdmin(AuthUserVO authUserVO) {
 
         if (authUserVO == null) {
             ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
@@ -144,9 +146,46 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
     }
 
     @Override
+    public Result updateUser(AuthUserVO authUserVO) {
+        if (authUserVO == null) {
+            ExceptionUtil.rollback(ErrorEnum.PARAM_ERROR);
+        }
+        this.authUserDao.updateById(new AuthUser()
+                .setId(authUserVO.getId())
+                .setEmail(authUserVO.getEmail())
+                .setAvatar(authUserVO.getAvatar())
+                .setQq(authUserVO.getQq())
+                .setWeibo(authUserVO.getWeibo())
+                .setCsdn(authUserVO.getCsdn())
+                .setFacebook(authUserVO.getFacebook())
+                .setTwitter(authUserVO.getTwitter())
+                .setName(authUserVO.getName())
+                .setIntroduction(authUserVO.getIntroduction())
+                .setStatus(authUserVO.getStatus())
+        );
+        // 锁定了账户，强制用户下线
+        if (authUserVO.getStatus() == Constants.ONE) {
+            this.authTokenDao.delete(new LambdaQueryWrapper<AuthToken>().eq(AuthToken::getUserId, authUserVO.getId()));
+        }
+        return Result.createWithSuccessMessage();
+    }
+
+    @Override
     public Result saveAuthUserStatus(AuthUserVO authUserVO) {
-        if (authUserVO.getStatus()!=null){
+        if (authUserVO.getStatus()!=null
+                && authUserVO.getId()!=null
+                && this.authUserDao.selectCount(new LambdaQueryWrapper<AuthUser>()
+                    .eq(AuthUser::getId,authUserVO.getId()).eq(AuthUser::getRoleId,Constants.TWO))==0){
             this.authUserDao.updateById(new AuthUser().setId(authUserVO.getId()).setStatus(authUserVO.getStatus()));
+            return Result.createWithSuccessMessage();
+        }
+        return Result.createWithError();
+    }
+
+    @Override
+    public Result deleteUsers(Long id) {
+        if (id!=null && this.authUserDao.selectCount(new LambdaQueryWrapper<AuthUser>().eq(AuthUser::getId,id).eq(AuthUser::getRoleId,Constants.TWO))==0){
+            this.authUserDao.deleteById(id);
             return Result.createWithSuccessMessage();
         }
         return Result.createWithError();

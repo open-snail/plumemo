@@ -1,22 +1,18 @@
 package com.byteblogs.system.init;
 
+import com.byteblogs.helloblog.monitor.util.RuntimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ApplicationContextEvent;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 
 @Component
 @Slf4j
 public class InitFileConfig implements ApplicationListener<ApplicationContextEvent> {
-
-    private final String FILE_PATH = System.getProperty("java.home").replaceFirst("jre", "bin") + File.separator;
-    private final String RESOURCES_PATH = Objects.requireNonNull(InitFileConfig.class.getClassLoader().getResource("dll")).getPath() + File.separator;
 
     public String getFileName() {
         if (isWindows()) {
@@ -26,18 +22,28 @@ public class InitFileConfig implements ApplicationListener<ApplicationContextEve
         }
     }
 
+    public String getFilePath(){
+        if (isWindows()){
+            return System.getProperty("java.library.path").split(";")[0] + File.separator;
+        }else {
+            return "/usr/lib64/";
+        }
+    }
+
     public static boolean isWindows() {
         return System.getProperty("os.name").toLowerCase().contains("windows");
     }
 
     public void initFile() {
-        FileInputStream fis = null;
-        FileOutputStream fos = null;
+        InputStream fis = null;
+        OutputStream fos = null;
         try {
-            final File file = new File(FILE_PATH + getFileName());
+            final String filePath=getFilePath();
+            final String fileName=getFileName();
+            final File file = new File(filePath + fileName);
             if (!file.exists()) {
-                fis = new FileInputStream(new File(RESOURCES_PATH + getFileName()));//创建输入流对象
-                fos = new FileOutputStream(FILE_PATH + getFileName()); //创建输出流对象
+                fis = new ClassPathResource("dll"+File.separator+fileName).getInputStream();//创建输入流对象
+                fos = new FileOutputStream(filePath+ fileName); //创建输出流对象
                 final byte[] data = new byte[1024];//创建搬运工具
                 int len = 0;//创建长度
                 while ((len = fis.read(data)) != -1) {

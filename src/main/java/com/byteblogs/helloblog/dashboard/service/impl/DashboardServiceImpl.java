@@ -88,9 +88,9 @@ public class DashboardServiceImpl implements DashboardService {
         DateTypeEnum dateTypeEnum = DateTypeEnum.valueOf(authUserLogVO.getType().toUpperCase());
         List<AuthUserLogVO> chartVO = new ArrayList<>();
 
-        switch (dateTypeEnum){
+        switch (dateTypeEnum) {
             case DAY:
-                getDate( LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN),
+                getDate(LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN),
                         48, dateTypeEnum, chartVO, todayList);
                 break;
             case WEEK:
@@ -112,17 +112,17 @@ public class DashboardServiceImpl implements DashboardService {
                 break;
             default:
                 long days = Duration.between(authUserLogVO.getStartTime(), authUserLogVO.getEndTime()).toDays();
-                getDate( LocalDateTime.of(authUserLogVO.getStartTime().toLocalDate().minusDays(1), LocalTime.MIN),
+                getDate(LocalDateTime.of(authUserLogVO.getStartTime().toLocalDate().minusDays(1), LocalTime.MIN),
                         (int) days, dateTypeEnum, chartVO, todayList);
                 break;
         }
 
-        System.out.println(JSONObject.toJSON(chartVO).toString());
         return Result.createWithModels(chartVO);
     }
 
     /**
      * 查询日期
+     *
      * @param localDateTime
      * @param size
      * @param dateTypeEnum
@@ -132,7 +132,7 @@ public class DashboardServiceImpl implements DashboardService {
     private void getDate(LocalDateTime localDateTime, Integer size, DateTypeEnum dateTypeEnum, List<AuthUserLogVO> chartVO, List<AuthUserLogVO> todayList) {
         for (int i = 0; i < size; i++) {
             AuthUserLogVO authUserLogVO1 = new AuthUserLogVO();
-            switch (dateTypeEnum){
+            switch (dateTypeEnum) {
                 case DAY:
                     authUserLogVO1.setCreateTime(localDateTime.plusHours(i));
                     break;
@@ -202,7 +202,7 @@ public class DashboardServiceImpl implements DashboardService {
         LocalDateTime startTime = LocalDateTime.now();
         LocalDateTime endTime = LocalDateTime.now();
 
-        switch (dateTypeEnum){
+        switch (dateTypeEnum) {
             case DAY:
                 startTime = LocalDateTime.of(startTime.toLocalDate(), LocalTime.MIN);
                 endTime = LocalDateTime.of(endTime.toLocalDate(), DateUtil.MAX);
@@ -222,7 +222,7 @@ public class DashboardServiceImpl implements DashboardService {
             default:
                 startTime = authUserLogVO.getStartTime();
                 endTime = authUserLogVO.getEndTime();
-                if (startTime == null || endTime == null){
+                if (startTime == null || endTime == null) {
                     startTime = LocalDateTime.now();
                     endTime = LocalDateTime.now();
                 }
