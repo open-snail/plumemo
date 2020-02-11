@@ -65,7 +65,7 @@
                 AND postsTags.tags_id = #{condition.postsTagsId}
             </if>
             <if test="condition.title != null and condition.title != ''">
-                AND posts.title = #{condition.title}
+                AND posts.title LIKE #{condition.title}
             </if>
             <if test="condition.isPublishByteBlogs != null and condition.isPublishByteBlogs != ''">
                 AND posts.sync_status = #{condition.isPublishByteBlogs}

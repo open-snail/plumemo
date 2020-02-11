@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicUtil {
-    public static final String PREFIX_URL = "http://music.163.com/api/playlist/detail?id=" + ConfigCache.getConfig(Constants.CLOUD_MUSIC_ID);
-    public static final String PLAY_URL = "http://music.163.com/song/media/outer/url?id=";
+    public static final String PREFIX_URL = "https://music.163.com/api/playlist/detail?id=" + ConfigCache.getConfig(Constants.CLOUD_MUSIC_ID);
+    public static final String PLAY_URL = "https://music.163.com/song/media/outer/url?id=";
 
     public static String getResponse(HttpURLConnection conn){
         StringBuffer sb = new StringBuffer();
@@ -28,7 +28,7 @@ public class MusicUtil {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Maxthon;)");
             conn.setRequestProperty("cookie", "appver=1.5.0.75771");
-            conn.setRequestProperty("referer", "http://music.163.com/");
+            conn.setRequestProperty("referer", "https://music.163.com/");
             conn.connect();   //开启连接
             br = new BufferedReader(new InputStreamReader(conn.getInputStream()));  //获取响应
             String line;
@@ -51,7 +51,7 @@ public class MusicUtil {
             music.setName(obj.getString("name"));
             music.setUrl(PLAY_URL + obj.getString("id") + ".mp3");
             music.setArtist(obj.getJSONArray("artists").getJSONObject(0).getString("name"));
-            music.setCover(obj.getJSONObject("album").getString("blurPicUrl"));
+            music.setCover(obj.getJSONObject("album").getString("blurPicUrl").replaceFirst("http://","https://"));
             music.setLrc("");
             list.add(music);
         }
