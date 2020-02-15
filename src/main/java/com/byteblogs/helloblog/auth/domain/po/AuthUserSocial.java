@@ -41,7 +41,7 @@ public class AuthUserSocial extends Model<AuthUserSocial> {
 	private String content;
 
 	/**
-	 * 展示类型( 1、显示二维码，2、显示账号，3、跳转链接)
+	 * 展示类型( 1、图片，2、文本，3、链接)
 	 */
 	@TableField(value = "show_type")
 	private Integer showType;
