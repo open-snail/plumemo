@@ -52,7 +52,7 @@ public class AuthUserSocial extends Model<AuthUserSocial> {
 	private String remark;
 
 	/**
-	 * 是否删除
+	 * 是否启用
 	 */
 	@TableField(value = "is_enabled")
 	private Integer isEnabled;
