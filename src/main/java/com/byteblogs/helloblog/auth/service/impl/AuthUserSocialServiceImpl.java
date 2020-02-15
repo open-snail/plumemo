@@ -34,6 +34,7 @@ public class AuthUserSocialServiceImpl extends ServiceImpl<AuthUserSocialDao,Aut
                 .setShowType(authUserSocialVO.getShowType())
                 .setContent(authUserSocialVO.getContent())
                 .setRemark(authUserSocialVO.getRemark())
+                .setIcon(authUserSocialVO.getIcon())
                 .setIsEnabled(authUserSocialVO.getIsEnabled())
                 .setIsHome(authUserSocialVO.getIsHome())
                 .setCreateTime(LocalDateTime.now())
@@ -45,10 +46,12 @@ public class AuthUserSocialServiceImpl extends ServiceImpl<AuthUserSocialDao,Aut
     @Override
     public Result editAuthUserSocial(AuthUserSocialVO authUserSocialVO) {
         AuthUserSocial authUserSocial=new AuthUserSocial()
+                .setId(authUserSocialVO.getId())
                 .setCode(authUserSocialVO.getCode())
                 .setShowType(authUserSocialVO.getShowType())
                 .setContent(authUserSocialVO.getContent())
                 .setRemark(authUserSocialVO.getRemark())
+                .setIcon(authUserSocialVO.getIcon())
                 .setIsEnabled(authUserSocialVO.getIsEnabled())
                 .setIsHome(authUserSocialVO.getIsHome())
                 .setUpdateTime(LocalDateTime.now());

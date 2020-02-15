@@ -47,6 +47,8 @@ public class AuthUserSocialVO extends BaseVO<AuthUserSocialVO> {
 	 */
 	private String remark;
 
+	private String icon;
+
 	/**
 	 * 是否删除
 	 */

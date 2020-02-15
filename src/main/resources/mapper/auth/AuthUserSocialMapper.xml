@@ -3,7 +3,7 @@
 <mapper namespace="com.byteblogs.helloblog.auth.dao.AuthUserSocialDao">
 	<!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,code,content,show_type as showType,remark,is_enabled as isEnabled,is_home as isHome,create_time as createTime,update_time as updateTime
+        id,code,content,show_type as showType,remark,icon,is_enabled as isEnabled,is_home as isHome,create_time as createTime,update_time as updateTime
     </sql>
 
 
@@ -13,6 +13,7 @@
 		<result column="content" property="content" />
 		<result column="show_type" property="showType" />
 		<result column="remark" property="remark" />
+		<result column="icon" property="icon" />
 		<result column="is_enabled" property="isEnabled" />
 		<result column="is_home" property="isHome" />
 		<result column="create_time" property="createTime" />

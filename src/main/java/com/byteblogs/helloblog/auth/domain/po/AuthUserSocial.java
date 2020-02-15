@@ -52,6 +52,11 @@ public class AuthUserSocial extends Model<AuthUserSocial> {
 	private String remark;
 
 	/**
+	 * 图标
+	 */
+	private String icon;
+
+	/**
 	 * 是否启用
 	 */
 	@TableField(value = "is_enabled")
