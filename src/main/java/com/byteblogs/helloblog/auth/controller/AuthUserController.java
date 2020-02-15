@@ -125,4 +125,9 @@ public class AuthUserController {
         return authUserSocialService.getSocialList(authUserSocialVO);
     }
 
+    @GetMapping("/social/v1/info")
+    public Result getSocialInfo(){
+        return authUserSocialService.getSocialInfo();
+    }
+
 }

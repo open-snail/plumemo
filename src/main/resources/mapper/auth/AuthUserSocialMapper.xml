@@ -3,33 +3,32 @@
 <mapper namespace="com.byteblogs.helloblog.auth.dao.AuthUserSocialDao">
 	<!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,code,account,icon,qr_code as qrCode,show_type as showType,url,remark,create_time as createTime,update_time as updateTime,is_enabled as isEnabled
+        id,code,content,show_type as showType,remark,is_enabled as isEnabled,is_home as isHome,create_time as createTime,update_time as updateTime
     </sql>
 
 
     <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.auth.domain.po.AuthUserSocial">
 		<id column="id" property="id" />
 		<result column="code" property="code" />
-		<result column="account" property="account" />
-		<result column="icon" property="icon" />
-		<result column="qr_code" property="qrCode" />
+		<result column="content" property="content" />
 		<result column="show_type" property="showType" />
-		<result column="url" property="url" />
 		<result column="remark" property="remark" />
+		<result column="is_enabled" property="isEnabled" />
+		<result column="is_home" property="isHome" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
-		<result column="is_enabled" property="isEnabled" />
     </resultMap>
 
 	<select id="selectSocialList" resultType="com.byteblogs.helloblog.auth.domain.vo.AuthUserSocialVO">
 		SELECT <include refid="Base_Column_List"/> FROM hello_blog_auth_user_social
 		<where>
-			<if test="condition.keywords != null and condition.keywords != ''">AND code LIKE #{condition.keywords}</if>
-			<if test="condition.isEnabled != null and condition.isEnabled != ''">AND is_enabled=#{condition.isEnabled}</if>
-			<if test="condition.code != null and condition.code != ''">AND code=#{condition.code}</if>
-			<if test="condition.account != null and condition.account != ''">AND account=#{condition.account}</if>
-			<if test="condition.showType != null and condition.showType != ''">AND show_type=#{condition.showType}</if>
-			<if test="condition.remark != null and condition.remark != ''">AND remark=#{condition.remark}</if>
+			<if test="condition.code != null and condition.code != ''"> AND code=#{condition.code}</if>
+			<if test="condition.content != null and condition.content != ''"> AND content=#{condition.content}</if>
+			<if test="condition.showType != null "> AND show_type=#{condition.showType}</if>
+			<if test="condition.remark != null and condition.remark != ''"> AND remark=#{condition.remark}</if>
+			<if test="condition.isEnabled != null"> AND is_enabled=#{condition.isEnabled}</if>
+			<if test="condition.isHome != null "> AND is_home=#{condition.isHome}</if>
+			<if test="condition.keywords != null and condition.keywords != ''"> AND code LIKE #{condition.keywords}</if>
 		</where>
 		ORDER BY create_time DESC
 	</select>

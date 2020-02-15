@@ -35,20 +35,10 @@ public class AuthUserSocial extends Model<AuthUserSocial> {
 	private String code; 
 
 	/**
-	 * 社交账户
+	 * 内容
 	 */
-	private String account; 
-
-	/**
-	 * 图标
-	 */
-	private String icon; 
-
-	/**
-	 * 二维码
-	 */
-	@TableField(value = "qr_code")
-	private String qrCode;
+	@TableField(value = "content")
+	private String content;
 
 	/**
 	 * 展示类型( 1、显示二维码，2、显示账号，3、跳转链接)
@@ -57,14 +47,21 @@ public class AuthUserSocial extends Model<AuthUserSocial> {
 	private Integer showType;
 
 	/**
-	 * 跳转链接
-	 */
-	private String url; 
-
-	/**
 	 * 备注
 	 */
-	private String remark; 
+	private String remark;
+
+	/**
+	 * 是否删除
+	 */
+	@TableField(value = "is_enabled")
+	private Integer isEnabled;
+
+	/**
+	 * 是否主页社交信息
+	 */
+	@TableField(value = "is_home")
+	private Integer isHome;
 
 	/**
 	 * 创建时间
@@ -77,12 +74,6 @@ public class AuthUserSocial extends Model<AuthUserSocial> {
 	 */
 	@TableField(value = "update_time")
 	private LocalDateTime updateTime;
-
-	/**
-	 * 是否删除
-	 */
-	@TableField(value = "is_enabled")
-	private Integer isEnabled;
 	// columns END
 
 	@Override

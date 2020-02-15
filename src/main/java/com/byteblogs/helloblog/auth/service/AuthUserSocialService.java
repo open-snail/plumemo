@@ -19,4 +19,6 @@ public interface AuthUserSocialService extends BaseService<AuthUserSocial> {
     Result getSocial(Long id);
 
     Result getSocialList(AuthUserSocialVO authUserSocialVO);
+
+    Result getSocialInfo();
 }

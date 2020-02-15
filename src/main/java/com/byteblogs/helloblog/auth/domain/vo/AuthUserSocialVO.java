@@ -1,11 +1,15 @@
 package com.byteblogs.helloblog.auth.domain.vo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.byteblogs.common.base.domain.vo.BaseVO;
 import com.byteblogs.common.validator.annotion.IntegerNotNull;
 import com.byteblogs.common.validator.annotion.NotBlank;
 import com.byteblogs.helloblog.auth.domain.validator.InsertSocial;
 import com.byteblogs.helloblog.auth.domain.validator.UpdateSocial;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import java.time.LocalDateTime;
 
@@ -14,9 +18,9 @@ import java.time.LocalDateTime;
  * @author nosum
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class AuthUserSocialVO extends BaseVO<AuthUserSocialVO> {
-
     // columns START
 	@IntegerNotNull(groups = {UpdateSocial.class})
 	private Long id;
@@ -26,50 +30,45 @@ public class AuthUserSocialVO extends BaseVO<AuthUserSocialVO> {
 	 */
 	@NotBlank(groups = {InsertSocial.class})
 	private String code;
-
 	/**
-	 * 社交账户
+	 * 内容
 	 */
-	private String account; 
-
-	/**
-	 * 图标
-	 */
-	private String icon; 
-
-	/**
-	 * 二维码
-	 */
-	private String qrCode;
+	@TableField(value = "content")
+	private String content;
 
 	/**
 	 * 展示类型( 1、显示二维码，2、显示账号，3、跳转链接)
 	 */
+	@TableField(value = "show_type")
 	private Integer showType;
-
-	/**
-	 * 跳转链接
-	 */
-	private String url; 
 
 	/**
 	 * 备注
 	 */
-	private String remark; 
+	private String remark;
+
+	/**
+	 * 是否删除
+	 */
+	@TableField(value = "is_enabled")
+	private Integer isEnabled;
+
+	/**
+	 * 是否主页社交信息
+	 */
+	@TableField(value = "is_home")
+	private Integer isHome;
 
 	/**
 	 * 创建时间
 	 */
+	@TableField(value = "create_time")
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
+	@TableField(value = "update_time")
 	private LocalDateTime updateTime;
-
-	/**
-	 * 是否删除
-	 */
-	private Integer isEnabled;
 	// columns END
 }

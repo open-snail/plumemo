@@ -1,6 +1,8 @@
 package com.byteblogs.helloblog.auth.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.additional.query.impl.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.enums.ErrorEnum;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,12 +32,10 @@ public class AuthUserSocialServiceImpl extends ServiceImpl<AuthUserSocialDao,Aut
         AuthUserSocial authUserSocial=new AuthUserSocial()
                 .setCode(authUserSocialVO.getCode())
                 .setShowType(authUserSocialVO.getShowType())
-                .setAccount(authUserSocialVO.getAccount())
-                .setIcon(authUserSocialVO.getIcon())
-                .setQrCode(authUserSocialVO.getQrCode())
+                .setContent(authUserSocialVO.getContent())
                 .setRemark(authUserSocialVO.getRemark())
-                .setUrl(authUserSocialVO.getUrl())
                 .setIsEnabled(authUserSocialVO.getIsEnabled())
+                .setIsHome(authUserSocialVO.getIsHome())
                 .setCreateTime(LocalDateTime.now())
                 .setUpdateTime(LocalDateTime.now());
         authUserSocialDao.insert(authUserSocial);
@@ -44,15 +45,12 @@ public class AuthUserSocialServiceImpl extends ServiceImpl<AuthUserSocialDao,Aut
     @Override
     public Result editAuthUserSocial(AuthUserSocialVO authUserSocialVO) {
         AuthUserSocial authUserSocial=new AuthUserSocial()
-                .setId(authUserSocialVO.getId())
                 .setCode(authUserSocialVO.getCode())
                 .setShowType(authUserSocialVO.getShowType())
-                .setAccount(authUserSocialVO.getAccount())
-                .setIcon(authUserSocialVO.getIcon())
-                .setQrCode(authUserSocialVO.getQrCode())
+                .setContent(authUserSocialVO.getContent())
                 .setRemark(authUserSocialVO.getRemark())
-                .setUrl(authUserSocialVO.getUrl())
                 .setIsEnabled(authUserSocialVO.getIsEnabled())
+                .setIsHome(authUserSocialVO.getIsHome())
                 .setUpdateTime(LocalDateTime.now());
         authUserSocialDao.updateById(authUserSocial);
         return Result.createWithSuccessMessage();
@@ -77,4 +75,23 @@ public class AuthUserSocialServiceImpl extends ServiceImpl<AuthUserSocialDao,Aut
         List<AuthUserSocialVO> authUserSocialList=this.authUserSocialDao.selectSocialList(page,authUserSocialVO);
         return Result.createWithPaging(authUserSocialList,PageUtil.initPageInfo(page));
     }
+
+    @Override
+    public Result getSocialInfo() {
+        List<AuthUserSocial> authUserSocialList=this.authUserSocialDao.selectList(new LambdaQueryWrapper<AuthUserSocial>().eq(AuthUserSocial::getIsHome,1));
+        List<AuthUserSocialVO> authUserSocialVOList=new ArrayList<>();
+        authUserSocialList.forEach(authUserSocial->{
+            authUserSocialVOList.add(new AuthUserSocialVO()
+                    .setCode(authUserSocial.getCode())
+                    .setShowType(authUserSocial.getShowType())
+                    .setContent(authUserSocial.getContent())
+                    .setRemark(authUserSocial.getRemark())
+                    .setIsEnabled(authUserSocial.getIsEnabled())
+                    .setIsHome(authUserSocial.getIsHome())
+                    .setUpdateTime(LocalDateTime.now()));
+        });
+        return Result.createWithModels(authUserSocialVOList);
+    }
+
+
 }
