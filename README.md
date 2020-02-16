@@ -39,13 +39,13 @@
 window
 
 ```bash
-https://github.com/byteblogs168/hello-blog/releases/download/untagged-e6c94b99603ae7743b6f/helloblog-v1.1.0.jar
+https://github.com/byteblogs168/hello-blog/releases/download/v1.1.0/helloblog-v1.1.0.jar
 ```
 
 linux
 
 ```bash
-wget https://github.com/byteblogs168/hello-blog/releases/download/untagged-e6c94b99603ae7743b6f/helloblog-v1.1.0.jar
+wget https://github.com/byteblogs168/hello-blog/releases/download/v1.1.0/helloblog-v1.1.0.jar
 ```
 
 ### 启动 helloblog 
