@@ -6,7 +6,7 @@ ADD . .
 RUN pwd
 RUN ls -l
 
-ENV MAVEN_VERSION=3.6.2
+ENV MAVEN_VERSION=3.6.3
 
 # install maven ${MAVEN_VERSION}
 RUN mkdir -p /usr/local/maven
@@ -24,7 +24,7 @@ WORKDIR /
 RUN /usr/local/maven/apache-maven-3.6.2/bin/mvn clean package
 
 #将本地项目jar包拷贝到Docker容器中的位置
-RUN cp ./target/helloblog-v1.0.1-Alpha.jar ./
+RUN cp ./target/helloblog-v1.1.0.jar ./
 
 RUN rm -rf target
 RUN rm -rf repository
@@ -36,4 +36,4 @@ RUN apk add --no-cache tzdata
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
 
 #开机启动
-ENTRYPOINT ["java","-jar","/helloblog-v1.0.1-Alpha.jar"]
+ENTRYPOINT ["java","-jar","/helloblog-v1.1.0.jar"]

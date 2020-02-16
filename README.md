@@ -71,9 +71,9 @@ java -jar helloblog-v1.0.1-Alpha.jar
 
 > 如果 helloblog 对你有帮助，可以请作者喝杯☕️。
 
-| 支付宝/微信/QQ  |
-| :------------: |
-| <img src="https://i.loli.net/2018/12/23/5c1f68ce9b884.png" width="200"/>  |
+| 支付宝  | 微信 |
+| :------------: |  :------------: |
+| <img src="http://image.byteblogs.com/FvM2HsxIesxN41bPJCtRpUi8LQgA" width="200"/>  |  <img src="http://image.byteblogs.com/Fn33krSt1uIm4sgqBE67fkZL2-__" width="200"/>
 ## 预览图
 ![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%281%29.png)
 
