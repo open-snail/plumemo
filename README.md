@@ -58,7 +58,9 @@ java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root --MYSQL_PASSWORD=root --MYS
 
 ## 博客示例
 
-请移步： <https://github.com/halo-dev/halo/issues/26>。
+主题： <https://preview.byteblogs.com/>。
+
+后端管理：<https://preview.byteblogs.com/admin>。
 
 ## 生态圈
 
