@@ -61,4 +61,5 @@ public interface AuthUserService extends BaseService<AuthUser> {
 
     Result deleteUsers(Long id);
 
+    String getAvatar();
 }

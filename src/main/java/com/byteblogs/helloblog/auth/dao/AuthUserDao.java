@@ -13,4 +13,6 @@ import com.byteblogs.helloblog.auth.domain.po.AuthUser;
  */
 public interface AuthUserDao extends BaseDao<AuthUser> {
 
+    String selectAvatar();
+
 }

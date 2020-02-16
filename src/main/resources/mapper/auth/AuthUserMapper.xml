@@ -12,5 +12,8 @@
         <result column="create_time" property="createTime" />
         <result column="status" property="status"/>
     </resultMap>
+    <select id="selectAvatar" resultType="java.lang.String">
+        SELECT avatar FROM hello_blog_auth_user WHERE role_id=2 limit 1
+    </select>
 
 </mapper>

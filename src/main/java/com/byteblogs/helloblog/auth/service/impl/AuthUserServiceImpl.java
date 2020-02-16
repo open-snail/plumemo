@@ -190,4 +190,9 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         }
         return Result.createWithError();
     }
+
+    @Override
+    public String getAvatar() {
+        return this.authUserDao.selectAvatar();
+    }
 }

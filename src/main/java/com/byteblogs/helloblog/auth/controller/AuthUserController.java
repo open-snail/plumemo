@@ -4,6 +4,7 @@ import com.byteblogs.common.annotation.LoginRequired;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
+import com.byteblogs.common.util.FileUtil;
 import com.byteblogs.common.util.ThrowableUtils;
 import com.byteblogs.helloblog.auth.domain.validator.UpdateUsers;
 import com.byteblogs.helloblog.auth.domain.vo.AuthUserSocialVO;
@@ -15,9 +16,16 @@ import com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO;
 import com.byteblogs.system.enums.RoleEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * @author byteblogs
@@ -99,6 +107,11 @@ public class AuthUserController {
     @PostMapping("/auth/v1/logout")
     public Result logout() {
         return authUserService.logout();
+    }
+
+    @RequestMapping(value = "/auth/v1/avatar",produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getAvatar(){
+        return FileUtil.tranToBytes(authUserService.getAvatar());
     }
 
     @PostMapping("/social/v1/add")
