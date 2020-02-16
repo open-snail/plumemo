@@ -2,7 +2,6 @@ package com.byteblogs.system.init;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.byteblogs.common.cache.ConfigCache;
-import com.byteblogs.common.config.WebConfigurer;
 import com.byteblogs.common.context.BeanTool;
 import com.byteblogs.helloblog.auth.dao.AuthUserDao;
 import com.byteblogs.helloblog.auth.domain.po.AuthUser;
@@ -12,23 +11,12 @@ import com.byteblogs.helloblog.config.domain.po.Config;
 import com.byteblogs.system.enums.RoleEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.context.event.ApplicationContextEvent;
 import org.springframework.core.Ordered;
-import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
