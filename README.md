@@ -51,7 +51,7 @@ wget https://github.com/byteblogs168/hello-blog/releases/download/untagged-e6c94
 ### 启动 helloblog 
 
 ```bash
-java -jar helloblog-v1.1.0.jar --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8 --MYSQL_USERNAME=root --MYSQL_PASSWORD=root
+java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root --MYSQL_PASSWORD=root --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8 
 ```
 
 详细文档请移步：<http://helloblog.byteblogs.com/docs/>
