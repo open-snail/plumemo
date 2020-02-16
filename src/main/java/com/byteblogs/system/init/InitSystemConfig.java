@@ -49,11 +49,8 @@ public class InitSystemConfig implements ImportBeanDefinitionRegistrar {
             ConfigCache.putConfig(config.getConfigKey(), config.getConfigValue());
         });
 
-        List<AuthUser> authUsers = authUserDao.selectList(new LambdaQueryWrapper<AuthUser>().eq(AuthUser::getRoleId, RoleEnum.ADMIN.getRoleId()));
-        if (!CollectionUtils.isEmpty(authUsers)) {
-            SystemPropertyBean systemPropertyBean = BeanTool.getBean(SystemPropertyBean.class);
-            systemPropertyBean.setSocialId(authUsers.get(0).getSocialId());
-        }
+        SystemPropertyBean systemPropertyBean = BeanTool.getBean(SystemPropertyBean.class);
+        systemPropertyBean.setSocialId("26628720");
 
     }
 
