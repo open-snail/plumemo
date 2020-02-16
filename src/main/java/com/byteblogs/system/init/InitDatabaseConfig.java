@@ -90,7 +90,7 @@ public class InitDatabaseConfig implements ApplicationListener<ApplicationContex
 
     @Override
     public int getOrder() {
-        return 1;
+        return -41;
     }
 
     @Override
