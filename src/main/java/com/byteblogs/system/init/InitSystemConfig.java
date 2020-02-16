@@ -12,17 +12,12 @@ import com.byteblogs.helloblog.config.domain.po.Config;
 import com.byteblogs.system.enums.RoleEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
-import org.springframework.core.type.AnnotationMetadata;
+import org.springframework.context.event.ApplicationContextEvent;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -32,8 +27,7 @@ import java.util.List;
 @Slf4j
 @Component
 @DependsOn({"dataSource"})
-@Import({InitSystemConfig.class})
-public class InitSystemConfig implements ImportBeanDefinitionRegistrar {
+public class InitSystemConfig implements ApplicationListener<ApplicationContextEvent>, Ordered{
 
     @Autowired
     private ConfigDao configDao;
@@ -41,9 +35,9 @@ public class InitSystemConfig implements ImportBeanDefinitionRegistrar {
     @Autowired
     private AuthUserDao authUserDao;
 
-    @PostConstruct
     public void init() {
-        final List<Config> configList = configDao.selectList(null);
+
+        List<Config> configList = configDao.selectList(null);
         configList.forEach(config -> {
             log.debug("config_key: {}, config_vlaue: {}", config.getConfigKey(), config.getConfigValue());
             ConfigCache.putConfig(config.getConfigKey(), config.getConfigValue());
@@ -54,17 +48,13 @@ public class InitSystemConfig implements ImportBeanDefinitionRegistrar {
 
     }
 
-    /**
-     * 后置初始化bean
-     *
-     * @param annotationMetadata
-     * @param beanDefinitionRegistry
-     */
     @Override
-    public void registerBeanDefinitions(final AnnotationMetadata annotationMetadata, final BeanDefinitionRegistry beanDefinitionRegistry) {
-        final BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(WebConfigurer.class);
-        final BeanDefinition beanDefinition = builder.getBeanDefinition();
+    public void onApplicationEvent(ApplicationContextEvent applicationContextEvent) {
+        init();
+    }
 
-        beanDefinitionRegistry.registerBeanDefinition("webConfigurer", beanDefinition);
+    @Override
+    public int getOrder() {
+        return 1;
     }
 }
