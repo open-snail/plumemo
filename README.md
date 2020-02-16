@@ -26,15 +26,18 @@
 > 本项目，主要宗旨在于，简单、易用、不烧脑的博客，并且基于helloblog，搭建一个属于博主们的博客圈
 
 ## 使用须知
+
 >  由于项目是前后端完全分离，所以此项目为单独的后端项目，后台管理系统、博客主题可以进行自由搭配
->> 后端管理系统地址：<https://github.com/byteblogs168/hello-blog-admin.git><br>
->> 前端主题地址：<https://github.com/byteblogs168/theme-default3.git/><br>
+>
+>  > 后端管理系统地址：<https://github.com/byteblogs168/hello-blog-admin.git><br>
+>  > 前端主题地址：<https://github.com/byteblogs168/theme-default3.git/><br>
 
 ## 快速开始
 
 ### 下载最新的 helloblog 安装包
 
 window
+
 ```bash
 https://github.com/byteblogs168/hello-blog/releases/download/untagged-e6c94b99603ae7743b6f/helloblog-v1.1.0.jar
 ```
@@ -48,7 +51,6 @@ wget https://github.com/byteblogs168/hello-blog/releases/download/untagged-e6c94
 ### 启动 helloblog 
 
 ```bash
-
 java -jar helloblog-v1.1.0.jar --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8 --MYSQL_USERNAME=root --MYSQL_PASSWORD=root
 ```
 
@@ -65,6 +67,7 @@ java -jar helloblog-v1.1.0.jar --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/hell
 
 
 ## 使用helloblog的优秀博主
+
 - 青涩知夏：<https://www.nosum.cn/>
 - 踏歌长行：<https://www.bygit.cn/>
 
@@ -75,7 +78,9 @@ java -jar helloblog-v1.1.0.jar --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/hell
 | 支付宝  | 微信 |
 | :------------: |  :------------: |
 | <img src="http://image.byteblogs.com/FvM2HsxIesxN41bPJCtRpUi8LQgA" width="200"/>  |  <img src="http://image.byteblogs.com/Fn33krSt1uIm4sgqBE67fkZL2-__" width="200"/>
+
 ## 预览图
+
 ![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%281%29.png)
 
 ![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%282%29.png)
