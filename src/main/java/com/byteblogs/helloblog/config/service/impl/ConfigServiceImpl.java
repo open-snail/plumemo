@@ -42,10 +42,14 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
         }
 
         configList.forEach(configVO -> {
-            if (configVO.getConfigKey() != null) {
-                this.configDao.update(new Config().setConfigValue(configVO.getConfigValue()),
-                        new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configVO.getConfigKey()));
-                ConfigCache.putConfig(configVO.getConfigKey(), configVO.getConfigValue());
+            if (!(Constants.DEFAULT_PATH.equalsIgnoreCase(configVO.getConfigKey())
+                    || Constants.DEFAULT_IMAGE_DOMAIN.equalsIgnoreCase(configVO.getConfigKey())
+                    || Constants.STORE_TYPE.equalsIgnoreCase(configVO.getConfigKey()))){
+                // 游客模式不允许修改服务器存储路径
+                if (configVO.getConfigKey() != null) {
+                    this.configDao.update(new Config().setConfigValue(configVO.getConfigValue()), new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configVO.getConfigKey()));
+                    ConfigCache.putConfig(configVO.getConfigKey(), configVO.getConfigValue());
+                }
             }
         });
 
