@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.byteblogs</groupId>
     <artifactId>helloblog</artifactId>
-    <version>v1.0.1-Alpha</version>
+    <version>v1.1.0</version>
     <name>hello-blog</name>
     <description>helloblog - 一个简单通用的前后分离的博客系统</description>
 
