@@ -39,32 +39,31 @@
 window
 
 ```bash
-https://github.com/byteblogs168/hello-blog/releases/download/untagged-e6c94b99603ae7743b6f/helloblog-v1.1.0.jar
+https://github.com/byteblogs168/hello-blog/releases/download/v1.1.0/helloblog-v1.1.0.jar
 ```
 
 linux
 
 ```bash
-wget https://github.com/byteblogs168/hello-blog/releases/download/untagged-e6c94b99603ae7743b6f/helloblog-v1.1.0.jar
+wget https://github.com/byteblogs168/hello-blog/releases/download/v1.1.0/helloblog-v1.1.0.jar
 ```
 
 ### 启动 helloblog 
 
 ```bash
-java -jar helloblog-v1.1.0.jar --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8 --MYSQL_USERNAME=root --MYSQL_PASSWORD=root
+java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password  --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8 
 ```
 
 详细文档请移步：<http://helloblog.byteblogs.com/docs/>
 
 ## 博客示例
 
-请移步： <https://github.com/halo-dev/halo/issues/26>。
+请移步： <https://preview.byteblogs.com/>。
 
 ## 生态圈
 
-- 后台管理（hello-admin）：<https://github.com/halo-dev/halo-admin>
-- 主题仓库：<https://halo.run/s/themes>
-
+- 后台管理（hello-admin）：<https://github.com/byteblogs168/hello-blog-admin>
+- 前端主题（hello-theme3）：<https://github.com/byteblogs168/theme-default3>
 
 ## 使用helloblog的优秀博主
 
@@ -81,29 +80,29 @@ java -jar helloblog-v1.1.0.jar --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/hell
 
 ## 预览图
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%281%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%281%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%282%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%282%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%283%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%283%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%284%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%284%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%285%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%285%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%286%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%286%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%287%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%287%29.png" width="600"/>
+
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%282%29.png" width="600"/>
 
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%282%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%283%29.png" width="600"/>
 
-![theme-icarus.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%283%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%284%29.png" width="600"/>
 
-![install.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%284%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%285%29.png" width="600"/>
 
-![admin-login.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%285%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%286%29.png" width="600"/>
 
-![admin-dashboard.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%286%29.png)
-
-![admin-posts.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%287%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%287%29.png" width="600"/>
