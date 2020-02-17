@@ -58,8 +58,8 @@ java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password 
 详细文档请移步：<http://helloblog.byteblogs.com/docs/>
 
 ## 博客示例
-
-请移步： <https://preview.byteblogs.com/>。
+- 前端： <https://preview.byteblogs.com/>。
+- 管理系统： <https://preview.byteblogs.com/admin>。
 
 ## 生态圈
 - 后端代码（hello-blog）：<https://github.com/byteblogs168/hello-blog>
