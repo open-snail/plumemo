@@ -94,7 +94,8 @@ public class AuthUserController {
     @LoginRequired
     @PutMapping("/admin/v1/update")
     public Result updateAdmin(@RequestBody AuthUserVO authUserVO) {
-        return authUserService.updateAdmin(authUserVO);
+//        return authUserService.updateAdmin(authUserVO);
+        return Result.createWithSuccessMessage();
     }
 
     @LoginRequired
