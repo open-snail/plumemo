@@ -1,5 +1,6 @@
 package com.byteblogs.system.init.strategy;
 
+import com.byteblogs.system.init.InitFileConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -69,9 +70,16 @@ public class HelloBlogConfigTable implements TableInfoService {
                 "(24, 'cos_region', '', 5)," +
                 "(25, 'cos_image_domain', '', 5)," +
                 "(26, 'cos_path', '', 5)," +
-                "(27, 'default_path', 'D:/helloblog/blog/', 6)," +
+                "(27, 'default_path', '" + defaultPath() + "', 6)," +
                 "(28, 'default_image_domain', 'http://127.0.0.1:8086/', 6)" +
                 ";";
     }
 
+    private static String defaultPath() {
+        if (InitFileConfig.isWindows()) {
+            return "D:/helloblog/blog/";
+        } else {
+            return "/home/helloblog/blog/";
+        }
+    }
 }

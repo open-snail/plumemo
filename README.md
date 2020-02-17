@@ -19,7 +19,7 @@
 > 后台管理系统使用了vue中流行的[ant](https://panjiachen.github.io/vue-element-admin-site/#/)，另外前后交互使用了[JWT](https://jwt.io/)作为令牌，进行权限、登录校验。。
 
 
-> [官网](http://helloblog.byteblogs.com/) | [社区](https://byteblogs.com) | [QQ 交流群](shang.qq.com/wpa/qunwpa?idkey=4f8653da80e632ef86ca1d57ccf8751602940d1036c79b04a3a5bc668adf8864) | 
+> [官网](http://helloblog.byteblogs.com/) | [社区](https://byteblogs.com) | [QQ 交流群](https://shang.qq.com/wpa/qunwpa?idkey=4f8653da80e632ef86ca1d57ccf8751602940d1036c79b04a3a5bc668adf8864) | 
 
 ## 声明
 
@@ -29,8 +29,9 @@
 
 >  由于项目是前后端完全分离，所以此项目为单独的后端项目，后台管理系统、博客主题可以进行自由搭配
 >
->  > 后端管理系统地址：<https://github.com/byteblogs168/hello-blog-admin.git><br>
->  > 前端主题地址：<https://github.com/byteblogs168/theme-default3.git/><br>
+>> 后端API <https://github.com/byteblogs168/hello-blog><br>
+>> 后端管理系统 <https://github.com/byteblogs168/hello-blog-admin><br>
+>> 前端主题地址：<https://github.com/byteblogs168/theme-default3/><br>
 
 ## 快速开始
 
@@ -51,22 +52,19 @@ wget https://github.com/byteblogs168/hello-blog/releases/download/v1.1.0/hellobl
 ### 启动 helloblog 
 
 ```bash
-java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root --MYSQL_PASSWORD=root --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8 
+java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password  --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8 
 ```
 
 详细文档请移步：<http://helloblog.byteblogs.com/docs/>
 
 ## 博客示例
 
-主题： <https://preview.byteblogs.com/>。
-
-后端管理：<https://preview.byteblogs.com/admin>。
+请移步： <https://preview.byteblogs.com/>。
 
 ## 生态圈
-
-- 后台管理（hello-admin）：<https://github.com/halo-dev/halo-admin>
-- 主题仓库：<https://halo.run/s/themes>
-
+- 后端代码（hello-blog）：<https://github.com/byteblogs168/hello-blog>
+- 后端代码（helloblog-admin）：<https://github.com/byteblogs168/hello-blog-admin>
+- 主题仓库：<https://github.com/byteblogs168/theme-default3>
 
 ## 使用helloblog的优秀博主
 
@@ -83,29 +81,29 @@ java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root --MYSQL_PASSWORD=root --MYS
 
 ## 预览图
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%281%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%281%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%282%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%282%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%283%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%283%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%284%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%284%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%285%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%285%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%286%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%286%29.png" width="600"/>
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%287%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%287%29.png" width="600"/>
+
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%282%29.png" width="600"/>
 
 
-![theme-walker.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%282%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%283%29.png" width="600"/>
 
-![theme-icarus.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%283%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%284%29.png" width="600"/>
 
-![install.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%284%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%285%29.png" width="600"/>
 
-![admin-login.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%285%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%286%29.png" width="600"/>
 
-![admin-dashboard.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%286%29.png)
-
-![admin-posts.png](https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%287%29.png)
+<img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%287%29.png" width="600"/>
