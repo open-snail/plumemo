@@ -29,8 +29,9 @@
 
 >  由于项目是前后端完全分离，所以此项目为单独的后端项目，后台管理系统、博客主题可以进行自由搭配
 >
->  > 后端管理系统地址：<https://github.com/byteblogs168/hello-blog-admin.git><br>
->  > 前端主题地址：<https://github.com/byteblogs168/theme-default3.git/><br>
+>> 后端API <https://github.com/byteblogs168/hello-blog><br>
+>> 后端管理系统 <https://github.com/byteblogs168/hello-blog-admin><br>
+>> 前端主题地址：<https://github.com/byteblogs168/theme-default3/><br>
 
 ## 快速开始
 
@@ -61,9 +62,9 @@ java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password 
 请移步： <https://preview.byteblogs.com/>。
 
 ## 生态圈
-
-- 后台管理（hello-admin）：<https://github.com/byteblogs168/hello-blog-admin>
-- 前端主题（hello-theme3）：<https://github.com/byteblogs168/theme-default3>
+- 后端代码（hello-blog）：<https://github.com/byteblogs168/hello-blog>
+- 后端代码（helloblog-admin）：<https://github.com/byteblogs168/hello-blog-admin>
+- 主题仓库：<https://github.com/byteblogs168/theme-default3>
 
 ## 使用helloblog的优秀博主
 
