@@ -165,8 +165,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
     @Override
     public Result updateCategory(CategoryVO categoryVO) {
 
-        Integer count = this.categoryDao.selectCount(new LambdaQueryWrapper<Category>().eq(Category::getId,
-                categoryVO.getId()));
+        // 不允许修改默认的分类
+        if (categoryVO.getId()==Constants.ONE || categoryVO.getId()==Constants.TWO){
+            return Result.createWithSuccessMessage();
+        }
+
+        Integer count = this.categoryDao.selectCount(new LambdaQueryWrapper<Category>().eq(Category::getId, categoryVO.getId()));
         if (count.equals(Constants.ZERO)) {
             ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
         }
@@ -195,6 +199,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category> impl
 
     @Override
     public Result deleteCategory(Long id) {
+        // 不允许删除默认的分类
+        if (id==Constants.ONE || id==Constants.TWO){
+            return Result.createWithSuccessMessage();
+        }
 
         this.categoryDao.deleteById(id);
         this.categoryTagsDao.delete(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getCategoryId, id));

@@ -43,6 +43,7 @@ import com.byteblogs.system.enums.PlatformEnum;
 import com.overzealous.remark.Remark;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -102,22 +103,15 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
                 postsTagsDao.insert(new PostsTags().setPostsId(posts.getId()).setTagsId(tagsVO.getId()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()));
             });
         }
-
-        if (postsVO.getIsPublishByteBlogs().equals(Constants.YES)) {
-            String result = HttpUtil.post(Constants.BYTE_BLOGS_ADD_ARTICLE, JsonUtil.toJsonString(new PostsVO().setTitle(postsVO.getTitle()).setContent(postsVO.getContent()).setSocialId(userSessionInfo.getSocialId())));
-            Result result1 = JsonUtil.parseObject(result, Result.class);
-            log.debug("保存到ByteBlogs草稿箱 {}", result);
-            if (result1.getSuccess() == Constants.YES) {
-                this.postsDao.update(new Posts().setSyncStatus(Constants.YES), new LambdaUpdateWrapper<Posts>().eq(Posts::getId, posts.getId()));
-                return Result.createWithSuccessMessage("文章保存成功，并且同步到ByteBlogs草稿箱，请点击" + Constants.BYTE_BLOGS_URL + "/editor/posts" + "进行编辑");
-            }
-        }
-
         return Result.createWithSuccessMessage();
     }
 
     @Override
     public Result updatePosts(PostsVO postsVO) {
+
+        if (postsVO.getId()==Constants.ONE || postsVO.getId()==Constants.TWO || postsVO.getId()== Constants.THREE){
+            return Result.createWithSuccessMessage();
+        }
 
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         String html = Markdown2HtmlUtil.html(postsVO.getContent());
@@ -176,7 +170,9 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
     @Override
     public Result deletePosts(Long id) {
-
+        if (id==Constants.ONE || id==Constants.TWO || id== Constants.THREE){
+            return Result.createWithSuccessMessage();
+        }
         Posts posts = this.postsDao.selectById(id);
         if (posts == null) {
             ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
@@ -252,7 +248,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
                 postsVO1.setTagsList(tagsVOList);
             });
         }
-
         return Result.createWithPaging(postsVOList, PageUtil.initPageInfo(page));
     }
 
@@ -280,30 +275,16 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
 
     @Override
     public Result updatePostsStatus(PostsVO postsVO) {
+        if (postsVO.getId()==Constants.ONE || postsVO.getId()==Constants.TWO || postsVO.getId()== Constants.THREE){
+            return Result.createWithSuccessMessage();
+        }
         this.postsDao.updateById(new Posts().setId(postsVO.getId()).setStatus(postsVO.getStatus()).setUpdateTime(LocalDateTime.now()));
         return Result.createWithSuccessMessage();
     }
 
     @Override
     public Result publishByteBlogs(PostsVO postsVO) {
-        UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
-        Posts posts = this.postsDao.selectById(postsVO.getId());
-        if (posts == null) {
-            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
-        }
-
-        PostsAttribute postsAttribute = this.postsAttributeDao.selectOne(new LambdaQueryWrapper<PostsAttribute>().eq(PostsAttribute::getPostsId, posts.getId()));
-        String params = JsonUtil.toJsonString(new PostsVO().setTitle(posts.getTitle()).setContent(postsAttribute.getContent()).setSocialId(userSessionInfo.getSocialId()));
-        log.debug("params {}", params);
-        String result = HttpUtil.post(Constants.BYTE_BLOGS_ADD_ARTICLE, params);
-        Result result1 = JsonUtil.parseObject(result, Result.class);
-        log.debug("保存到ByteBlogs草稿箱 {}", result);
-        if (result1.getSuccess() == Constants.YES) {
-            this.postsDao.update(new Posts().setSyncStatus(Constants.YES), new LambdaUpdateWrapper<Posts>().eq(Posts::getId, postsVO.getId()));
-            return Result.createWithSuccessMessage("同步到ByteBlogs成功，请点击" + Constants.BYTE_BLOGS_URL + "/editor/posts" + "进行编辑");
-        }
-
-        return result1;
+        return Result.createWithSuccessMessage();
     }
 
     @Override

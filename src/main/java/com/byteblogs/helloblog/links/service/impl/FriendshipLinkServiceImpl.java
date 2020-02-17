@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.service.impl.BaseServiceImpl;
+import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
@@ -63,6 +64,13 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
 
     @Override
     public Result updateFriendshipLink(FriendshipLinkVO friendshipLinkVO) {
+
+        if (friendshipLinkVO.getId()== Constants.ONE
+                || friendshipLinkVO.getId()==Constants.TWO
+                || friendshipLinkVO.getId()==Constants.THREE){
+            return Result.createWithSuccessMessage();
+        }
+
         if(friendshipLinkVO.getId()!=null){
             this.friendshipLinkDao.updateById(
                     new FriendshipLink()
@@ -81,6 +89,10 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
 
     @Override
     public Result deleteFriendshipLink(Long id) {
+        if (id== Constants.ONE || id==Constants.TWO || id==Constants.THREE){
+            return Result.createWithSuccessMessage();
+        }
+
         this.friendshipLinkDao.deleteById(id);
         return Result.createWithSuccessMessage();
     }

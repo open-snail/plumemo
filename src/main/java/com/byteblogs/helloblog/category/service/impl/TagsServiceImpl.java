@@ -60,7 +60,6 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
 
     @Override
     public Result<TagsVO> getTagsList(TagsVO tagsVO) {
-
         List<TagsVO> tagsList = new ArrayList<>();
         if (tagsVO == null || tagsVO.getPage() == null || tagsVO.getSize() == null) {
             List<Tags> records = this.tagsDao.selectList(new LambdaQueryWrapper<Tags>().orderByDesc(Tags::getCreateTime));
@@ -85,13 +84,20 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
 
     @Override
     public Result<TagsVO> getTags(Long id) {
-
         Tags tags = this.tagsDao.selectById(id);
         return Result.createWithModel(new TagsVO().setId(tags.getId()).setName(tags.getName()));
     }
 
     @Override
     public Result<TagsVO> updateTags(TagsVO tagsVO) {
+        // 不允许修改默认的标签
+        if (tagsVO.getId()==Constants.ONE
+                || tagsVO.getId()==Constants.TWO
+                || tagsVO.getId()==Constants.THREE
+                || tagsVO.getId()==Constants.FOUR
+                || tagsVO.getId()==Constants.FIVE){
+            return Result.createWithSuccessMessage();
+        }
 
         Integer count  = this.tagsDao.selectCount(new LambdaQueryWrapper<Tags>().eq(Tags::getId,tagsVO.getId()));
         if (count.equals(Constants.ZERO)) {
@@ -104,7 +110,14 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
 
     @Override
     public Result<TagsVO> deleteTags(Long id) {
-
+        // 不允许删除默认的标签
+        if (id==Constants.ONE
+                || id==Constants.TWO
+                || id==Constants.THREE
+                || id==Constants.FOUR
+                || id==Constants.FIVE){
+            return Result.createWithSuccessMessage();
+        }
         this.tagsDao.deleteById(id);
         this.categoryTagsDao.delete(new LambdaQueryWrapper<CategoryTags>().eq(CategoryTags::getTagsId, id));
         this.postsTagsDao.delete(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getTagsId, id));
@@ -114,7 +127,6 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
 
     @Override
     public Result<TagsVO> saveTags(TagsVO tagsVO) {
-
         this.tagsDao.insert(new Tags().setName(tagsVO.getName()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()));
         return Result.createWithSuccessMessage();
     }
