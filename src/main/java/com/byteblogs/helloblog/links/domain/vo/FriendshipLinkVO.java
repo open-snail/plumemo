@@ -14,6 +14,8 @@ public class FriendshipLinkVO extends BaseVO<FriendshipLinkVO> {
     @NotBlank(groups = {UpdateLink.class})
     private Long id;
 
+    private String title;
+
     @NotBlank(groups = {InsertLink.class, UpdateLink.class})
     private String name;
 
