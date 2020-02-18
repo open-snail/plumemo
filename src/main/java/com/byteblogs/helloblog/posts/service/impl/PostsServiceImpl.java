@@ -90,6 +90,8 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         posts.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setIsComment(postsVO.getIsComment())
                 .setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId()).setWeight(postsVO.getWeight());
         postsDao.insert(posts);
+        postsVO.setId(posts.getId());
+
         postsAttributeDao.insert(new PostsAttribute().setContent(postsVO.getContent()).setPostsId(posts.getId()));
         List<TagsVO> tagsList = postsVO.getTagsList();
         if (!CollectionUtils.isEmpty(tagsList)) {
@@ -103,17 +105,30 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
             });
         }
 
-        if (postsVO.getIsPublishByteBlogs().equals(Constants.YES)) {
-            String result = HttpUtil.post(Constants.BYTE_BLOGS_ADD_ARTICLE, JsonUtil.toJsonString(new PostsVO().setTitle(postsVO.getTitle()).setContent(postsVO.getContent()).setSocialId(userSessionInfo.getSocialId())));
-            Result result1 = JsonUtil.parseObject(result, Result.class);
-            log.debug("保存到ByteBlogs草稿箱 {}", result);
-            if (result1.getSuccess() == Constants.YES) {
-                this.postsDao.update(new Posts().setSyncStatus(Constants.YES), new LambdaUpdateWrapper<Posts>().eq(Posts::getId, posts.getId()));
-                return Result.createWithSuccessMessage("文章保存成功，并且同步到ByteBlogs草稿箱，请点击" + Constants.BYTE_BLOGS_URL + "/editor/posts" + "进行编辑");
-            }
+        if (syncByteblogs(postsVO, userSessionInfo)){
+            return Result.createWithSuccessMessage("文章保存成功，并且同步到ByteBlogs草稿箱，请点击" + Constants.BYTE_BLOGS_URL + "/editor/posts" + "进行编辑");
         }
 
         return Result.createWithSuccessMessage();
+    }
+
+    /**
+     * 同步数据到主站
+     * @param postsVO
+     * @param userSessionInfo
+     * @return
+     */
+    private boolean syncByteblogs(PostsVO postsVO, UserSessionVO userSessionInfo) {
+        if (postsVO.getIsPublishByteBlogs().equals(Constants.YES)) {
+            String result = HttpUtil.post(Constants.BYTE_BLOGS_ADD_ARTICLE, JsonUtil.toJsonString(new PostsVO().setTitle(postsVO.getTitle()).setContent(postsVO.getContent()).setSocialId(userSessionInfo.getSocialId())));
+            Result result1 = JsonUtil.parseObject(result, Result.class);
+            log.warn("保存到ByteBlogs草稿箱 {}", result);
+            if (result1.getSuccess() == Constants.YES) {
+                this.postsDao.update(new Posts().setSyncStatus(Constants.YES), new LambdaUpdateWrapper<Posts>().eq(Posts::getId, postsVO.getId()));
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -169,6 +184,10 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         } else {
 
             postsTagsDao.delete(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getPostsId, posts1.getId()));
+        }
+
+        if (syncByteblogs(postsVO, userSessionInfo)){
+            return Result.createWithSuccessMessage("文章修改成功，并且同步到更新ByteBlogs");
         }
 
         return Result.createWithSuccessMessage();
