@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicUtil {
-    public static final String PREFIX_URL = "https://music.163.com/api/playlist/detail?id=" + ConfigCache.getConfig(Constants.CLOUD_MUSIC_ID);
+    public static final String PREFIX_URL = "https://music.163.com/api/playlist/detail?id=2965387930";
     public static final String PLAY_URL = "https://music.163.com/song/media/outer/url?id=";
 
     public static String getResponse(HttpURLConnection conn){
