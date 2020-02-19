@@ -17,6 +17,8 @@ public interface FriendshipLinkService extends BaseService<FriendshipLink> {
      */
     Result getFriendshipLinkList(FriendshipLinkVO friendshipLinkVO);
 
+    Result getFriendshipLinkMap(FriendshipLinkVO friendshipLinkVO);
+
     /**
      * 更新友情链接
      * @param friendshipLinkVO

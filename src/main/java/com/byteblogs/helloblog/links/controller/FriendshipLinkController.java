@@ -36,6 +36,11 @@ public class FriendshipLinkController {
         return friendshipLinkService.getFriendshipLinkList(friendshipLinkVO);
     }
 
+    @GetMapping("/link/v2/list")
+    public Result getFriendshipLinkMap(FriendshipLinkVO friendshipLinkVO) {
+        return friendshipLinkService.getFriendshipLinkMap(friendshipLinkVO);
+    }
+
     @LoginRequired
     @PostMapping("/link/v1/add")
     public Result saveFriendshipLink(@Validated({InsertLink.class}) @RequestBody FriendshipLinkVO friendshipLinkVO, BindingResult result) {
