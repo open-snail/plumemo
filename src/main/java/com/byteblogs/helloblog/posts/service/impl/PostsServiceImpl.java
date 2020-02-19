@@ -143,7 +143,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         }
 
         posts1.setTitle(postsVO.getTitle()).setUpdateTime(LocalDateTime.now()).setThumbnail(postsVO.getThumbnail());
-        posts1.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setIsComment(postsVO.getIsComment())
+        posts1.setStatus(postsVO.getStatus()).setSyncStatus(Constants.NO).setSummary(PreviewTextUtils.getText(html, 126)).setIsComment(postsVO.getIsComment())
                 .setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId()).setWeight(postsVO.getWeight());
 
         this.postsDao.updateById(posts1);
