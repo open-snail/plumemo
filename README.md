@@ -31,7 +31,7 @@
 >
 >> 后端API <https://github.com/byteblogs168/hello-blog><br>
 >> 后端管理系统 <https://github.com/byteblogs168/hello-blog-admin><br>
->> 前端主题地址：<https://github.com/byteblogs168/theme-default3/><br>
+>> 前端主题地址：<https://github.com/byteblogs168/theme-react-sakura//><br>
 
 ## 快速开始
 
@@ -64,7 +64,7 @@ java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password 
 ## 生态圈
 - 后端代码（hello-blog）：<https://github.com/byteblogs168/hello-blog>
 - 后端代码（helloblog-admin）：<https://github.com/byteblogs168/hello-blog-admin>
-- 主题仓库：<https://github.com/byteblogs168/theme-default3>
+- 主题仓库：<https://github.com/byteblogs168/theme-react-sakura/>
 
 ## 使用helloblog的优秀博主
 
