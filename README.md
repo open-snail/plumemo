@@ -31,7 +31,7 @@
 >
 >> 后端API <https://github.com/byteblogs168/hello-blog><br>
 >> 后端管理系统 <https://github.com/byteblogs168/hello-blog-admin><br>
->> 前端主题地址：<https://github.com/byteblogs168/theme-react-sakura//><br>
+>> 前端主题地址：<https://github.com/byteblogs168/theme-react-sakura/><br>
 
 ## 快速开始
 
