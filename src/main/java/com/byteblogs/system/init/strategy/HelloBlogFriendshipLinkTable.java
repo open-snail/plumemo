@@ -33,6 +33,7 @@ public class HelloBlogFriendshipLinkTable implements TableInfoService, Initializ
     private static String createHelloBlogFriendshipLink() {
         return "CREATE TABLE `hello_blog_friendship_link`  (\n" +
                 "  `id` bigint(20) NOT NULL AUTO_INCREMENT,\n" +
+                "  `title` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '标题',\n " +
                 "  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',\n" +
                 "  `logo` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件',\n" +
                 "  `href` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '跳转的路径',\n" +
