@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.constant.ResultConstants;
+import com.byteblogs.common.context.BeanTool;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.JwtUtil;
@@ -17,6 +18,7 @@ import com.byteblogs.helloblog.auth.domain.po.AuthToken;
 import com.byteblogs.helloblog.auth.domain.po.AuthUser;
 import com.byteblogs.helloblog.auth.domain.vo.AuthUserVO;
 import com.byteblogs.helloblog.auth.service.OauthService;
+import com.byteblogs.helloblog.bean.SystemPropertyBean;
 import com.byteblogs.system.enums.RoleEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -101,6 +103,10 @@ public class OauthServiceImpl implements OauthService {
             authUser.setHtmlUrl(authUserVO.getHtmlUrl());
             authUser.setCreateTime(LocalDateTime.now());
             this.authUserDao.insert(authUser);
+
+            // 初始化社交ID
+            SystemPropertyBean systemPropertyBean = BeanTool.getBean(SystemPropertyBean.class);
+            systemPropertyBean.setSocialId(authUserVO.getSocialId());
         } else {
             authUser = this.authUserDao.selectOne(new LambdaQueryWrapper<AuthUser>().eq(AuthUser::getRoleId, RoleEnum.ADMIN.getRoleId()).eq(AuthUser::getSocialId, authUserVO.getSocialId()));
             if (authUser == null) {
