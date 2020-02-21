@@ -7,6 +7,8 @@ import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.helloblog.music.domain.bo.Music;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,6 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class MusicUtil {
     public static final String PREFIX_URL = "https://music.163.com/api/playlist/detail?id=2965387930";
     public static final String PLAY_URL = "https://music.163.com/song/media/outer/url?id=";
@@ -66,7 +69,7 @@ public class MusicUtil {
             JSONArray arr = JSON.parseObject(result).getJSONObject("result").getJSONArray("tracks");
             return MusicUtil.getAllMusic(arr);
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("CLOUD_MUSIC_ID IS NULL");
         }
         return null;
     }

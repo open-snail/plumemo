@@ -30,6 +30,8 @@ public class FriendshipLink extends Model<FriendshipLink> {
      */
     private String name;
 
+    private String title;
+
     /**
      * 文件
      */

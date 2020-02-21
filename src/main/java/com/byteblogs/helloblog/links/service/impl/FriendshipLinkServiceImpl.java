@@ -1,7 +1,6 @@
 package com.byteblogs.helloblog.links.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.service.impl.BaseServiceImpl;
@@ -20,7 +19,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author byteblogs
@@ -35,31 +36,16 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
     @Override
     public Result getFriendshipLinkList(FriendshipLinkVO friendshipLinkVO) {
         Page<FriendshipLink> page = Optional.of(PageUtil.checkAndInitPage(friendshipLinkVO)).orElse(PageUtil.initPage());
-        LambdaQueryWrapper<FriendshipLink> objectLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        if (StringUtils.isNotBlank(friendshipLinkVO.getKeywords())) {
-            objectLambdaQueryWrapper.and(i -> i.like(FriendshipLink::getName, friendshipLinkVO.getKeywords()));
-        }
-        if (StringUtils.isNotBlank(friendshipLinkVO.getHref())) {
-            objectLambdaQueryWrapper.like(FriendshipLink::getHref,friendshipLinkVO.getHref());
-        }
-        if (StringUtils.isNotBlank(friendshipLinkVO.getName())) {
-            objectLambdaQueryWrapper.eq(FriendshipLink::getName,friendshipLinkVO.getName());
-        }
-        friendshipLinkDao.selectPage(page,objectLambdaQueryWrapper.orderByDesc(FriendshipLink::getSort));
-        List<FriendshipLinkVO> friendshipLinkVOList = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(page.getRecords())) {
-            page.getRecords().forEach(friendshipLink -> {
-                friendshipLinkVOList.add(new FriendshipLinkVO()
-                        .setName(friendshipLink.getName())
-                        .setDescription(friendshipLink.getDescription())
-                        .setHref(friendshipLink.getHref())
-                        .setLogo(friendshipLink.getLogo())
-                        .setId(friendshipLink.getId())
-                        .setSort(friendshipLink.getSort())
-                );
-            });
-        }
-        return Result.createWithPaging(friendshipLinkVOList, PageUtil.initPageInfo(page));
+        return Result.createWithPaging(getFriendshipLinkVOList(friendshipLinkVO,page), PageUtil.initPageInfo(page));
+    }
+
+    @Override
+    public Result getFriendshipLinkMap(FriendshipLinkVO friendshipLinkVO) {
+        Page<FriendshipLink> page = Optional.of(PageUtil.checkAndInitPage(friendshipLinkVO)).orElse(PageUtil.initPage());
+        Map<String, List<FriendshipLinkVO>> resultMap = getFriendshipLinkVOList(friendshipLinkVO,page)
+                .stream().filter(s->!StringUtils.isBlank(s.getTitle()))
+                .collect(Collectors.groupingBy(FriendshipLinkVO::getTitle, Collectors.toList()));
+        return Result.createWithPaging(null, PageUtil.initPageInfo(page)).setExtra(resultMap);
     }
 
     @Override
@@ -75,6 +61,7 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
             this.friendshipLinkDao.updateById(
                     new FriendshipLink()
                             .setDescription(friendshipLinkVO.getDescription())
+                            .setTitle(friendshipLinkVO.getTitle())
                             .setHref(friendshipLinkVO.getHref())
                             .setLogo(friendshipLinkVO.getLogo())
                             .setName(friendshipLinkVO.getName())
@@ -103,6 +90,7 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
         this.friendshipLinkDao.insert(
                 new FriendshipLink()
                         .setDescription(friendshipLinkVO.getDescription())
+                        .setTitle(friendshipLinkVO.getTitle())
                         .setHref(friendshipLinkVO.getHref())
                         .setLogo(friendshipLinkVO.getLogo())
                         .setName(friendshipLinkVO.getName())
@@ -120,11 +108,41 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
         }
         FriendshipLinkVO friendshipLinkVO=new FriendshipLinkVO()
                 .setDescription(friendshipLink.getDescription())
+                .setTitle(friendshipLink.getTitle())
                 .setHref(friendshipLink.getHref())
                 .setLogo(friendshipLink.getLogo())
                 .setName(friendshipLink.getName())
                 .setId(friendshipLink.getId())
                 .setSort(friendshipLink.getSort());
         return Result.createWithModel(friendshipLinkVO);
+    }
+
+    public List<FriendshipLinkVO> getFriendshipLinkVOList(FriendshipLinkVO friendshipLinkVO,Page<FriendshipLink> page) {
+        LambdaQueryWrapper<FriendshipLink> objectLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.isNotBlank(friendshipLinkVO.getKeywords())) {
+            objectLambdaQueryWrapper.and(i -> i.like(FriendshipLink::getName, friendshipLinkVO.getKeywords()));
+        }
+        if (StringUtils.isNotBlank(friendshipLinkVO.getHref())) {
+            objectLambdaQueryWrapper.like(FriendshipLink::getHref,friendshipLinkVO.getHref());
+        }
+        if (StringUtils.isNotBlank(friendshipLinkVO.getName())) {
+            objectLambdaQueryWrapper.eq(FriendshipLink::getName,friendshipLinkVO.getName());
+        }
+        friendshipLinkDao.selectPage(page,objectLambdaQueryWrapper.orderByDesc(FriendshipLink::getSort));
+        List<FriendshipLinkVO> friendshipLinkVOList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(page.getRecords())) {
+            page.getRecords().forEach(friendshipLink -> {
+                friendshipLinkVOList.add(new FriendshipLinkVO()
+                        .setName(friendshipLink.getName())
+                        .setTitle(friendshipLink.getTitle())
+                        .setDescription(friendshipLink.getDescription())
+                        .setHref(friendshipLink.getHref())
+                        .setLogo(friendshipLink.getLogo())
+                        .setId(friendshipLink.getId())
+                        .setSort(friendshipLink.getSort())
+                );
+            });
+        }
+        return friendshipLinkVOList;
     }
 }
