@@ -106,7 +106,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         }
 
         if (syncByteblogs(postsVO, userSessionInfo)){
-            return Result.createWithSuccessMessage("文章保存成功，并且同步到ByteBlogs草稿箱，请点击" + Constants.BYTE_BLOGS_URL + "/editor/posts" + "进行编辑");
+            return Result.createWithSuccessMessage("同步到ByteBlogs成功");
         }
 
         return Result.createWithSuccessMessage();
@@ -187,7 +187,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         }
 
         if (syncByteblogs(postsVO, userSessionInfo)){
-            return Result.createWithSuccessMessage("文章修改成功，并且同步到更新ByteBlogs");
+            return Result.createWithSuccessMessage("同步到ByteBlogs成功");
         }
 
         return Result.createWithSuccessMessage();
