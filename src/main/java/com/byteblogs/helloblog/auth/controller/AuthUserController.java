@@ -134,8 +134,15 @@ public class AuthUserController {
         return this.authUserSocialService.getSocial(id);
     }
 
+    @LoginRequired(role=RoleEnum.ADMIN)
     @GetMapping("/social/v1/list")
     public Result getSocialList(AuthUserSocialVO authUserSocialVO) {
+        return authUserSocialService.getSocialList(authUserSocialVO);
+    }
+
+    @GetMapping("/social/v1/socials")
+    public Result getSocialEnableList(AuthUserSocialVO authUserSocialVO) {
+        authUserSocialVO.setIsEnabled(1);
         return authUserSocialService.getSocialList(authUserSocialVO);
     }
 

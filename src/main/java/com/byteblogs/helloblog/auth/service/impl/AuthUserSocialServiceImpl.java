@@ -81,10 +81,11 @@ public class AuthUserSocialServiceImpl extends ServiceImpl<AuthUserSocialDao,Aut
 
     @Override
     public Result getSocialInfo() {
-        List<AuthUserSocial> authUserSocialList=this.authUserSocialDao.selectList(new LambdaQueryWrapper<AuthUserSocial>().eq(AuthUserSocial::getIsHome,1));
+        List<AuthUserSocial> authUserSocialList=this.authUserSocialDao.selectList(new LambdaQueryWrapper<AuthUserSocial>().eq(AuthUserSocial::getIsHome,1).eq(AuthUserSocial::getIsEnabled,1));
         List<AuthUserSocialVO> authUserSocialVOList=new ArrayList<>();
         authUserSocialList.forEach(authUserSocial->{
             authUserSocialVOList.add(new AuthUserSocialVO()
+                    .setIcon(authUserSocial.getIcon())
                     .setCode(authUserSocial.getCode())
                     .setShowType(authUserSocial.getShowType())
                     .setContent(authUserSocial.getContent())
