@@ -81,19 +81,19 @@ java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password 
 
 ## 预览图
 
-<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%281%29.png" width="600"/>
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%281%29.jpg" width="600"/>
 
-<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%282%29.png" width="600"/>
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%282%29.jpg" width="600"/>
 
-<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%283%29.png" width="600"/>
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%283%29.jpg" width="600"/>
 
-<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%284%29.png" width="600"/>
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%284%29.jpg" width="600"/>
 
-<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%285%29.png" width="600"/>
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%285%29.jpg" width="600"/>
 
-<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%286%29.png" width="600"/>
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%286%29.jpg" width="600"/>
 
-<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%287%29.png" width="600"/>
+<img src="https://cos.nosum.cn/preview/helloblog-theme/helloblog-theme3-perview%20%287%29.jpg" width="600"/>
 
 <img src="https://cos.nosum.cn/preview/helloblog-admin/helloblog-admin-preview%20%282%29.png" width="600"/>
 
