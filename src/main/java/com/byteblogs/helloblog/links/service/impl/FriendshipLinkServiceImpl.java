@@ -1,6 +1,7 @@
 package com.byteblogs.helloblog.links.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.base.service.impl.BaseServiceImpl;
@@ -40,11 +41,10 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
 
     @Override
     public Result getFriendshipLinkMap(FriendshipLinkVO friendshipLinkVO) {
-        Page<FriendshipLink> page = Optional.of(PageUtil.checkAndInitPage(friendshipLinkVO)).orElse(PageUtil.initPage());
-        Map<String, List<FriendshipLinkVO>> resultMap = getFriendshipLinkVOList(friendshipLinkVO,page)
+        Map<String, List<FriendshipLinkVO>> resultMap = getFriendshipLinkVOList(friendshipLinkVO,null)
                 .stream().filter(s->!StringUtils.isBlank(s.getTitle()))
                 .collect(Collectors.groupingBy(FriendshipLinkVO::getTitle, Collectors.toList()));
-        return Result.createWithPaging(null, PageUtil.initPageInfo(page)).setExtra(resultMap);
+        return Result.createWithModels(null).setExtra(resultMap);
     }
 
     @Override
@@ -116,10 +116,15 @@ public class FriendshipLinkServiceImpl extends BaseServiceImpl<FriendshipLinkDao
         if (StringUtils.isNotBlank(friendshipLinkVO.getName())) {
             objectLambdaQueryWrapper.eq(FriendshipLink::getName,friendshipLinkVO.getName());
         }
-        friendshipLinkDao.selectPage(page,objectLambdaQueryWrapper.orderByDesc(FriendshipLink::getSort));
+        List<FriendshipLink> friendshipLinks;
+        if (null==page){
+            friendshipLinks=friendshipLinkDao.selectList(objectLambdaQueryWrapper.orderByDesc(FriendshipLink::getSort));
+        }else{
+            friendshipLinks=friendshipLinkDao.selectPage(page, objectLambdaQueryWrapper.orderByDesc(FriendshipLink::getSort)).getRecords();
+        }
         List<FriendshipLinkVO> friendshipLinkVOList = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(page.getRecords())) {
-            page.getRecords().forEach(friendshipLink -> {
+        if (!CollectionUtils.isEmpty(friendshipLinks)) {
+            friendshipLinks.forEach(friendshipLink -> {
                 friendshipLinkVOList.add(new FriendshipLinkVO()
                         .setName(friendshipLink.getName())
                         .setTitle(friendshipLink.getTitle())
