@@ -3,7 +3,6 @@ package com.byteblogs.helloblog.music.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.helloblog.music.domain.bo.Music;
@@ -52,7 +51,7 @@ public class MusicUtil {
             JSONObject obj = arr.getJSONObject(i);
             Music music = new Music();
             music.setName(obj.getString("name"));
-            music.setUrl(PLAY_URL + obj.getString("id") + ".mp3");
+            music.setUrl(getRedirectUrl(PLAY_URL + obj.getString("id") + ".mp3"));
             music.setArtist(obj.getJSONArray("artists").getJSONObject(0).getString("name"));
             music.setCover(obj.getJSONObject("album").getString("blurPicUrl").replaceFirst("http://","https://"));
             music.setLrc("");
@@ -72,5 +71,17 @@ public class MusicUtil {
             log.error("CLOUD_MUSIC_ID IS NULL");
         }
         return null;
+    }
+
+    /**
+     * 获取重定向地址
+     */
+    private static String getRedirectUrl(String path){
+        try {
+            HttpURLConnection conn = (HttpURLConnection) new URL(path).openConnection();
+            conn.setInstanceFollowRedirects(false);
+            conn.setConnectTimeout(2000);
+            return conn.getHeaderField("Location").replaceFirst("http","https");
+        }catch (Exception e){ return "null"; }
     }
 }
