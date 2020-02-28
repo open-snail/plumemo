@@ -19,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 public class MusicUtil {
-    public static final String PREFIX_URL = "https://music.163.com/api/playlist/detail?id=" + ConfigCache.getConfig(Constants.CLOUD_MUSIC_ID);
+    public static final String PREFIX_URL = "https://music.163.com/api/playlist/detail?id=" ;
     public static final String PLAY_URL = "https://music.163.com/song/media/outer/url?id=";
 
     public static String getResponse(HttpURLConnection conn){
@@ -63,7 +63,7 @@ public class MusicUtil {
 
     public static List<Music> getPlayList(){
         try{
-            URL url = new URL(MusicUtil.PREFIX_URL);// 发起http请求获取歌单信息
+            URL url = new URL(MusicUtil.PREFIX_URL+ConfigCache.getConfig(Constants.CLOUD_MUSIC_ID));// 发起http请求获取歌单信息
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             String result = MusicUtil.getResponse(conn);
             JSONArray arr = JSON.parseObject(result).getJSONObject("result").getJSONArray("tracks");
