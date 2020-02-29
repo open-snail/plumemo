@@ -41,6 +41,10 @@ public class InitFileConfig implements ApplicationListener<ApplicationContextEve
             final String filePath=getFilePath();
             final String fileName=getFileName();
             final File file = new File(filePath + fileName);
+            //判断父目录是否存在，如果不存在，则创建
+            if (file.getParentFile() != null && !file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
             if (!file.exists()) {
                 fis = new ClassPathResource("dll"+File.separator+fileName).getInputStream();//创建输入流对象
                 fos = new FileOutputStream(filePath+ fileName); //创建输出流对象
@@ -51,22 +55,10 @@ public class InitFileConfig implements ApplicationListener<ApplicationContextEve
                 }
             }
         } catch (final Exception e) {
-            e.printStackTrace();
+            log.error("init file error,"+ e.getMessage());
         } finally {
-            try {
-                if (fis != null) {
-                    fis.close();
-                }
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
+            try { if (fis != null) { fis.close(); } } catch (final IOException e) { e.printStackTrace(); }
+            try { if (fos != null) { fos.close(); } } catch (final IOException e) { e.printStackTrace(); }
         }
     }
 
