@@ -23,7 +23,7 @@ public class Constants {
     public static final int TEN = 10;
 
     // 系统默认ID，代表游客
-    public static final String DEFAULT_USER_ID ="-1";
+    public static final String DEFAULT_USER_ID = "-1";
     // 默认文件路径分隔符
     public static final String PATH_SEPARATOR = "/";
     // token有效期
@@ -43,15 +43,15 @@ public class Constants {
 
     // 文件上传类型配置项
     public static final String STORE_TYPE = "store_type";
-    public static final String DEFAULT_TYPE="default";
-    public static final String ALIYUN_OSS="aliyun_oss";
-    public static final String QINIU="qiniu";
-    public static final String COS="cos";
+    public static final String DEFAULT_TYPE = "default";
+    public static final String ALIYUN_OSS = "aliyun_oss";
+    public static final String QINIU = "qiniu";
+    public static final String COS = "cos";
 
     // 上传文件路径
-    public static final String DEFAULT_PATH="default_path";
-    public static final String DEFAULT_IMAGE_DOMAIN="default_image_domain";
-    public static final String FILE_URL="/files/";
+    public static final String DEFAULT_PATH = "default_path";
+    public static final String DEFAULT_IMAGE_DOMAIN = "default_image_domain";
+    public static final String FILE_URL = "/files/";
 
     // 七牛云配置
     public static final String QINIU_ACCESS_KEY = "qiniu_access_key";
@@ -65,28 +65,24 @@ public class Constants {
     public static final String COS_BUCKET = "cos_bucket";
     public static final String COS_REGION = "cos_region";
     public static final String COS_IMAGE_DOMAIN = "cos_image_domain";
-    public static final String COS_PATH="cos_path";
+    public static final String COS_PATH = "cos_path";
 
     // 阿里OSS配置
     public static final String ALIYUN_OSS_ACCESS_KEY = "aliyun_oss_access_key";
     public static final String ALIYUN_OSS_SECRET_KEY = "aliyun_oss_secret_key";
     public static final String ALIYUN_OSS_BUCKET = "aliyun_oss_bucket";
     public static final String ALIYUN_OSS_IMAGE_DOMAIN = "aliyun_oss_image_domain";
-    public static final String ALIYUN_OSS_ENDPOINT="aliyun_oss_endpoint";
-    public static final String ALIYUN_OSS_PATH="aliyun_oss_path";
+    public static final String ALIYUN_OSS_ENDPOINT = "aliyun_oss_endpoint";
+    public static final String ALIYUN_OSS_PATH = "aliyun_oss_path";
 
     // header认证字段
     public static final String AUTHENTICATION = "Authorization";
     public static final String BYTE_BLOGS_URL = "https://www.byteblogs.com";
-    public static final String BYTE_BLOGS_ARTICLE_LIST = Constants.BYTE_BLOGS_URL + "/api/blog/posts/posts/list?pagingQuery.pageIndex={0}&pagingQuery.pageSize={1}";
-    public static final String BYTE_BLOGS_CHAT_LIST = Constants.BYTE_BLOGS_URL + "/api/blog/chat/chat/list?pagingQuery.pageIndex={0}&pagingQuery.pageSize={1}";
-    public static final String BYTE_BLOGS_OAUTH_LOGIN = Constants.BYTE_BLOGS_URL + "/api/blog/oauth/github-authorize/v1/get?state={0}";
-    public static final String BYTE_BLOGS_ADD_ARTICLE = Constants.BYTE_BLOGS_URL + "/api/blog/posts/hello-blog/v1/add";
 
     //异常类型
     public static final String DELIMITER_TO = "@";
     public static final String DELIMITER_COLON = ":";
 
     // 正则表达式
-    public static final String IP_REGEX="(\\\\d{1,3}|\\\\*)";
+    public static final String IP_REGEX = "(\\\\d{1,3}|\\\\*)";
 }

@@ -31,7 +31,14 @@ public class HandlerExceptionResolver implements org.springframework.web.servlet
 
         // 组装错误提示信息
         String errorCode = exception instanceof BusinessException ? ((BusinessException) exception).getCode() : ErrorEnum.ERROR.getCode();
-        String message = ErrorEnum.getErrorEnumMap(errorCode).getZhMsg();
+
+        String message;
+        ErrorEnum errorEnumMap = ErrorEnum.getErrorEnumMap(errorCode);
+        if (errorEnumMap != null) {
+            message = errorEnumMap.getZhMsg();
+        } else {
+            message = exception instanceof BusinessException ? exception.getMessage() : ErrorEnum.ERROR.getZhMsg();
+        }
 
         if (exception instanceof ApiInvalidParamException) {
             //定义错误编码

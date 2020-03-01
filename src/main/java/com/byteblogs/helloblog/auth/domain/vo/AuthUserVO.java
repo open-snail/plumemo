@@ -38,6 +38,8 @@ public class AuthUserVO extends BaseVO<AuthUserVO> {
      */
     private String password;
 
+    private String verifyCode;
+
     /**
      * 角色主键 1 普通用户 2 admin
      */
@@ -66,18 +68,8 @@ public class AuthUserVO extends BaseVO<AuthUserVO> {
      */
     private String email;
 
-    /**
-     * github个人主页
-     */
-    private String htmlUrl;
+    private String accessKey;
 
-    private String qq;
+    private String secretKey;
 
-    private String csdn;
-
-    private String weibo;
-
-    private String twitter;
-
-    private String facebook;
 }

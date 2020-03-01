@@ -1,10 +1,6 @@
 package com.byteblogs.helloblog.auth.domain.po;
 
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,9 +27,6 @@ public class AuthUser extends Model<AuthUser> {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 用户名
-     */
     private String socialId;
 
     /**
@@ -77,24 +70,13 @@ public class AuthUser extends Model<AuthUser> {
      */
     private String email;
 
-    /**
-     * github个人主页
-     */
-    private String htmlUrl;
+    private String accessKey;
 
-    private String qq;
-
-    private String csdn;
-
-    private String weibo;
-
-    private String twitter;
-
-    private String facebook;
+    private String secretKey;
 
     @Override
     protected Serializable pkVal() {
-        return this.id;
+        return id;
     }
 
 }

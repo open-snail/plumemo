@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 public class HelloBlogApplication {
-    public static void main(final String[] args) {
-        final SpringApplication springApplication = new SpringApplication(HelloBlogApplication.class);
+    public static void main(String[] args) {
+        SpringApplication springApplication = new SpringApplication(HelloBlogApplication.class);
         springApplication.addInitializers(new ConfigApplicationContextInitializer());
         springApplication.run(args);
     }

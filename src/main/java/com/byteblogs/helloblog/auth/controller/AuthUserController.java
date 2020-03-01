@@ -5,27 +5,18 @@ import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.FileUtil;
-import com.byteblogs.common.util.ThrowableUtils;
-import com.byteblogs.helloblog.auth.domain.validator.UpdateUsers;
 import com.byteblogs.helloblog.auth.domain.vo.AuthUserSocialVO;
 import com.byteblogs.helloblog.auth.domain.vo.AuthUserVO;
 import com.byteblogs.helloblog.auth.service.AuthUserService;
 import com.byteblogs.helloblog.auth.service.AuthUserSocialService;
 import com.byteblogs.helloblog.auth.service.OauthService;
-import com.byteblogs.helloblog.log.domain.vo.AuthUserLogVO;
+import com.byteblogs.helloblog.dto.HttpResult;
+import com.byteblogs.helloblog.integration.dto.UserDTO;
 import com.byteblogs.system.enums.RoleEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * @author byteblogs
@@ -52,7 +43,7 @@ public class AuthUserController {
 
     @DeleteMapping("/user/v1/{id}")
     @LoginRequired(role = RoleEnum.ADMIN)
-    public Result deleteUser(@PathVariable Long id){
+    public Result deleteUser(@PathVariable Long id) {
         return authUserService.deleteUsers(id);
     }
 
@@ -62,7 +53,6 @@ public class AuthUserController {
     public Result saveAuthUserStatus(@RequestBody AuthUserVO authUserVO) {
         return authUserService.saveAuthUserStatus(authUserVO);
     }
-
 
 
     @GetMapping("/master/v1/get")
@@ -77,7 +67,7 @@ public class AuthUserController {
     }
 
     @GetMapping("/github/v1/get")
-    public String oauthLoginByGithub() {
+    public HttpResult oauthLoginByGithub() {
         return oauthService.oauthLoginByGithub();
     }
 
@@ -86,9 +76,14 @@ public class AuthUserController {
         return oauthService.saveUserByGithub(authUserVO);
     }
 
+    @PostMapping("/admin/v1/register")
+    public Result registerAdminByGithub(@RequestBody UserDTO userDTO) {
+        return oauthService.registerAdmin(userDTO);
+    }
+
     @PostMapping("/admin/v1/login")
-    public Result saveAdminByGithub(@RequestBody AuthUserVO authUserVO) {
-        return oauthService.saveAdminByGithub(authUserVO);
+    public Result adminLogin(@RequestBody AuthUserVO authUserVO) {
+        return oauthService.login(authUserVO);
     }
 
     @LoginRequired
@@ -109,8 +104,8 @@ public class AuthUserController {
         return authUserService.logout();
     }
 
-    @RequestMapping(value = "/auth/v1/avatar",produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] getAvatar(){
+    @RequestMapping(value = "/auth/v1/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getAvatar() {
         return FileUtil.tranToBytes(authUserService.getAvatar());
     }
 
@@ -118,22 +113,22 @@ public class AuthUserController {
     @LoginRequired(role = RoleEnum.ADMIN)
     public Result saveSocial(@RequestBody AuthUserSocialVO authUserSocialVO) {
         ExceptionUtil.isRollback(StringUtils.isBlank(authUserSocialVO.getCode()), ErrorEnum.PARAM_ERROR);
-        return this.authUserSocialService.saveAuthUserSocial(authUserSocialVO);
+        return authUserSocialService.saveAuthUserSocial(authUserSocialVO);
     }
 
     @PutMapping("/social/v1/update")
     @LoginRequired(role = RoleEnum.ADMIN)
     public Result editSocial(@RequestBody AuthUserSocialVO authUserSocialVO) {
         ExceptionUtil.isRollback(authUserSocialVO.getId() == null, ErrorEnum.PARAM_ERROR);
-        return this.authUserSocialService.editAuthUserSocial(authUserSocialVO);
+        return authUserSocialService.editAuthUserSocial(authUserSocialVO);
     }
 
     @GetMapping("/social/v1/{id}")
     public Result getSocial(@PathVariable("id") Long id) {
-        return this.authUserSocialService.getSocial(id);
+        return authUserSocialService.getSocial(id);
     }
 
-    @LoginRequired(role=RoleEnum.ADMIN)
+    @LoginRequired(role = RoleEnum.ADMIN)
     @GetMapping("/social/v1/list")
     public Result getSocialList(AuthUserSocialVO authUserSocialVO) {
         return authUserSocialService.getSocialList(authUserSocialVO);
@@ -146,7 +141,7 @@ public class AuthUserController {
     }
 
     @GetMapping("/social/v1/info")
-    public Result getSocialInfo(){
+    public Result getSocialInfo() {
         return authUserSocialService.getSocialInfo();
     }
 

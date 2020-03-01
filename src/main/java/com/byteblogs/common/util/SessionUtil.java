@@ -30,6 +30,7 @@ public class SessionUtil {
 
     /**
      * 获取用户Session信息
+     *
      * @return
      */
     public static UserSessionVO getUserSessionInfo() {
@@ -67,13 +68,14 @@ public class SessionUtil {
         }
 
         AuthTokenDao authTokenDao = BeanTool.getBean(AuthTokenDao.class);
-        Integer count = authTokenDao.selectCount(new LambdaQueryWrapper<AuthToken>().eq(AuthToken::getToken, token).eq(AuthToken::getUserId, user.getId()).ge(AuthToken::getExpireTime, LocalDateTime.now()));
+        Integer count = authTokenDao.selectCount(new LambdaQueryWrapper<AuthToken>().eq(AuthToken::getToken, token).eq(AuthToken::getUserId, user.getId()).ge(AuthToken::getExpireTime,
+                LocalDateTime.now()));
         if (count.equals(Constants.ZERO)) {
             ExceptionUtil.rollback(ErrorEnum.INVALID_TOKEN);
         }
 
         UserSessionVO userSessionVO = new UserSessionVO();
-        userSessionVO.setName(user.getName()).setSocialId(user.getSocialId()).setRoleId(user.getRoleId()).setId(user.getId());
+        userSessionVO.setName(user.getName()).setRoleId(user.getRoleId()).setId(user.getId());
         return userSessionVO;
     }
 

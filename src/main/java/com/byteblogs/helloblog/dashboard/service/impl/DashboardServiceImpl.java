@@ -1,6 +1,5 @@
 package com.byteblogs.helloblog.dashboard.service.impl;
 
-import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -23,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.text.MessageFormat;
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -47,27 +45,17 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public Result getPostsQuantityTotal() {
         PostsVO postsVO = Optional.ofNullable(postsDao.selectPostsTotal()).orElse(new PostsVO().setViewsTotal(Constants.ZERO).setCommentsTotal(Constants.ZERO));
-        Integer article = this.postsDao.selectCount(null);
+        Integer article = postsDao.selectCount(null);
         postsVO.setArticleTotal(article);
-        Integer draft = this.postsDao.selectCount(new LambdaQueryWrapper<Posts>().eq(Posts::getStatus, ArticleStatusEnum.DRAFT.getStatus()));
+        Integer draft = postsDao.selectCount(new LambdaQueryWrapper<Posts>().eq(Posts::getStatus, ArticleStatusEnum.DRAFT.getStatus()));
         postsVO.setDraftTotal(draft);
         postsVO.setPublishTotal(article - draft);
-        Integer syncTotal = this.postsDao.selectCount(new LambdaQueryWrapper<Posts>().eq(Posts::getSyncStatus, Constants.YES));
+        Integer syncTotal = postsDao.selectCount(new LambdaQueryWrapper<Posts>().eq(Posts::getSyncStatus, Constants.YES));
         postsVO.setSyncTotal(syncTotal);
-        Integer todayPublishTotal = this.postsDao.selectCount(new LambdaQueryWrapper<Posts>().eq(Posts::getStatus, ArticleStatusEnum.PUBLISH.getStatus())
+        Integer todayPublishTotal = postsDao.selectCount(new LambdaQueryWrapper<Posts>().eq(Posts::getStatus, ArticleStatusEnum.PUBLISH.getStatus())
                 .between(Posts::getCreateTime, LocalDateTime.of(LocalDate.now(), LocalTime.MIN), LocalDateTime.of(LocalDate.now(), DateUtil.MAX)));
         postsVO.setTodayPublishTotal(todayPublishTotal);
         return Result.createWithModel(postsVO);
-    }
-
-    @Override
-    public String getByteBlogsList(PostsVO postsVO) {
-        return HttpUtil.get(MessageFormat.format(Constants.BYTE_BLOGS_ARTICLE_LIST, postsVO.getPage(), postsVO.getSize()));
-    }
-
-    @Override
-    public String getByteBlogsChatList(PostsVO postsVO) {
-        return HttpUtil.get(MessageFormat.format(Constants.BYTE_BLOGS_CHAT_LIST, postsVO.getPage(), postsVO.getSize()));
     }
 
     @Override
@@ -184,7 +172,7 @@ public class DashboardServiceImpl implements DashboardService {
                 JSONObject jsonObject = JSONObject.parseObject(parameter);
                 if (jsonObject != null) {
                     String id = (String) jsonObject.get("id");
-                    Posts posts = this.postsDao.selectById(id);
+                    Posts posts = postsDao.selectById(id);
                     if (posts != null) {
                         authUserLogVO1.setTitle(posts.getTitle());
                     }

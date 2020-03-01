@@ -17,6 +17,7 @@ import org.springframework.context.event.ApplicationContextEvent;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ import java.util.List;
 @Slf4j
 @Component
 @DependsOn({"dataSource"})
-public class InitSystemConfig implements ApplicationListener<ApplicationContextEvent>, Ordered{
+public class InitSystemConfig implements ApplicationListener<ApplicationContextEvent>, Ordered {
 
     @Autowired
     private ConfigDao configDao;
@@ -45,7 +46,8 @@ public class InitSystemConfig implements ApplicationListener<ApplicationContextE
         List<AuthUser> authUsers = authUserDao.selectList(new LambdaQueryWrapper<AuthUser>().eq(AuthUser::getRoleId, RoleEnum.ADMIN.getRoleId()));
         if (!CollectionUtils.isEmpty(authUsers)) {
             SystemPropertyBean systemPropertyBean = BeanTool.getBean(SystemPropertyBean.class);
-            systemPropertyBean.setSocialId(authUsers.get(0).getSocialId());
+            systemPropertyBean.setAccessKey(authUsers.get(0).getAccessKey());
+            systemPropertyBean.setSecretKey(authUsers.get(0).getSecretKey());
         }
     }
 

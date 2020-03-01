@@ -2,6 +2,8 @@ package com.byteblogs.helloblog.auth.service;
 
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.helloblog.auth.domain.vo.AuthUserVO;
+import com.byteblogs.helloblog.dto.HttpResult;
+import com.byteblogs.helloblog.integration.dto.UserDTO;
 
 /**
  * @description:
@@ -13,7 +15,7 @@ public interface OauthService {
     /**
      * 获取授权链接
      */
-    String oauthLoginByGithub();
+    HttpResult oauthLoginByGithub();
 
     /**
      * 保存用户信息
@@ -23,5 +25,13 @@ public interface OauthService {
     /**
      * 保存管理员
      */
-    Result saveAdminByGithub(AuthUserVO authUserVO);
+    Result login(AuthUserVO authUserVO);
+
+    /**
+     * 注册管理员
+     *
+     * @param userDTO
+     * @return
+     */
+    Result registerAdmin(UserDTO userDTO);
 }
