@@ -38,6 +38,8 @@ public class AuthUserVO extends BaseVO<AuthUserVO> {
      */
     private String password;
 
+    private String passwordOld;
+
     private String verifyCode;
 
     /**

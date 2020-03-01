@@ -24,6 +24,7 @@ public enum ErrorEnum {
     ACCOUNT_NOT_EXIST("00011", "用户不存在", ""),
     PASSWORD_ERROR("00012", "密码错误", ""),
     SYNC_POSTS_ERROR("00013", "同步文章失败", ""),
+    UPDATE_PASSWORD_ERROR("00014", "密码修改失败", ""),
     ;
 
     private final static Map<String, ErrorEnum> errorEnumMap = new HashMap<>();
