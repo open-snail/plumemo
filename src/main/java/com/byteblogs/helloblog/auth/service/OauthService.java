@@ -34,4 +34,9 @@ public interface OauthService {
      * @return
      */
     Result registerAdmin(UserDTO userDTO);
+
+    /**
+     * 保存管理员
+     */
+    Result updatePassword(AuthUserVO authUserVO);
 }

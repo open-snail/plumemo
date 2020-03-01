@@ -6,11 +6,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.byteblogs.common.base.domain.Result;
+import com.byteblogs.common.base.domain.vo.UserSessionVO;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.context.BeanTool;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.JwtUtil;
+import com.byteblogs.common.util.SessionUtil;
 import com.byteblogs.common.util.ToolUtil;
 import com.byteblogs.helloblog.auth.dao.AuthTokenDao;
 import com.byteblogs.helloblog.auth.dao.AuthUserDao;
@@ -134,12 +136,35 @@ public class OauthServiceImpl implements OauthService {
             if (StringUtils.isBlank(authUser.getAccessKey()) || StringUtils.isBlank(authUser.getSecretKey())) {
                 AuthUserVO authUserVO = fetchRegister(userDTO);
 
-                authUserDao.update(authUser.setAccessKey(authUserVO.getAccessKey()).setSecretKey(authUserVO.getSecretKey()),
+                authUserDao.update(authUser
+                                .setEmail(userDTO.getEmail())
+                                .setPassword(SecureUtil.md5(userDTO.getPassword()))
+                                .setAccessKey(authUserVO.getAccessKey())
+                                .setSecretKey(authUserVO.getSecretKey()),
                         new LambdaUpdateWrapper<AuthUser>().eq(AuthUser::getRoleId, RoleEnum.ADMIN.getRoleId()));
             } else {
                 ExceptionUtil.isRollback(true, ErrorEnum.ACCOUNT_EXIST);
             }
         }
+
+        return Result.createWithSuccessMessage();
+    }
+
+    @Override
+    public Result updatePassword(AuthUserVO authUserVO) {
+
+        if (StringUtils.isBlank(authUserVO.getPassword()) || StringUtils.isBlank(authUserVO.getPasswordOld())) {
+            ExceptionUtil.isRollback(true, ErrorEnum.PARAM_ERROR);
+        }
+
+        UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
+
+        AuthUser authUser = authUserDao.selectById(userSessionInfo.getId());
+        if (!SecureUtil.md5(authUserVO.getPasswordOld()).equals(authUser.getPassword())) {
+            ExceptionUtil.isRollback(true, ErrorEnum.UPDATE_PASSWORD_ERROR);
+        }
+
+        authUserDao.updateById(new AuthUser().setId(userSessionInfo.getId()).setPassword(SecureUtil.md5(authUserVO.getPassword())));
 
         return Result.createWithSuccessMessage();
     }

@@ -87,6 +87,12 @@ public class AuthUserController {
     }
 
     @LoginRequired
+    @PutMapping("/password/v1/update")
+    public Result updatePassword(@RequestBody AuthUserVO authUserVO) {
+        return oauthService.updatePassword(authUserVO);
+    }
+
+    @LoginRequired
     @PutMapping("/admin/v1/update")
     public Result updateAdmin(@RequestBody AuthUserVO authUserVO) {
         return authUserService.updateAdmin(authUserVO);
