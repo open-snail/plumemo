@@ -51,6 +51,8 @@ public class Constants {
     // 上传文件路径
     public static final String DEFAULT_PATH = "default_path";
     public static final String DEFAULT_IMAGE_DOMAIN = "default_image_domain";
+    public static final String WIN_DEFAULT_PATH="D:/helloblog/blog/";
+    public static final String OS_DEFAULT_PATH="/home/helloblog/blog/";
     public static final String FILE_URL = "/files/";
 
     // 七牛云配置

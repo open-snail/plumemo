@@ -2,9 +2,12 @@ package com.byteblogs.helloblog.file.service.impl;
 
 import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.constant.Constants;
+import com.byteblogs.common.constant.ConstantsModels;
 import com.byteblogs.common.util.FileUtil;
 import com.byteblogs.helloblog.file.factory.UploadFileFactory;
 import com.byteblogs.helloblog.file.service.UploadFileTemplateService;
+import com.byteblogs.system.init.InitFileConfig;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +25,7 @@ public class DefaultUploadFileTemplateServiceImpl implements UploadFileTemplateS
 
     @Override
     public String doSaveFileStore(final MultipartFile file) {
-        final String filePath = ConfigCache.getConfig(Constants.DEFAULT_PATH);
+        final String filePath = ConstantsModels.getDefaultPath(ConfigCache.getConfig(Constants.DEFAULT_PATH));
         final String fileName = FileUtil.createSingleFileName(file.getOriginalFilename());
         try {
             final File destFile = new File(filePath);
@@ -40,4 +43,6 @@ public class DefaultUploadFileTemplateServiceImpl implements UploadFileTemplateS
     public void afterPropertiesSet() throws Exception {
         UploadFileFactory.register(Constants.DEFAULT_TYPE, this);
     }
+
+
 }
