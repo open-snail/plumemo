@@ -134,6 +134,12 @@ public class AuthUserController {
         return authUserSocialService.getSocial(id);
     }
 
+
+    @DeleteMapping("/social/v1/{id}")
+    public Result delSocial(@PathVariable("id") Long id) {
+        return authUserSocialService.delSocial(id);
+    }
+
     @LoginRequired(role = RoleEnum.ADMIN)
     @GetMapping("/social/v1/list")
     public Result getSocialList(AuthUserSocialVO authUserSocialVO) {

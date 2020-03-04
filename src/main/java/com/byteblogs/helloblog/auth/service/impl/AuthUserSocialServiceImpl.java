@@ -98,4 +98,11 @@ public class AuthUserSocialServiceImpl extends ServiceImpl<AuthUserSocialDao,Aut
     }
 
 
+    @Override
+    public Result delSocial(Long id) {
+        if (id!=null){
+            this.authUserSocialDao.deleteById(id);
+        }
+        return Result.createWithSuccessMessage();
+    }
 }
