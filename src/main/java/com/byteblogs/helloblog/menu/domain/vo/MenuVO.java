@@ -1,8 +1,11 @@
 package com.byteblogs.helloblog.menu.domain.vo;
 
 import com.byteblogs.common.base.domain.vo.BaseVO;
+import com.byteblogs.helloblog.menu.domain.po.Menu;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 
 @Data
@@ -37,6 +40,8 @@ public class MenuVO extends BaseVO<MenuVO> {
 	/**
 	 * 排序
 	 */
-	private Integer sort; 
+	private Integer sort;
+
+	private List<Menu> child;
 	// columns END
 }

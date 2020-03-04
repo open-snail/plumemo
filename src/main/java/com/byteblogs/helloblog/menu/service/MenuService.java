@@ -36,4 +36,6 @@ public interface MenuService {
      * 删除菜单表
      */
     Result deleteMenu(Long id);
+
+    Result getFrontMenuList(MenuVO menuVO);
 }

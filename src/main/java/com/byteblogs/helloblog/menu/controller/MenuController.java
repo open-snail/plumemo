@@ -45,6 +45,11 @@ public class MenuController {
         return menuService.getMenuList(menuVO);
     }
 
+
+    @GetMapping("/front/v1/list")
+    public Result getFrontMenuList(MenuVO menuVO){
+        return menuService.getFrontMenuList(menuVO);
+    }
     
     /**
      * 更新菜单表

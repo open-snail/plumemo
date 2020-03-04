@@ -18,4 +18,5 @@ public interface MenuDao extends BaseDao<Menu> {
      * 分页查询菜单表
      */
     List<Menu> selectMenuList(@Param("page") Page<Menu> page, @Param("condition") MenuVO menu);
+    List<Menu> selectMenuList(@Param("condition") MenuVO menu);
 }
