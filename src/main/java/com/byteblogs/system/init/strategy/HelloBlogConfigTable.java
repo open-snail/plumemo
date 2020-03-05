@@ -71,7 +71,7 @@ public class HelloBlogConfigTable implements TableInfoService {
                 "(25, 'cos_image_domain', '', 5)," +
                 "(26, 'cos_path', '', 5)," +
                 "(27, 'default_path', '', 6)," +
-                "(28, 'default_image_domain', 'http://127.0.0.1:8086/', 6)" +
+                "(28, 'default_image_domain', 'http://127.0.0.1:8086/api/hello-blog-service/', 6)" +
                 ";";
     }
 }
