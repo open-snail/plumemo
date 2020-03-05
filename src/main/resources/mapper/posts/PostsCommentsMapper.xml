@@ -48,8 +48,11 @@
         LEFT JOIN hello_blog_auth_user parentAuthUser ON parentPostsComments.author_id = parentAuthUser.id
         LEFT JOIN hello_blog_posts posts ON posts.id = postsComments.posts_id
         <where>
-            <if test="keywords != null and keywords != ''">
-                ( postsComments.content LIKE #{keywords} OR posts.title LIKE #{keywords} )
+            <if test="postsComments.keywords != null and postsComments.keywords != ''">
+                ( postsComments.content LIKE #{postsComments.keywords} OR posts.title LIKE #{postsComments.keywords} )
+            </if>
+            <if test="postsComments.id!=null">
+                and postsComments.id=#{postsComments.id}
             </if>
         </where>
     </select>

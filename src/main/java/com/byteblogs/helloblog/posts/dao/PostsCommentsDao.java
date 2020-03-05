@@ -27,9 +27,7 @@ public interface PostsCommentsDao extends BaseDao<PostsComments> {
 
     /**
      * 查询评论后台评论管理列表
-     * @param page
-     * @param keywords
-     * @return
      */
-    List<PostsCommentsVO> selectPostsCommentsList(Page<PostsCommentsVO> page, @Param("keywords") String keywords);
+    List<PostsCommentsVO> selectPostsCommentsList(Page<PostsCommentsVO> page, @Param("postsComments") PostsCommentsVO postsCommentsVO);
+    List<PostsCommentsVO> selectPostsCommentsList(@Param("postsComments") PostsCommentsVO postsCommentsVO);
 }

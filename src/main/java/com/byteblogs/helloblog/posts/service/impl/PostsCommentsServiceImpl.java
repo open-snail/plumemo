@@ -9,6 +9,8 @@ import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.common.util.PageUtil;
 import com.byteblogs.common.util.SessionUtil;
+import com.byteblogs.helloblog.auth.dao.AuthUserDao;
+import com.byteblogs.helloblog.auth.domain.po.AuthUser;
 import com.byteblogs.helloblog.posts.dao.PostsCommentsDao;
 import com.byteblogs.helloblog.posts.dao.PostsDao;
 import com.byteblogs.helloblog.posts.domain.po.PostsComments;
@@ -37,9 +39,11 @@ public class PostsCommentsServiceImpl extends BaseServiceImpl<PostsCommentsDao, 
     @Autowired
     private PostsDao postsDao;
 
+    @Autowired
+    private AuthUserDao authUserDao;
+
     @Override
     public Result savePostsComments(PostsCommentsVO postsCommentsVO) {
-
         UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
         PostsComments postsComments = new PostsComments();
         postsComments.setAuthorId(userSessionInfo.getId());
@@ -70,6 +74,22 @@ public class PostsCommentsServiceImpl extends BaseServiceImpl<PostsCommentsDao, 
         return Result.createWithSuccessMessage();
     }
 
+
+    @Override
+    public Result replyComments(PostsCommentsVO postsCommentsVO) {
+        AuthUser authUser=authUserDao.selectAdmin();
+        PostsComments postsComments=postsCommentsDao.selectById(postsCommentsVO.getParentId())
+                .setParentId(postsCommentsVO.getParentId())
+                .setContent(postsCommentsVO.getContent())
+                .setAuthorId(authUser.getId())
+                .setCreateTime(LocalDateTime.now());
+        this.postsCommentsDao.insert(postsComments);
+        String treePath = postsComments.getTreePath() + postsComments.getId() + Constants.TREE_PATH;
+        this.postsCommentsDao.updateById(postsComments.setTreePath(treePath));
+        this.postsDao.incrementComments( postsCommentsVO.getPostsId());
+        return Result.createWithSuccessMessage();
+    }
+
     @Override
     public Result getPostsCommentsByPostsIdList(PostsCommentsVO postsCommentsVO) {
 
@@ -81,10 +101,8 @@ public class PostsCommentsServiceImpl extends BaseServiceImpl<PostsCommentsDao, 
 
     @Override
     public Result getPostsCommentsList(PostsCommentsVO postsCommentsVO) {
-
         Page page = Optional.ofNullable(PageUtil.checkAndInitPage(postsCommentsVO)).orElse(PageUtil.initPage());
-        List<PostsCommentsVO> postsCommentsVOLis = this.postsCommentsDao.selectPostsCommentsList(page, postsCommentsVO.getKeywords());
-
+        List<PostsCommentsVO> postsCommentsVOLis = this.postsCommentsDao.selectPostsCommentsList(page, postsCommentsVO);
         return Result.createWithPaging(postsCommentsVOLis, PageUtil.initPageInfo(page));
     }
 
@@ -92,5 +110,15 @@ public class PostsCommentsServiceImpl extends BaseServiceImpl<PostsCommentsDao, 
     public Result deletePostsComments(Long id) {
         this.postsCommentsDao.deleteById(id);
         return Result.createWithSuccessMessage();
+    }
+
+    @Override
+    public Result getPostsComment(Long id) {
+        ExceptionUtil.isRollback(id==null,ErrorEnum.PARAM_ERROR);
+        List<PostsCommentsVO> postsCommentsVOLis = this.postsCommentsDao.selectPostsCommentsList(new PostsCommentsVO().setId(id));
+        if (postsCommentsVOLis!=null && postsCommentsVOLis.size()>0){
+            return Result.createWithModel(postsCommentsVOLis.get(0));
+        }
+        return Result.createWithError();
     }
 }

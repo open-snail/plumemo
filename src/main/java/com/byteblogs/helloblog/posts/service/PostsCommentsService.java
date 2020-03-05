@@ -16,31 +16,27 @@ public interface PostsCommentsService extends BaseService<PostsComments> {
 
     /**
      * 新增评论
-     * @param postsCommentsVO
-     * @return
      */
     Result savePostsComments(PostsCommentsVO postsCommentsVO);
 
     /**
      * 根据文章的主键查询评论列表
-     * @param postsCommentsVO
-     * @return
      */
     Result getPostsCommentsByPostsIdList(PostsCommentsVO postsCommentsVO);
 
     /**
      * 查询评论列表
-     * @param postsCommentsVO
-     * @return
      */
     Result getPostsCommentsList(PostsCommentsVO postsCommentsVO);
 
     /**
      * 删除评论
-     * @param id
-     * @return
      */
     Result deletePostsComments(Long id);
 
+
+    Result getPostsComment(Long id);
+
+    Result replyComments(PostsCommentsVO postsCommentsVO);
 
 }

@@ -16,4 +16,10 @@
         SELECT avatar FROM hello_blog_auth_user WHERE role_id=2 limit 1
     </select>
 
+    <select id="selectAdmin" resultType="com.byteblogs.helloblog.auth.domain.po.AuthUser">
+        SELECT `id`, `social_id`, `password`, `name`, `role_id`, `email`, `introduction`, `avatar`, `create_time`, `access_key`, `secret_key`, `status`
+        FROM hello_blog_auth_user
+        WHERE role_id=2 limit 1
+    </select>
+
 </mapper>
