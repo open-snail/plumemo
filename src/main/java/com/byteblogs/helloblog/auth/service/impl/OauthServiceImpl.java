@@ -128,10 +128,6 @@ public class OauthServiceImpl implements OauthService {
             authUser.setAccessKey(authUserVO.getAccessKey()).setSecretKey(authUserVO.getSecretKey());
             authUserDao.insert(authUser);
 
-            // 初始化社交ID
-            SystemPropertyBean systemPropertyBean = BeanTool.getBean(SystemPropertyBean.class);
-            systemPropertyBean.setAccessKey(authUserVO.getAccessKey());
-            systemPropertyBean.setSecretKey(authUserVO.getSecretKey());
         } else {
             if (StringUtils.isBlank(authUser.getAccessKey()) || StringUtils.isBlank(authUser.getSecretKey())) {
                 AuthUserVO authUserVO = fetchRegister(userDTO);
@@ -147,6 +143,10 @@ public class OauthServiceImpl implements OauthService {
             }
         }
 
+        // 初始化社交ID
+        SystemPropertyBean systemPropertyBean = BeanTool.getBean(SystemPropertyBean.class);
+        systemPropertyBean.setAccessKey(authUser.getAccessKey());
+        systemPropertyBean.setSecretKey(authUser.getSecretKey());
         return Result.createWithSuccessMessage();
     }
 
