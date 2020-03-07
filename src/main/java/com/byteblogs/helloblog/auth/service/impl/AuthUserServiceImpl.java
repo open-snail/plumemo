@@ -83,7 +83,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
             authUserLambdaQueryWrapper.eq(AuthUser::getStatus, authUserVO.getStatus());
         }
 
-        IPage<AuthUser> authUserIPage = authUserDao.selectPage(page, authUserLambdaQueryWrapper.orderByDesc(AuthUser::getRoleId).orderByDesc(AuthUser::getCreateTime));
+        IPage<AuthUser> authUserIPage = authUserDao.selectPage(page, authUserLambdaQueryWrapper.orderByDesc(AuthUser::getRoleId).orderByDesc(AuthUser::getId));
         List<AuthUser> records = authUserIPage.getRecords();
 
         List<AuthUserVO> authUserVOList = new ArrayList<>();

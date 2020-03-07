@@ -31,7 +31,7 @@
 			<if test="condition.isHome != null "> AND is_home=#{condition.isHome}</if>
 			<if test="condition.keywords != null and condition.keywords != ''"> AND code LIKE #{condition.keywords}</if>
 		</where>
-		ORDER BY create_time DESC
+		ORDER BY id DESC
 	</select>
 
 </mapper>

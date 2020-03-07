@@ -79,7 +79,7 @@
                 ORDER BY posts.weight DESC
             </when>
             <otherwise>
-                ORDER BY posts.create_time DESC
+                ORDER BY posts.id DESC
             </otherwise>
         </choose>
     </select>
@@ -111,7 +111,7 @@
       FROM
         hello_blog_posts
       GROUP BY DATE_FORMAT( create_time, "%Y-%m-01 00:00:00" )
-      ORDER BY create_time DESC
+      ORDER BY id DESC
     </select>
     <select id="selectOneById" resultType="com.byteblogs.helloblog.posts.domain.po.Posts">
         SELECT

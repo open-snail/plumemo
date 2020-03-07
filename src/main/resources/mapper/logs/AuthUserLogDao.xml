@@ -71,8 +71,7 @@
         COUNT(*) AS viewTotal
         FROM hello_blog_auth_user_log
         WHERE code IN('002') AND create_time >= #{startTime} and create_time &lt;= #{endTime}
-        GROUP BY
-        createTime
+        GROUP BY createTime
 
     </select>
 

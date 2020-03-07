@@ -45,7 +45,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
 
     @Override
     public Result<TagsVO> getTagsAndArticleQuantityList(TagsVO tagsVO) {
-        List<Tags> records = this.tagsDao.selectList(new LambdaQueryWrapper<Tags>().orderByDesc(Tags::getCreateTime));
+        List<Tags> records = this.tagsDao.selectList(new LambdaQueryWrapper<Tags>().orderByDesc(Tags::getId));
 
         List<TagsVO> tagsList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(records)) {
@@ -63,7 +63,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
 
         List<TagsVO> tagsList = new ArrayList<>();
         if (tagsVO == null || tagsVO.getPage() == null || tagsVO.getSize() == null) {
-            List<Tags> records = this.tagsDao.selectList(new LambdaQueryWrapper<Tags>().orderByDesc(Tags::getCreateTime));
+            List<Tags> records = this.tagsDao.selectList(new LambdaQueryWrapper<Tags>().orderByDesc(Tags::getId));
             if (!CollectionUtils.isEmpty(records)) {
                 records.forEach(tags -> {
                     tagsList.add(new TagsVO().setId(tags.getId()).setName(tags.getName()));
@@ -79,7 +79,7 @@ public class TagsServiceImpl extends ServiceImpl<TagsDao, Tags> implements TagsS
             tagsLambdaQueryWrapper.eq(Tags::getName, tagsVO.getName());
         }
         Page page = PageUtil.checkAndInitPage(tagsVO);
-        IPage<TagsVO> tagsIPage = this.tagsDao.selectPage(page,tagsLambdaQueryWrapper.orderByDesc(Tags::getCreateTime));
+        IPage<TagsVO> tagsIPage = this.tagsDao.selectPage(page,tagsLambdaQueryWrapper.orderByDesc(Tags::getId));
         return Result.createWithPaging(tagsIPage.getRecords(), PageUtil.initPageInfo(page));
     }
 
