@@ -72,18 +72,15 @@ public class RuntimeUtil {
             BigDecimal total = BigDecimal.valueOf(mem.getTotal()).divide(BigDecimal.valueOf(1024 * 1024 * 1024), BigDecimal.ROUND_HALF_UP);
             BigDecimal used = BigDecimal.valueOf(mem.getUsed()).divide(BigDecimal.valueOf(1024 * 1024 * 1024), BigDecimal.ROUND_HALF_UP);
             BigDecimal free = BigDecimal.valueOf(mem.getFree()).divide(BigDecimal.valueOf(1024 * 1024 * 1024), BigDecimal.ROUND_HALF_UP);
-            // 内存总量
-            obj.put("total",total);
-            // 当前内存使用量
-            obj.put("used", used);
-            // 当前内存剩余量
-            obj.put("free", free);
-            // 使用率
-            obj.put("usedRatio",(used.divide(total,3, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100))).setScale(2,BigDecimal.ROUND_HALF_UP));
-//            Swap swap = sigar.getSwap();
-//            obj.put("swapTotal",swap.getTotal() / 1024L / 1024L);// 交换区总量
-//            obj.put("swapUsed",swap.getUsed() / 1024L / 1024L);// 当前交换区使用量
-//            obj.put("swapFree",swap.getFree() / 1024L / 1024L);// 当前交换区剩余量
+            BigDecimal usedRatio=used.divide(total,3, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
+            obj.put("total",total);// 内存总量
+            obj.put("used", used); // 当前内存使用量
+            obj.put("free", free); // 当前内存剩余量
+            obj.put("usedRatio",usedRatio);// 使用率
+            // Swap swap = sigar.getSwap();
+            // obj.put("swapTotal",swap.getTotal() / 1024L / 1024L);// 交换区总量
+            // obj.put("swapUsed",swap.getUsed() / 1024L / 1024L);// 当前交换区使用量
+            // obj.put("swapFree",swap.getFree() / 1024L / 1024L);// 当前交换区剩余量
         }catch (Exception e){e.printStackTrace();}
         return Result.createWithModel(obj);
     }
@@ -92,8 +89,8 @@ public class RuntimeUtil {
         JSONArray obj=new JSONArray();
         try{
             Sigar sigar = new Sigar();
-            CpuInfo infos[] = sigar.getCpuInfoList();
-            CpuPerc cpuList[] = null;
+            CpuInfo[] infos = sigar.getCpuInfoList();
+            CpuPerc[] cpuList = null;
             cpuList = sigar.getCpuPercList();
             for (int i = 0; i < infos.length; i++) {// 不管是单块CPU还是多CPU都适用
                 CpuInfo info = infos[i];
@@ -130,10 +127,10 @@ public class RuntimeUtil {
         JSONObject obj = new JSONObject();
         try{
             Sigar sigar = new Sigar();
-            FileSystem fslist[] = sigar.getFileSystemList();
+            FileSystem[] fileSystemList = sigar.getFileSystemList();
             JSONArray jsonArray = new JSONArray();
-            for (int i = 0, len = fslist.length; i < len; i++) {
-                FileSystem fs = fslist[i];
+            for (int i = 0, len = fileSystemList.length; i < len; i++) {
+                FileSystem fs = fileSystemList[i];
                 JSONObject jso = new JSONObject();
                 jso.put("dev.name", fs.getDevName()); //分区盘符名称
                 jso.put("dir.name", fs.getDirName()); //分区盘符名称
@@ -185,27 +182,27 @@ public class RuntimeUtil {
         JSONObject jsonObject = new JSONObject();
         try{
             Sigar sigar = new Sigar();
-            String ifNames[] = sigar.getNetInterfaceList();
+            String[] ifNames = sigar.getNetInterfaceList();
             JSONArray jsonArray = new JSONArray();
             for (int i = 0, len = ifNames.length; i < len; i++) {
                 String name = ifNames[i];
                 JSONObject jso = new JSONObject();
-                NetInterfaceConfig ifconfig = sigar.getNetInterfaceConfig(name);
+                NetInterfaceConfig ifConfig = sigar.getNetInterfaceConfig(name);
                 jso.put("name", name); // 网络设备名
-                jso.put("address", ifconfig.getAddress()); // IP地址
-                jso.put("mask", ifconfig.getNetmask()); // 子网掩码
-                if ((ifconfig.getFlags() & 1L) <= 0L) {
+                jso.put("address", ifConfig.getAddress()); // IP地址
+                jso.put("mask", ifConfig.getNetmask()); // 子网掩码
+                if ((ifConfig.getFlags() & 1L) <= 0L) {
                     continue;
                 }
-                NetInterfaceStat ifstat = sigar.getNetInterfaceStat(name);
-                jso.put("rx.packets", ifstat.getRxPackets());// 接收的总包裹数
-                jso.put("tx.packets", ifstat.getTxPackets());// 发送的总包裹数
-                jso.put("rx.bytes", ifstat.getRxBytes());// 接收到的总字节数
-                jso.put("tx.bytes", ifstat.getTxBytes());// 发送的总字节数
-                jso.put("rx.errors", ifstat.getRxErrors());// 接收到的错误包数
-                jso.put("tx.errors", ifstat.getTxErrors());// 发送数据包时的错误数
-                jso.put("rx.dropped", ifstat.getRxDropped());// 接收时丢弃的包数
-                jso.put("tx.dropped", ifstat.getTxDropped());// 发送时丢弃的包数
+                NetInterfaceStat ifStat = sigar.getNetInterfaceStat(name);
+                jso.put("rx.packets", ifStat.getRxPackets());// 接收的总包裹数
+                jso.put("tx.packets", ifStat.getTxPackets());// 发送的总包裹数
+                jso.put("rx.bytes", ifStat.getRxBytes());// 接收到的总字节数
+                jso.put("tx.bytes", ifStat.getTxBytes());// 发送的总字节数
+                jso.put("rx.errors", ifStat.getRxErrors());// 接收到的错误包数
+                jso.put("tx.errors", ifStat.getTxErrors());// 发送数据包时的错误数
+                jso.put("rx.dropped", ifStat.getRxDropped());// 接收时丢弃的包数
+                jso.put("tx.dropped", ifStat.getTxDropped());// 发送时丢弃的包数
                 jsonArray.add(jso);
             }
             jsonObject.put("net", jsonArray);
@@ -220,10 +217,10 @@ public class RuntimeUtil {
         JSONObject jsonObject = new JSONObject();
         try{
             Sigar sigar = new Sigar();
-            String[] ifaces = sigar.getNetInterfaceList();
+            String[] ifAces = sigar.getNetInterfaceList();
             JSONArray jsonArray = new JSONArray();
-            for (int i = 0, len = ifaces.length; i < len; i++) {
-                NetInterfaceConfig cfg = sigar.getNetInterfaceConfig(ifaces[i]);
+            for (int i = 0, len = ifAces.length; i < len; i++) {
+                NetInterfaceConfig cfg = sigar.getNetInterfaceConfig(ifAces[i]);
                 if (NetFlags.LOOPBACK_ADDRESS.equals(cfg.getAddress()) || (cfg.getFlags() & NetFlags.IFF_LOOPBACK) != 0 || NetFlags.NULL_HWADDR.equals(cfg.getHwaddr())) {
                     continue;
                 }
