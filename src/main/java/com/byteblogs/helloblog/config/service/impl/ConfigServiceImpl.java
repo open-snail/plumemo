@@ -11,23 +11,38 @@ import com.byteblogs.helloblog.config.dao.ConfigDao;
 import com.byteblogs.helloblog.config.domain.po.Config;
 import com.byteblogs.helloblog.config.domain.vo.ConfigVO;
 import com.byteblogs.helloblog.config.service.ConfigService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileUrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author byteblogs
  * @since 2019-08-28
  */
 @Service
+@Slf4j
 public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements ConfigService {
 
     @Autowired
     private ConfigDao configDao;
+
+    @Resource
+    private HandlerMapping resourceHandlerMapping;
 
     @Override
     public Result updateConfig(final List<ConfigVO> configList) {
@@ -46,10 +61,30 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigDao, Config> implements
                 this.configDao.update(new Config().setConfigValue(configVO.getConfigValue()),
                         new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configVO.getConfigKey()));
                 ConfigCache.putConfig(configVO.getConfigKey(), configVO.getConfigValue());
+                if (configVO.getConfigKey().equals(Constants.DEFAULT_PATH)){
+                    refreshCache(configVO.getConfigValue());
+                }
             }
         });
 
         return Result.createWithSuccessMessage();
+    }
+
+    private void refreshCache(String path){
+        SimpleUrlHandlerMapping simpleUrlHandlerMapping = (SimpleUrlHandlerMapping) resourceHandlerMapping;
+        Map<String, Object> handlerMap = simpleUrlHandlerMapping.getHandlerMap();
+        ResourceHttpRequestHandler handler = (ResourceHttpRequestHandler) handlerMap.get("/files/**");
+        handler.setLocationValues(Collections.singletonList("file:///"+path));
+        List<org.springframework.core.io.Resource> locations = handler.getLocations();
+        FileUrlResource fileUrlResource = null;
+        try {
+            fileUrlResource = new FileUrlResource(path);
+            fileUrlResource.getFile();
+        }catch (IOException e) {
+            log.warn("修改路径失败");
+        }
+        locations.clear();
+        locations.add(fileUrlResource);
     }
 
     @Override
