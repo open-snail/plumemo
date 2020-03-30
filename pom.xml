@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.byteblogs</groupId>
-    <artifactId>helloblog</artifactId>
+    <artifactId>plumemo</artifactId>
     <version>v1.1.0</version>
-    <name>hello-blog</name>
-    <description>helloblog - 一个简单通用的前后分离的博客系统</description>
+    <name>plumemo</name>
+    <description>plumemo - 一个轻量、易用、前后端分离的博客系统</description>
 
     <properties>
         <java.version>1.8</java.version>
