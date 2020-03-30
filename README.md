@@ -1,6 +1,6 @@
-<h1 align="center"><a href="https://github.com/byteblogs168/hello-blog" target="_blank">helloblog</a></h1>
+<h1 align="center"><a href="https://github.com/byteblogs168/plumemo" target="_blank">plumemo</a></h1>
 
-> [Hello Blog](http://helloblog.byteblogs.com/) 是一个前后端分离的博客系统，为了解除开发人员对后端的束缚，真正做到的一个面向接口开发的博客系统。
+> [Plumemo](https://www.plumemo.com/) 是一个轻量、易用、前后端分离的博客系统，为了解除开发人员对后端的束缚，真正做到的一个面向接口开发的博客系统。
 
 <p align="center">
 <a href="#"><img alt="JDK" src="https://img.shields.io/badge/JDK-1.8-yellow.svg?style=flat-square"/></a>
@@ -13,58 +13,61 @@
 
 ## 简介
 
-**hello** [hello]，意为你好(强行科普)。。
+**plumemo** [plumemo]，plume（羽） + memo（备忘录）
 
 > 基于[SpringBoot](https://spring.io/projects/spring-boot/)实现零配置让系统的配置更简单，使用了[Mybatis-Plus](https://mp.baomidou.com/)快速开发框架，在不是复杂的查询操作下，无需写sql就可以快速完成接口编写。
 > 后台管理系统使用了vue中流行的[ant](https://panjiachen.github.io/vue-element-admin-site/#/)，另外前后交互使用了[JWT](https://jwt.io/)作为令牌，进行权限、登录校验。。
 
 
-> [官网](http://helloblog.byteblogs.com/) | [社区](https://byteblogs.com) | [QQ 交流群](https://shang.qq.com/wpa/qunwpa?idkey=4f8653da80e632ef86ca1d57ccf8751602940d1036c79b04a3a5bc668adf8864) | 
+> [官网](https://www.plumemo.com/) | [社区](https://www.byteblogs.com) | [QQ 交流群](https://shang.qq.com/wpa/qunwpa?idkey=4f8653da80e632ef86ca1d57ccf8751602940d1036c79b04a3a5bc668adf8864) | 
 
 ## 声明
 
-> 本项目，主要宗旨在于，简单、易用、不烧脑的博客，并且基于helloblog，搭建一个属于博主们的博客圈
+> 本项目，主要宗旨在于，简单、易用、不烧脑的博客，Plumemo，搭建一个属于博主们的博客圈
 
 ## 使用须知
 
 >  由于项目是前后端完全分离，所以此项目为单独的后端项目，后台管理系统、博客主题可以进行自由搭配
 >
->> 后端API <https://github.com/byteblogs168/hello-blog><br>
->> 后端管理系统 <https://github.com/byteblogs168/hello-blog-admin><br>
->> 前端主题地址：<https://github.com/byteblogs168/theme-react-sakura/><br>
+>> 后端API <https://github.com/byteblogs168/plumemo><br>
+>> 后端管理系统 <https://github.com/byteblogs168/plumemo-admin><br>
+>> 前端主题(theme-react-sakura)地址：<https://github.com/byteblogs168/theme-react-sakura/><br>
+>> 前端主题(theme-vue-bluesoul)地址：<https://github.com/byteblogs168/theme-vue-bluesoul/><br>
 
 ## 快速开始
 
-### 下载最新的 helloblog 安装包
+### 下载最新的 plumemo 安装包
 
 window
 
 ```bash
-https://github.com/byteblogs168/hello-blog/releases/download/v1.1.0/helloblog-v1.1.0.jar
+https://github.com/byteblogs168/plumemo/releases/download/v1.1.0/plumemo-v1.1.0.jar
 ```
 
 linux
 
 ```bash
-wget https://github.com/byteblogs168/hello-blog/releases/download/v1.1.0/helloblog-v1.1.0.jar
+wget https://github.com/byteblogs168/plumemo/releases/download/v1.1.0/plumemo-v1.1.0.jar
 ```
 
-### 启动 helloblog 
+### 启动 plumemo 
 
 ```bash
-java -jar helloblog-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password  --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8 
+java -jar plumemo-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password  --MYSQL_DATABASE=jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8 
 ```
 
-详细文档请移步：<http://helloblog.byteblogs.com/docs/>
+详细文档请移步：<https://www.plumemo.com/>
 
 ## 博客示例
-- 前端： <https://preview.byteblogs.com/>。
-- 管理系统： <https://preview.byteblogs.com/admin>。
+- 前端(theme-react-sakura)： <https://preview.plumemo.com/>。
+- 前端(theme-vue-bluesoul)： <https://preview.plumemo.com/theme-vue-bluesoul>。
+- 管理系统： <https://preview.plumemo.com/admin>。 
+- 演示站点：账号：preview_plumemo@163.com 密码：plumemo888
 
 ## 生态圈
-- 后端代码（hello-blog）：<https://github.com/byteblogs168/hello-blog>
-- 后端代码（helloblog-admin）：<https://github.com/byteblogs168/hello-blog-admin>
-- 主题仓库：<https://github.com/byteblogs168/theme-react-sakura/>
+- 后端代码（plumemo）：<https://github.com/byteblogs168/plumemo>
+- 后端代码（plumemo-admin）：<https://github.com/byteblogs168/plumemo-admin>
+- 主题仓库：<https://github.com/byteblogs168/theme-react-sakura/> | <https://github.com/byteblogs168/theme-vue-bluesoul/>
 
 ## 使用helloblog的优秀博主
 

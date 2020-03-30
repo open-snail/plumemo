@@ -6,8 +6,8 @@ spring:
   profiles:
     active: dev
   datasource:
-    name: helloblog
-    url:  ${MYSQL_DATABASE:jdbc:mysql://127.0.0.1:3306/helloblog?useSSL=false&characterEncoding=utf8}
+    name: plumemo
+    url:  ${MYSQL_DATABASE:jdbc:mysql://127.0.0.1:3306/plumemo?useSSL=false&characterEncoding=utf8}
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
     type: com.zaxxer.hikari.HikariDataSource
@@ -18,7 +18,7 @@ spring:
       maximum-pool-size: 20
       auto-commit: true
       idle-timeout: 30000
-      pool-name: helloblog
+      pool-name: plumemo
       max-lifetime: 1800000
       connection-test-query: SELECT 1
   servlet:
