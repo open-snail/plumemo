@@ -69,14 +69,14 @@ java -jar plumemo-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password  -
 - 后端代码（plumemo-admin）：<https://github.com/byteblogs168/plumemo-admin>
 - 主题仓库：<https://github.com/byteblogs168/theme-react-sakura/> | <https://github.com/byteblogs168/theme-vue-bluesoul/>
 
-## 使用helloblog的优秀博主
+## 使用plumemo的优秀博主
 
 - 青涩知夏：<https://www.nosum.cn/>
 - 踏歌长行：<https://www.bygit.cn/>
 
 ## 捐赠
 
-> 如果 helloblog 对你有帮助，可以请作者喝杯☕️。
+> 如果 plumemo 对你有帮助，可以请作者喝杯☕️。
 
 | 支付宝  | 微信 |
 | :------------: |  :------------: |
