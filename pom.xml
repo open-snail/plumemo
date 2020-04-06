@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.byteblogs</groupId>
     <artifactId>plumemo</artifactId>
-    <version>v1.1.0</version>
+    <version>v1.2.0</version>
     <name>plumemo</name>
     <description>plumemo - 一个轻量、易用、前后端分离的博客系统</description>
 
