@@ -31,7 +31,7 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*/*.xml
-  typeAliasesPackage: com.byteblogs.helloblog.*.dao
+  typeAliasesPackage: com.byteblogs.plumemo.*.dao
   global-config:
     db-config:
       #数据库大写下划线转换
