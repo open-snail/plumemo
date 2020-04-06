@@ -51,8 +51,8 @@ public class Constants {
     // 上传文件路径
     public static final String DEFAULT_PATH = "default_path";
     public static final String DEFAULT_IMAGE_DOMAIN = "default_image_domain";
-    public static final String WIN_DEFAULT_PATH="D:/helloblog/blog/";
-    public static final String OS_DEFAULT_PATH="/home/helloblog/blog/";
+    public static final String WIN_DEFAULT_PATH="D:/plumemo/blog/";
+    public static final String OS_DEFAULT_PATH="/home/plumemo/blog/";
     public static final String FILE_URL = "/files/";
 
     // 七牛云配置
@@ -87,4 +87,7 @@ public class Constants {
 
     // 正则表达式
     public static final String IP_REGEX = "(\\\\d{1,3}|\\\\*)";
+
+    // markdown 文件后缀名
+    public static final String MARKDOWN_FILE_SUFFIX = "md";
 }

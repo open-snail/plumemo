@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.byteblogs.helloblog.category.dao.CategoryDao">
+<mapper namespace="com.byteblogs.plumemo.category.dao.CategoryDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.category.domain.po.Category">
+    <resultMap id="BaseResultMap" type="com.byteblogs.plumemo.category.domain.po.Category">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="sort" property="sort"/>
@@ -13,26 +13,26 @@
 
     <sql id="BASE_SQL">id,name,sort,create_time, create_by, update_time, update_by</sql>
 
-    <select id="selectCategoryPostsTotal" resultType="com.byteblogs.helloblog.category.domain.vo.CategoryVO">
+    <select id="selectCategoryPostsTotal" resultType="com.byteblogs.plumemo.category.domain.vo.CategoryVO">
        SELECT
         categoryTags.category_id id,
         COUNT(*) total
         FROM
-        hello_blog_category_tags categoryTags
-        LEFT JOIN hello_blog_posts_tags postsTags ON postsTags.tags_id = categoryTags.tags_id
+        plumemo_category_tags categoryTags
+        LEFT JOIN plumemo_posts_tags postsTags ON postsTags.tags_id = categoryTags.tags_id
         WHERE
         postsTags.posts_id IS NOT NULL
         GROUP BY categoryTags.category_id
     </select>
-    <select id="selectStatistics" resultType="com.byteblogs.helloblog.category.domain.vo.CategoryVO">
+    <select id="selectStatistics" resultType="com.byteblogs.plumemo.category.domain.vo.CategoryVO">
         SELECT
-           id,(SELECT COUNT( 1 ) FROM hello_blog_posts WHERE category_id = category.id AND status=2) as total, name
+           id,(SELECT COUNT( 1 ) FROM plumemo_posts WHERE category_id = category.id AND status=2) as total, name
         FROM
-            hello_blog_category AS category
+            plumemo_category AS category
     </select>
-    <select id="selectListPage" resultType="com.byteblogs.helloblog.category.domain.po.Category">
+    <select id="selectListPage" resultType="com.byteblogs.plumemo.category.domain.po.Category">
         SELECT <include refid="BASE_SQL"/>
-        FROM hello_blog_category
+        FROM plumemo_category
         <where>
             <if test="condition.keywords != null and condition.keywords != ''">
                 AND name like #{condition.name}

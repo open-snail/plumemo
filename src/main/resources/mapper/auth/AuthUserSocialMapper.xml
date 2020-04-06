@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.byteblogs.helloblog.auth.dao.AuthUserSocialDao">
+<mapper namespace="com.byteblogs.plumemo.auth.dao.AuthUserSocialDao">
 	<!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,code,content,show_type as showType,remark,icon,is_enabled as isEnabled,is_home as isHome,create_time as createTime,update_time as updateTime
     </sql>
 
 
-    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.auth.domain.po.AuthUserSocial">
+    <resultMap id="BaseResultMap" type="com.byteblogs.plumemo.auth.domain.po.AuthUserSocial">
 		<id column="id" property="id" />
 		<result column="code" property="code" />
 		<result column="content" property="content" />
@@ -20,8 +20,8 @@
 		<result column="update_time" property="updateTime" />
     </resultMap>
 
-	<select id="selectSocialList" resultType="com.byteblogs.helloblog.auth.domain.vo.AuthUserSocialVO">
-		SELECT <include refid="Base_Column_List"/> FROM hello_blog_auth_user_social
+	<select id="selectSocialList" resultType="com.byteblogs.plumemo.auth.domain.vo.AuthUserSocialVO">
+		SELECT <include refid="Base_Column_List"/> FROM plumemo_auth_user_social
 		<where>
 			<if test="condition.code != null and condition.code != ''"> AND code=#{condition.code}</if>
 			<if test="condition.content != null and condition.content != ''"> AND content=#{condition.content}</if>

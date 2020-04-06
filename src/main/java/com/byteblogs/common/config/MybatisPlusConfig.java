@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @Date:2018/09/27 12:52
  */
 @Configuration
-@MapperScan("com.byteblogs.helloblog.*.dao")
+@MapperScan("com.byteblogs.plumemo.*.dao")
 public class MybatisPlusConfig {
 
     @Bean

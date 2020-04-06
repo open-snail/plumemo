@@ -11,7 +11,6 @@ import java.util.UUID;
  */
 public class FileUtil {
 
-
     /**
      * 获取文件后缀名
      */

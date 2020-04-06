@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.byteblogs.helloblog.posts.dao.PostsDao">
+<mapper namespace="com.byteblogs.plumemo.posts.dao.PostsDao">
 
     <sql id="BASE_SQL">
       	id,author_id as authorId,title,thumbnail,comments, is_comment as isComment, sync_status as syncStatus,status,summary,views,weight,category_id as categoryId,create_time as createTime,update_time as updateTime
    </sql>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.posts.domain.po.Posts">
+    <resultMap id="BaseResultMap" type="com.byteblogs.plumemo.posts.domain.po.Posts">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="thumbnail" property="thumbnail"/>
@@ -24,7 +24,7 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <select id="selectPostsList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+    <select id="selectPostsList" resultType="com.byteblogs.plumemo.posts.domain.vo.PostsVO">
         SELECT
         DISTINCT(posts.id),
         posts.title,
@@ -40,11 +40,11 @@
         posts.weight,
         posts.create_time createTime
         FROM
-        hello_blog_posts posts
-        LEFT JOIN hello_blog_auth_user users ON users.id = posts.author_id
-        LEFT JOIN hello_blog_posts_tags postsTags ON postsTags.posts_id = posts.id
-        LEFT JOIN hello_blog_tags tags ON postsTags.tags_id = tags.id
-        LEFT JOIN hello_blog_category category ON category.id=posts.category_id
+        plumemo_posts posts
+        LEFT JOIN plumemo_auth_user users ON users.id = posts.author_id
+        LEFT JOIN plumemo_posts_tags postsTags ON postsTags.posts_id = posts.id
+        LEFT JOIN plumemo_tags tags ON postsTags.tags_id = tags.id
+        LEFT JOIN plumemo_category category ON category.id=posts.category_id
         <where>
             <if test="condition.archiveDate != null">
                 BETWEEN DATE_FORMAT( condition.archiveDate, "%Y-%m-01 00:00:00") AND DATE_FORMAT(condition.archiveDate, "%Y-%m-01 59:59:59" )
@@ -84,36 +84,36 @@
         </choose>
     </select>
 
-    <select id="selectArchiveGroupYearList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+    <select id="selectArchiveGroupYearList" resultType="com.byteblogs.plumemo.posts.domain.vo.PostsVO">
         SELECT
           id,
           title,
           create_time createTime,
           DATE_FORMAT( create_time, "%Y" ) `year`
         FROM
-          hello_blog_posts
+          plumemo_posts
         ORDER BY
           DATE_FORMAT( create_time, "%Y" ) DESC
     </select>
 
-    <select id="selectPostsTotal" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+    <select id="selectPostsTotal" resultType="com.byteblogs.plumemo.posts.domain.vo.PostsVO">
     SELECT
       SUM(comments) commentsTotal,
       SUM(views) viewsTotal
     FROM
-      hello_blog_posts posts
+      plumemo_posts posts
     </select>
 
-    <select id="selectArchiveTotalGroupDateList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+    <select id="selectArchiveTotalGroupDateList" resultType="com.byteblogs.plumemo.posts.domain.vo.PostsVO">
       SELECT
      	DATE_FORMAT( create_time, "%Y-%m-01 00:00:00" ) archiveDate,
         COUNT(*) articleTotal
       FROM
-        hello_blog_posts
+        plumemo_posts
       GROUP BY DATE_FORMAT( create_time, "%Y-%m-01 00:00:00" )
       ORDER BY id DESC
     </select>
-    <select id="selectOneById" resultType="com.byteblogs.helloblog.posts.domain.po.Posts">
+    <select id="selectOneById" resultType="com.byteblogs.plumemo.posts.domain.po.Posts">
         SELECT
             posts.`id`,
             posts.`author_id`,
@@ -130,25 +130,25 @@
             category.name as categoryName,
             posts.`create_time`,
             posts.`update_time`
-        FROM hello_blog_posts as posts
-        LEFT JOIN hello_blog_category as category ON category.id=posts.category_id
+        FROM plumemo_posts as posts
+        LEFT JOIN plumemo_category as category ON category.id=posts.category_id
         WHERE posts.id=#{id}
     </select>
-    <select id="selectByArchiveDate" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+    <select id="selectByArchiveDate" resultType="com.byteblogs.plumemo.posts.domain.vo.PostsVO">
         SELECT <include refid="BASE_SQL"/>
-        FROM hello_blog_posts
+        FROM plumemo_posts
         WHERE DATE_FORMAT( create_time,"%Y-%m-01 00:00:00")= DATE_FORMAT(#{archiveDate}, "%Y-%m-01 00:00:00" )
     </select>
 
-    <select id="selectHotPostsList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsVO">
+    <select id="selectHotPostsList" resultType="com.byteblogs.plumemo.posts.domain.vo.PostsVO">
 
     </select>
 
     <update id="incrementView">
-       UPDATE hello_blog_posts SET views = views + 1 WHERE id = #{id}
+       UPDATE plumemo_posts SET views = views + 1 WHERE id = #{id}
     </update>
 
     <update id="incrementComments">
-       UPDATE hello_blog_posts SET comments = comments + 1 WHERE id = #{id}
+       UPDATE plumemo_posts SET comments = comments + 1 WHERE id = #{id}
     </update>
 </mapper>

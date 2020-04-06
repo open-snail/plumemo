@@ -25,6 +25,9 @@ public enum ErrorEnum {
     PASSWORD_ERROR("00012", "密码错误", ""),
     SYNC_POSTS_ERROR("00013", "同步文章失败", ""),
     UPDATE_PASSWORD_ERROR("00014", "密码修改失败", ""),
+    FILE_TYPE_ERROR("00015", "文件类型错误", ""),
+    IMPORT_FILE_ERROR("00016", "文件导入失败", ""),
+    DATABASE_SQL_PARSE_ERROR("00017", "数据库解析异常", ""),
     ;
 
     private final static Map<String, ErrorEnum> errorEnumMap = new HashMap<>();

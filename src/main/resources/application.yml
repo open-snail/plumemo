@@ -1,7 +1,7 @@
 server:
   port: 8086
   servlet:
-    context-path: /api/hello-blog-service
+    context-path: /api/plumemo-service
 spring:
   profiles:
     active: dev

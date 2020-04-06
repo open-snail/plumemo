@@ -1,8 +1,8 @@
 package com.byteblogs.system.schedule;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.byteblogs.helloblog.auth.dao.AuthTokenDao;
-import com.byteblogs.helloblog.auth.domain.po.AuthToken;
+import com.byteblogs.plumemo.auth.dao.AuthTokenDao;
+import com.byteblogs.plumemo.auth.domain.po.AuthToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

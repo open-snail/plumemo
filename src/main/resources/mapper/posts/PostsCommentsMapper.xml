@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.byteblogs.helloblog.posts.dao.PostsCommentsDao">
+<mapper namespace="com.byteblogs.plumemo.posts.dao.PostsCommentsDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.posts.domain.po.PostsComments">
+    <resultMap id="BaseResultMap" type="com.byteblogs.plumemo.posts.domain.po.PostsComments">
         <id column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="author_id" property="authorId"/>
@@ -14,7 +14,7 @@
         <result column="tree_path" property="treePath"/>
     </resultMap>
 
-    <select id="selectPostsCommentsByPostsIdList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsCommentsVO">
+    <select id="selectPostsCommentsByPostsIdList" resultType="com.byteblogs.plumemo.posts.domain.vo.PostsCommentsVO">
         SELECT
         postsComments.id,
         postsComments.content,
@@ -23,10 +23,10 @@
         authUser.avatar authorAvatar,
         parentAuthUser.name parentUserName
         FROM
-        hello_blog_posts_comments postsComments
-        LEFT JOIN hello_blog_auth_user authUser ON postsComments.author_id = authUser.id
-        LEFT JOIN hello_blog_posts_comments parentPostsComments ON postsComments.parent_id = parentPostsComments.id
-        LEFT JOIN hello_blog_auth_user parentAuthUser ON parentPostsComments.author_id = parentAuthUser.id
+        plumemo_posts_comments postsComments
+        LEFT JOIN plumemo_auth_user authUser ON postsComments.author_id = authUser.id
+        LEFT JOIN plumemo_posts_comments parentPostsComments ON postsComments.parent_id = parentPostsComments.id
+        LEFT JOIN plumemo_auth_user parentAuthUser ON parentPostsComments.author_id = parentAuthUser.id
         <where>
             postsComments.posts_id = #{postsId}
         </where>
@@ -34,7 +34,7 @@
         ORDER BY postsComments.create_time DESC
     </select>
 
-    <select id="selectPostsCommentsList" resultType="com.byteblogs.helloblog.posts.domain.vo.PostsCommentsVO">
+    <select id="selectPostsCommentsList" resultType="com.byteblogs.plumemo.posts.domain.vo.PostsCommentsVO">
         SELECT
         postsComments.content,
         authUser.name,
@@ -42,11 +42,11 @@
         parentAuthUser.name parentUserName,
         posts.title
         FROM
-        hello_blog_posts_comments postsComments
-        LEFT JOIN hello_blog_auth_user authUser ON postsComments.author_id = authUser.id
-        LEFT JOIN hello_blog_posts_comments parentPostsComments ON postsComments.id = parentPostsComments.parent_id
-        LEFT JOIN hello_blog_auth_user parentAuthUser ON parentPostsComments.author_id = parentAuthUser.id
-        LEFT JOIN hello_blog_posts posts ON posts.id = postsComments.posts_id
+        plumemo_posts_comments postsComments
+        LEFT JOIN plumemo_auth_user authUser ON postsComments.author_id = authUser.id
+        LEFT JOIN plumemo_posts_comments parentPostsComments ON postsComments.id = parentPostsComments.parent_id
+        LEFT JOIN plumemo_auth_user parentAuthUser ON parentPostsComments.author_id = parentAuthUser.id
+        LEFT JOIN plumemo_posts posts ON posts.id = postsComments.posts_id
         <where>
             <if test="postsComments.keywords != null and postsComments.keywords != ''">
                 ( postsComments.content LIKE #{postsComments.keywords} OR posts.title LIKE #{postsComments.keywords} )

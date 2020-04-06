@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.byteblogs.helloblog.links.dao.FriendshipLinkDao">
+<mapper namespace="com.byteblogs.plumemo.links.dao.FriendshipLinkDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.links.domain.po.FriendshipLink">
+    <resultMap id="BaseResultMap" type="com.byteblogs.plumemo.links.domain.po.FriendshipLink">
         <id column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="create_by" property="createBy"/>

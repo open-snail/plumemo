@@ -43,6 +43,5 @@ public class ThrowableUtils {
             }
             throw new ApiInvalidParamException(sb.toString());
         }
-
     }
 }

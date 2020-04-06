@@ -1,10 +1,10 @@
 package com.byteblogs.system.enums;
 
-import com.byteblogs.helloblog.posts.domain.vo.CNBlogsVO;
-import com.byteblogs.helloblog.posts.domain.vo.CSDNVO;
-import com.byteblogs.helloblog.posts.domain.vo.JianShuVO;
-import com.byteblogs.helloblog.posts.domain.vo.JueJinVO;
-import com.byteblogs.helloblog.posts.domain.vo.SegmentFaultVO;
+import com.byteblogs.plumemo.posts.domain.vo.CNBlogsVO;
+import com.byteblogs.plumemo.posts.domain.vo.CSDNVO;
+import com.byteblogs.plumemo.posts.domain.vo.JianShuVO;
+import com.byteblogs.plumemo.posts.domain.vo.JueJinVO;
+import com.byteblogs.plumemo.posts.domain.vo.SegmentFaultVO;
 
 import java.util.HashMap;
 import java.util.Map;

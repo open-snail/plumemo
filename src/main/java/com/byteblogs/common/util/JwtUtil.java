@@ -3,7 +3,7 @@ package com.byteblogs.common.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.byteblogs.common.constant.Constants;
-import com.byteblogs.helloblog.auth.domain.vo.AuthUserVO;
+import com.byteblogs.plumemo.auth.domain.vo.AuthUserVO;
 
 import java.util.Date;
 

@@ -55,10 +55,10 @@ public class InitDatabaseConfig implements ApplicationListener<ApplicationContex
             log.error("数据库解析异常 {}", e.getMessage());
         }
 
-        final String[] tables = {"hello_blog_config", "hello_blog_auth_token", "hello_blog_auth_user",
-                "hello_blog_category", "hello_blog_category_tags", "hello_blog_friendship_link", "hello_blog_posts"
-                , "hello_blog_posts_attribute", "hello_blog_posts_comments", "hello_blog_posts_tags", "hello_blog_tags"
-                , "hello_blog_auth_user_log","hello_blog_menu","hello_blog_auth_user_social","hello_blog_black_list"};
+        final String[] tables = {"plumemo_config", "plumemo_auth_token", "plumemo_auth_user",
+                "plumemo_category", "plumemo_category_tags", "plumemo_friendship_link", "plumemo_posts"
+                , "plumemo_posts_attribute", "plumemo_posts_comments", "plumemo_posts_tags", "plumemo_tags"
+                , "plumemo_auth_user_log","plumemo_menu","plumemo_auth_user_social","plumemo_black_list"};
 
         try {
             for (int i = 0; i < tables.length; i++) {
@@ -85,7 +85,6 @@ public class InitDatabaseConfig implements ApplicationListener<ApplicationContex
                 log.error("释放 Connection 失败 {}", e.getMessage());
             }
         }
-
     }
 
     @Override

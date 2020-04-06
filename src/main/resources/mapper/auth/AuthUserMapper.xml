@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.byteblogs.helloblog.auth.dao.AuthUserDao">
+<mapper namespace="com.byteblogs.plumemo.auth.dao.AuthUserDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.byteblogs.helloblog.auth.domain.po.AuthUser">
+    <resultMap id="BaseResultMap" type="com.byteblogs.plumemo.auth.domain.po.AuthUser">
         <id column="id" property="id" />
         <result column="username" property="username" />
         <result column="nickname" property="nickname" />
@@ -13,12 +13,12 @@
         <result column="status" property="status"/>
     </resultMap>
     <select id="selectAvatar" resultType="java.lang.String">
-        SELECT avatar FROM hello_blog_auth_user WHERE role_id=2 limit 1
+        SELECT avatar FROM plumemo_auth_user WHERE role_id=2 limit 1
     </select>
 
-    <select id="selectAdmin" resultType="com.byteblogs.helloblog.auth.domain.po.AuthUser">
+    <select id="selectAdmin" resultType="com.byteblogs.plumemo.auth.domain.po.AuthUser">
         SELECT `id`, `social_id`, `password`, `name`, `role_id`, `email`, `introduction`, `avatar`, `create_time`, `access_key`, `secret_key`, `status`
-        FROM hello_blog_auth_user
+        FROM plumemo_auth_user
         WHERE role_id=2 limit 1
     </select>
 
