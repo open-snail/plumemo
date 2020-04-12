@@ -27,7 +27,7 @@ public class WordPressServiceImpl implements BlogPlatformService, InitializingBe
 
     @Override
     public String getQuerySql(BlogMoveVO blogMoveVO) {
-        return "SELECT post_title,post_content FROM wp_posts limit %s,%s";
+        return "SELECT post_title,post_content,post_date FROM wp_posts limit %s,%s";
     }
 
     @Override

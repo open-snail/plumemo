@@ -78,7 +78,9 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
         String html = Markdown2HtmlUtil.html(postsVO.getContent());
 
         Posts posts = new Posts();
-        posts.setTitle(postsVO.getTitle()).setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()).setThumbnail(postsVO.getThumbnail());
+        LocalDateTime dateTime = Optional.ofNullable(postsVO.getCreateTime()).orElse(LocalDateTime.now());
+        posts.setTitle(postsVO.getTitle()).setCreateTime(dateTime)
+                .setUpdateTime(dateTime).setThumbnail(postsVO.getThumbnail());
         posts.setStatus(postsVO.getStatus()).setSummary(PreviewTextUtils.getText(html, 126)).setIsComment(postsVO.getIsComment())
                 .setAuthorId(userSessionInfo.getId()).setCategoryId(postsVO.getCategoryId()).setWeight(postsVO.getWeight());
         postsDao.insert(posts);

@@ -5,6 +5,7 @@ import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.enums.PostsStatusEnum;
+import com.byteblogs.common.util.DateUtil;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.plumemo.posts.domain.vo.BlogMoveVO;
 import com.byteblogs.plumemo.posts.domain.vo.PostsVO;
@@ -18,11 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.InputStreamReader;
 import java.sql.*;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author: zsg
@@ -59,41 +63,77 @@ public class BlogMoveServiceImpl implements BlogMoveService {
             ExceptionUtil.rollback(ErrorEnum.FILE_TYPE_ERROR.getZhMsg(), ErrorEnum.FILE_TYPE_ERROR.getCode());
         }
 
-        String title = FileUtil.mainName(originalFilename);
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] bytes = new byte[1024];
-        InputStream inputStream = null;
+        String title = null;
+        String date = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader reader = null;
         try {
-            inputStream = file.getInputStream();
-            int read;
-            while ((read = inputStream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, read);
+            reader = new BufferedReader(new InputStreamReader(file.getInputStream(), "UTF-8"));
+            if (!reader.ready()) {
+                ExceptionUtil.rollback(ErrorEnum.IMPORT_FILE_ERROR.getZhMsg(), ErrorEnum.IMPORT_FILE_ERROR.getCode());
             }
+
+            boolean isExistedTitle = false;
+            boolean isExistedDate = false;
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (StringUtils.isNotBlank(line)) {
+                    if (line.contains("title:") && !isExistedTitle) {
+                        title = line.replaceFirst("title:","").trim();
+                        isExistedTitle = true;
+                    }
+
+                    if (line.contains("date:") && !isExistedDate) {
+                        date = line.replaceFirst("date:","").trim();
+                        isExistedDate = true;
+                    }
+                }
+                stringBuilder.append(line + "\n");
+            }
+
+            int begin = stringBuilder.indexOf("---");
+            int end = stringBuilder.indexOf("---", begin + 3);
+
+            if (begin != -1 && end != -1) {
+                stringBuilder.replace(begin, end + 3, "");
+            }
+
         } catch (IOException e) {
             ExceptionUtil.rollback(ErrorEnum.IMPORT_FILE_ERROR.getZhMsg(), ErrorEnum.IMPORT_FILE_ERROR.getCode());
         } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    ExceptionUtil.rollback(ErrorEnum.IMPORT_FILE_ERROR.getZhMsg(), ErrorEnum.IMPORT_FILE_ERROR.getCode());
-                }
-            }
             try {
-                outputStream.close();
+                if (reader != null) {
+                    reader.close();
+                }
             } catch (IOException e) {
                 ExceptionUtil.rollback(ErrorEnum.IMPORT_FILE_ERROR.getZhMsg(), ErrorEnum.IMPORT_FILE_ERROR.getCode());
             }
         }
 
-        try {
-            saveOrUpdatePosts(title, outputStream.toString("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            ExceptionUtil.rollback(ErrorEnum.ERROR.getZhMsg(), ErrorEnum.ERROR.getCode());
+        LocalDateTime dateTime = resolveDate(date);
+        String content = stringBuilder.toString();
+        if (StringUtils.isBlank(title)) {
+            title = FileUtil.mainName(originalFilename);
         }
 
+        saveOrUpdatePosts(title, content, dateTime);
+
         return Result.createWithSuccessMessage();
+    }
+
+    private LocalDateTime resolveDate(String date) {
+        LocalDateTime dateTime = null;
+        try {
+            dateTime = LocalDateTime.of(LocalDate.parse(date), LocalTime.MIN);
+        } catch (Exception e) {
+            try {
+                dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            } catch (Exception e1) {
+                log.error("文件导入时间格式失败，格式为：2020-03-01或2020-03-01 00:00:00");
+            }
+        }
+
+        return dateTime;
     }
 
     @Override
@@ -152,7 +192,16 @@ public class BlogMoveServiceImpl implements BlogMoveService {
                 while (resultSet.next()) {
                     String title = resultSet.getString(1);
                     String content = resultSet.getString(2);
-                    saveOrUpdatePosts(title, content);
+                    LocalDateTime localDateTime = null;
+                    try {
+                        Timestamp date = resultSet.getTimestamp(3, Calendar.getInstance());
+                        Instant instant = date.toInstant();
+                        ZoneId zoneId = ZoneId.systemDefault();
+                        localDateTime = instant.atZone(zoneId).toLocalDateTime();
+                        saveOrUpdatePosts(title, content, localDateTime);
+                    }catch (Exception e){
+                        log.error("时间格式解析失败 ", e);
+                    }
                 }
 
                 pageIndex++;
@@ -185,12 +234,16 @@ public class BlogMoveServiceImpl implements BlogMoveService {
      * @param title
      * @param content
      */
-    private void saveOrUpdatePosts(String title, String content) {
+    private void saveOrUpdatePosts(String title, String content, LocalDateTime dateTime) {
         PostsVO postsVO = new PostsVO();
         postsVO.setTitle(title);
         postsVO.setContent(content);
         postsVO.setStatus(PostsStatusEnum.DRAFT.getStatus());
-        postsVO.setIsPublishByteBlogs(Constants.YES);
+        postsVO.setIsPublishByteBlogs(Constants.NO);
+
+        if (dateTime != null) {
+            postsVO.setCreateTime(dateTime);
+        }
         postsService.savePosts(postsVO);
     }
 
