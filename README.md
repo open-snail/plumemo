@@ -73,6 +73,8 @@ java -jar plumemo-v1.1.0.jar --MYSQL_USERNAME=root  --MYSQL_PASSWORD=password  -
 
 - 青涩知夏：<https://www.nosum.cn/>
 - 踏歌长行：<https://www.bygit.cn/>
+- 遥远的理想乡：<https://www.aimer-zero.cn/>
+- 巫山烤鱼：<http://qfdxz.top/>
 
 ## 捐赠
 
