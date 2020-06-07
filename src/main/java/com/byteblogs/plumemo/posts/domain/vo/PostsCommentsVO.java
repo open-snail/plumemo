@@ -43,4 +43,6 @@ public class PostsCommentsVO extends BaseVO<PostsCommentsVO> {
 
     private LocalDateTime createTime;
 
+    private String title;
+
 }

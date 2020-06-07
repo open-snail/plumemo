@@ -36,24 +36,26 @@
 
     <select id="selectPostsCommentsList" resultType="com.byteblogs.plumemo.posts.domain.vo.PostsCommentsVO">
         SELECT
+        postsComments.id,
         postsComments.content,
-        authUser.name,
-        authUser.avatar,
+        authUser.name authorName ,
+        authUser.avatar authorAvatar,
         parentAuthUser.name parentUserName,
         posts.title
         FROM
         plumemo_posts_comments postsComments
         LEFT JOIN plumemo_auth_user authUser ON postsComments.author_id = authUser.id
-        LEFT JOIN plumemo_posts_comments parentPostsComments ON postsComments.id = parentPostsComments.parent_id
+        LEFT JOIN plumemo_posts_comments parentPostsComments ON postsComments.parent_id = parentPostsComments.id
         LEFT JOIN plumemo_auth_user parentAuthUser ON parentPostsComments.author_id = parentAuthUser.id
         LEFT JOIN plumemo_posts posts ON posts.id = postsComments.posts_id
         <where>
             <if test="postsComments.keywords != null and postsComments.keywords != ''">
                 ( postsComments.content LIKE #{postsComments.keywords} OR posts.title LIKE #{postsComments.keywords} )
             </if>
-            <if test="postsComments.id!=null">
+            <if test="postsComments.id != null">
                 and postsComments.id=#{postsComments.id}
             </if>
         </where>
+        ORDER BY postsComments.create_time DESC
     </select>
 </mapper>
