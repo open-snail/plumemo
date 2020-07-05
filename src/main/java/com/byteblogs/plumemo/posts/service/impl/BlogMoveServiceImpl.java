@@ -5,7 +5,6 @@ import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.common.constant.Constants;
 import com.byteblogs.common.enums.ErrorEnum;
 import com.byteblogs.common.enums.PostsStatusEnum;
-import com.byteblogs.common.util.DateUtil;
 import com.byteblogs.common.util.ExceptionUtil;
 import com.byteblogs.plumemo.posts.domain.vo.BlogMoveVO;
 import com.byteblogs.plumemo.posts.domain.vo.PostsVO;
@@ -26,7 +25,6 @@ import java.sql.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * @author: zsg
@@ -45,6 +43,7 @@ public class BlogMoveServiceImpl implements BlogMoveService {
      * 通过文件导入数据
      *
      * @param file
+     *
      * @return
      */
     @Override
@@ -79,12 +78,12 @@ public class BlogMoveServiceImpl implements BlogMoveService {
             while ((line = reader.readLine()) != null) {
                 if (StringUtils.isNotBlank(line)) {
                     if (line.contains("title:") && !isExistedTitle) {
-                        title = line.replaceFirst("title:","").trim();
+                        title = line.replaceFirst("title:", "").trim();
                         isExistedTitle = true;
                     }
 
                     if (line.contains("date:") && !isExistedDate) {
-                        date = line.replaceFirst("date:","").trim();
+                        date = line.replaceFirst("date:", "").trim();
                         isExistedDate = true;
                     }
                 }
@@ -185,7 +184,7 @@ public class BlogMoveServiceImpl implements BlogMoveService {
                 log.warn("当前总数量 {} ", count);
             }
 
-            int pageIndex = 1;
+            int pageIndex = 0;
             int pageSize = 10;
             do {
                 ResultSet resultSet = stat.executeQuery(String.format(uploadFileService.getQuerySql(blogMoveVO), pageIndex, pageSize));
@@ -199,13 +198,13 @@ public class BlogMoveServiceImpl implements BlogMoveService {
                         ZoneId zoneId = ZoneId.systemDefault();
                         localDateTime = instant.atZone(zoneId).toLocalDateTime();
                         saveOrUpdatePosts(title, content, localDateTime);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         log.error("时间格式解析失败 ", e);
                     }
                 }
 
-                pageIndex++;
-            } while (count >= pageIndex * pageSize);
+                pageIndex += pageSize;
+            } while (count >= pageIndex);
 
 
         } catch (final SQLException e) {
