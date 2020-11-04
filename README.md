@@ -11,6 +11,12 @@
 
 ------------------------------
 
+想搭建博客的来一‮福波‬利。送‮一你‬个‮里阿‬云0.73折‮买购‬服‮器务‬的机会，需‮的要‬可以关注下。1核2G 84‮即元‬可薅1年，力‮很度‬大，推荐3年（不建议非‮人新‬购买，‮新非‬人可以‮注关‬一‮其下‬他云厂商‮动所‬或者‮用用‬朋友/‮人亲‬的身‮证份‬购买）
+<a href="https://www.aliyun.com/1111/pintuan-share?ptCode=MTk4NzkwNjEzMzM1NzkxNHx8MTE0fDE%3D&userCode=4rntegyg">![72890 1.jpg](http://image.byteblogs.com/ea0c33af82e2f7dcfd0ba88b18796681.jpg)</a>
+
+<a href="https://curl.qcloud.com/O82nu67C">![渠道物料推广A_970 90.jpg](http://image.byteblogs.com/710ac05a6cdbf22d42da35a665ffc7a7.jpg)</a>
+
+------------------------------
 ## 简介
 
 **plumemo** [plumemo]，plume（羽） + memo（备忘录）
