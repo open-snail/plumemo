@@ -1,6 +1,5 @@
 package com.byteblogs.system.init.strategy;
 
-import com.byteblogs.system.init.InitFileConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

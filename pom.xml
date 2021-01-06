@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <jna.version>5.5.0</jna.version>
     </properties>
 
     <dependencies>
@@ -123,11 +124,23 @@
             <artifactId>remark</artifactId>
             <version>1.0.0</version>
         </dependency>
+
         <dependency>
-            <groupId>org.fusesource</groupId>
-            <artifactId>sigar</artifactId>
-            <version>1.6.4</version>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>5.3.7</version>
         </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>${jna.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>${jna.version}</version>
+        </dependency>
+
         <!--  helloBlog与byteBlogs对接服务  -->
         <dependency>
             <groupId>com.byteblogs</groupId>

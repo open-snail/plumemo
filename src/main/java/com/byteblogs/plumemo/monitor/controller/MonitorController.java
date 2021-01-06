@@ -23,28 +23,4 @@ public class MonitorController {
     public Result getMemory(){
         return RuntimeUtil.getMemory();
     }
-
-    @GetMapping("/cpu/v1/get")
-    @LoginRequired(role = RoleEnum.ADMIN)
-    public Result getCpu() {
-        return RuntimeUtil.getCpu();
-    }
-
-    @GetMapping("/file/v1/get")
-    @LoginRequired(role = RoleEnum.ADMIN)
-    public Result getFile() {
-        return RuntimeUtil.getFile();
-    }
-
-    @GetMapping("/net/v1/get")
-    @LoginRequired(role = RoleEnum.ADMIN)
-    public Result getNet() {
-        return RuntimeUtil.getNet();
-    }
-
-    @GetMapping("/ethernet/v1/get")
-    @LoginRequired(role = RoleEnum.ADMIN)
-    public Result getEthernet() {
-        return RuntimeUtil.getEthernet();
-    }
 }
