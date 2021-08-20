@@ -10,4 +10,6 @@
 如果我们的博客帮助到了您，希望您可以star给我们一点支持
 地址：https://github.com/byteblogs168/plumemo
 官方文档: https://www.plumemo.com/
+社区网站: https://www.byteblogs.com/
 官方QQ群: 579649996
+
