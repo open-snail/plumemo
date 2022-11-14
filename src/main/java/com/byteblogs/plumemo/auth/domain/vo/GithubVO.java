@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class GithubVO {
+    private String id;
     private String login;
     private String avatar_url;
     private String email;

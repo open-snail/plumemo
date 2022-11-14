@@ -10,13 +10,13 @@ import com.byteblogs.plumemo.auth.domain.vo.AuthUserVO;
 import com.byteblogs.plumemo.auth.service.AuthUserService;
 import com.byteblogs.plumemo.auth.service.AuthUserSocialService;
 import com.byteblogs.plumemo.auth.service.OauthService;
-import com.byteblogs.helloblog.dto.HttpResult;
-import com.byteblogs.helloblog.integration.dto.UserDTO;
 import com.byteblogs.system.enums.RoleEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author byteblogs
@@ -54,7 +54,6 @@ public class AuthUserController {
         return authUserService.saveAuthUserStatus(authUserVO);
     }
 
-
     @GetMapping("/master/v1/get")
     public Result getMasterUserInfo() {
         return authUserService.getMasterUserInfo();
@@ -67,8 +66,16 @@ public class AuthUserController {
     }
 
     @GetMapping("/github/v1/get")
-    public HttpResult oauthLoginByGithub() {
+    public Result oauthLoginByGithub() {
         return oauthService.oauthLoginByGithub();
+    }
+
+    @CrossOrigin("*")
+    @GetMapping("/github-info/v1/get")
+    public String getOauthLoginByGithub(@RequestParam(value = "code") String code, @RequestParam(value = "state", required = false) String state, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        return oauthService.saveUserByGithub(code, state);
     }
 
     @PostMapping("/user/v1/login")
@@ -77,8 +84,8 @@ public class AuthUserController {
     }
 
     @PostMapping("/admin/v1/register")
-    public Result registerAdminByGithub(@RequestBody UserDTO userDTO) {
-        return oauthService.registerAdmin(userDTO);
+    public Result registerAdminByGithub(@RequestBody AuthUserVO authUserVO) {
+        return oauthService.registerAdmin(authUserVO);
     }
 
     @PostMapping("/admin/v1/login")

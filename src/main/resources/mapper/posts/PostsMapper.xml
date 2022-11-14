@@ -32,7 +32,7 @@
         posts.summary,
         posts.thumbnail,
         posts.sync_status syncStatus,
-        users.name author,
+        users.nickname author,
         posts.views,
         posts.comments,
         posts.category_id as categoryId,

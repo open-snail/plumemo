@@ -48,7 +48,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         return Result.createWithModel(new AuthUserVO()
                 .setStatus(authUser.getStatus())
                 .setRoles(Collections.singletonList(RoleEnum.getEnumTypeMap().get(authUser.getRoleId()).getRoleName()))
-                .setName(authUser.getName())
+                .setNickname(authUser.getNickname())
                 .setIntroduction(authUser.getIntroduction())
                 .setAvatar(authUser.getAvatar())
                 .setEmail(authUser.getEmail())
@@ -60,7 +60,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         AuthUser authUser = authUserDao.selectOne(new LambdaQueryWrapper<AuthUser>().eq(AuthUser::getRoleId, RoleEnum.ADMIN.getRoleId()));
         AuthUserVO authUserVO = new AuthUserVO();
         if (authUser != null) {
-            authUserVO.setName(authUser.getName())
+            authUserVO.setNickname(authUser.getNickname())
                     .setIntroduction(authUser.getIntroduction())
                     .setEmail(authUser.getEmail())
                     .setAvatar(authUser.getAvatar());
@@ -74,10 +74,10 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
         Page page = Optional.ofNullable(PageUtil.checkAndInitPage(authUserVO)).orElse(PageUtil.initPage());
         LambdaQueryWrapper<AuthUser> authUserLambdaQueryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(authUserVO.getKeywords())) {
-            authUserLambdaQueryWrapper.like(AuthUser::getName, authUserVO.getKeywords());
+            authUserLambdaQueryWrapper.like(AuthUser::getNickname, authUserVO.getKeywords());
         }
-        if (StringUtils.isNotBlank(authUserVO.getName())) {
-            authUserLambdaQueryWrapper.eq(AuthUser::getName, authUserVO.getName());
+        if (StringUtils.isNotBlank(authUserVO.getNickname())) {
+            authUserLambdaQueryWrapper.eq(AuthUser::getNickname, authUserVO.getNickname());
         }
         if (authUserVO.getStatus() != null) {
             authUserLambdaQueryWrapper.eq(AuthUser::getStatus, authUserVO.getStatus());
@@ -92,7 +92,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
                 authUserVOList.add(new AuthUserVO()
                         .setId(authUser.getId())
                         .setStatus(authUser.getStatus())
-                        .setName(authUser.getName())
+                        .setNickname(authUser.getNickname())
                         .setRoleId(authUser.getRoleId())
                         .setIntroduction(authUser.getIntroduction())
                         .setStatus(authUser.getStatus())
@@ -122,7 +122,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
                 .setId(userSessionInfo.getId())
                 .setEmail(authUserVO.getEmail())
                 .setAvatar(authUserVO.getAvatar())
-                .setName(authUserVO.getName())
+                .setNickname(authUserVO.getNickname())
                 .setIntroduction(authUserVO.getIntroduction())
         );
 
@@ -138,7 +138,7 @@ public class AuthUserServiceImpl extends ServiceImpl<AuthUserDao, AuthUser> impl
                 .setId(authUserVO.getId())
                 .setEmail(authUserVO.getEmail())
                 .setAvatar(authUserVO.getAvatar())
-                .setName(authUserVO.getName())
+                .setNickname(authUserVO.getNickname())
                 .setIntroduction(authUserVO.getIntroduction())
                 .setStatus(authUserVO.getStatus())
         );

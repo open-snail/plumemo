@@ -46,3 +46,8 @@ mybatis-plus:
 
 logging:
   config: classpath:config/spring-logback.xml
+
+github:
+  clientId: 9282661fdc9ad8b1fa88
+  clientSecret: ad9d6510bf3e415236b390e1a5d2edcb4452bcc6
+  redirectUri: http://127.0.0.1:8086/api/plumemo-service/auth/github-info/v1/get

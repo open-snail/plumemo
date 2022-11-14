@@ -31,7 +31,12 @@ public class AuthUserVO extends BaseVO<AuthUserVO> {
     /**
      * 用户名
      */
-    private String name;
+    private String nickname;
+
+    /**
+     * 用户名
+     */
+    private String username;
 
     /**
      * 密码

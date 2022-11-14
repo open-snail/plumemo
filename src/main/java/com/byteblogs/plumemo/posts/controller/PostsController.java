@@ -66,13 +66,6 @@ public class PostsController {
         return postsService.savePosts(postsVO);
     }
 
-    @LoginRequired
-    @PostMapping("/byte-blogs/v1/publish")
-    public Result publishByteBlogs(@Validated({Update.class}) @RequestBody PostsVO postsVO, BindingResult result) {
-        ThrowableUtils.checkParamArgument(result);
-        return postsService.publishByteBlogs(postsVO);
-    }
-
     @OperateLog(module = "获取文章", code=OperateEnum.GET_POSTS_DETAIL)
     @GetMapping("/posts/v1/{id}")
     public Result getPosts(@PathVariable Long id) {

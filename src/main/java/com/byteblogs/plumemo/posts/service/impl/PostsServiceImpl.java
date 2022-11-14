@@ -18,9 +18,6 @@ import com.byteblogs.common.util.*;
 import com.byteblogs.plumemo.category.dao.TagsDao;
 import com.byteblogs.plumemo.category.domain.po.Tags;
 import com.byteblogs.plumemo.category.domain.vo.TagsVO;
-import com.byteblogs.helloblog.dto.HttpResult;
-import com.byteblogs.helloblog.integration.ByteBlogsClient;
-import com.byteblogs.helloblog.integration.dto.PostsDTO;
 import com.byteblogs.plumemo.log.dao.AuthUserLogDao;
 import com.byteblogs.plumemo.log.domain.vo.AuthUserLogVO;
 import com.byteblogs.plumemo.posts.dao.PostsAttributeDao;
@@ -99,10 +96,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
             });
         }
 
-
-        if (syncByteblogs(postsVO)) {
-            return Result.createWithSuccessMessage("同步到ByteBlogs成功");
-        }
         return Result.createWithSuccessMessage();
     }
 
@@ -161,31 +154,7 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
             postsTagsDao.delete(new LambdaQueryWrapper<PostsTags>().eq(PostsTags::getPostsId, posts1.getId()));
         }
 
-        if (syncByteblogs(postsVO)) {
-            return Result.createWithSuccessMessage("同步到ByteBlogs成功");
-        }
-
         return Result.createWithSuccessMessage();
-    }
-
-    /**
-     * 同步数据到社区
-     *
-     * @param postsVO
-     * @return
-     */
-    private boolean syncByteblogs(PostsVO postsVO) {
-        if (postsVO.getIsPublishByteBlogs().equals(Constants.YES)) {
-            ByteBlogsClient byteBlogsClient = BeanTool.getBean(ByteBlogsClient.class);
-
-            HttpResult result = byteBlogsClient.syncPosts(new PostsDTO().setTitle(postsVO.getTitle()).setContent(postsVO.getContent()));
-            log.warn("保存到ByteBlogs草稿箱 {}", result);
-            if (result.getSuccess() == Constants.YES) {
-                postsDao.update(new Posts().setSyncStatus(Constants.YES), new LambdaUpdateWrapper<Posts>().eq(Posts::getId, postsVO.getId()));
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -296,25 +265,6 @@ public class PostsServiceImpl extends ServiceImpl<PostsDao, Posts> implements Po
     public Result updatePostsStatus(PostsVO postsVO) {
         postsDao.updateById(new Posts().setId(postsVO.getId()).setStatus(postsVO.getStatus()).setUpdateTime(LocalDateTime.now()));
         return Result.createWithSuccessMessage();
-    }
-
-    @Override
-    public Result publishByteBlogs(PostsVO postsVO) {
-        UserSessionVO userSessionInfo = SessionUtil.getUserSessionInfo();
-        Posts posts = postsDao.selectById(postsVO.getId());
-        if (posts == null) {
-            ExceptionUtil.rollback(ErrorEnum.DATA_NO_EXIST);
-        }
-
-        PostsAttribute postsAttribute = postsAttributeDao.selectOne(new LambdaQueryWrapper<PostsAttribute>().eq(PostsAttribute::getPostsId, posts.getId()));
-        boolean syncStatus = syncByteblogs(new PostsVO().setTitle(posts.getTitle()).setIsPublishByteBlogs(Constants.YES).setContent(postsAttribute.getContent()));
-        log.debug("保存到ByteBlogs草稿箱 {}", syncStatus);
-        if (syncStatus) {
-            postsDao.update(new Posts().setSyncStatus(Constants.YES), new LambdaUpdateWrapper<Posts>().eq(Posts::getId, postsVO.getId()));
-            return Result.createWithSuccessMessage("同步到ByteBlogs成功，请点击" + Constants.BYTE_BLOGS_URL + "/editor/posts" + "进行编辑");
-        }
-
-        return Result.createWithErrorMessage(ErrorEnum.SYNC_POSTS_ERROR);
     }
 
     @Override

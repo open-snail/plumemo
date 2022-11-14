@@ -19,9 +19,9 @@
         postsComments.id,
         postsComments.content,
         postsComments.create_time createTime,
-        authUser.name authorName,
+        authUser.nick_name authorName,
         authUser.avatar authorAvatar,
-        parentAuthUser.name parentUserName
+        parentAuthUser.nick_name parentUserName
         FROM
         plumemo_posts_comments postsComments
         LEFT JOIN plumemo_auth_user authUser ON postsComments.author_id = authUser.id
@@ -38,9 +38,9 @@
         SELECT
         postsComments.id,
         postsComments.content,
-        authUser.name authorName ,
+        authUser.nick_name authorName ,
         authUser.avatar authorAvatar,
-        parentAuthUser.name parentUserName,
+        parentAuthUser.nick_name parentUserName,
         posts.title
         FROM
         plumemo_posts_comments postsComments

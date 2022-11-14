@@ -30,9 +30,14 @@ public class AuthUser extends Model<AuthUser> {
     private String socialId;
 
     /**
+     * 用户名
+     */
+    private String username;
+
+    /**
      * 别名
      */
-    private String name;
+    private String nickname;
 
     /**
      * 角色主键 1 普通用户 2 admin

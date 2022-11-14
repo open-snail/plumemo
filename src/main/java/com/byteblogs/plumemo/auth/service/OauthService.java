@@ -2,8 +2,6 @@ package com.byteblogs.plumemo.auth.service;
 
 import com.byteblogs.common.base.domain.Result;
 import com.byteblogs.plumemo.auth.domain.vo.AuthUserVO;
-import com.byteblogs.helloblog.dto.HttpResult;
-import com.byteblogs.helloblog.integration.dto.UserDTO;
 
 /**
  * @description:
@@ -15,7 +13,15 @@ public interface OauthService {
     /**
      * 获取授权链接
      */
-    HttpResult oauthLoginByGithub();
+    Result oauthLoginByGithub();
+
+    /**
+     * 根据code获取用户信息
+     *
+     * @param code
+     * @return
+     */
+    String saveUserByGithub(String code, String state);
 
     /**
      * 保存用户信息
@@ -30,13 +36,20 @@ public interface OauthService {
     /**
      * 注册管理员
      *
-     * @param userDTO
+     * @param authUserVO
      * @return
      */
-    Result registerAdmin(UserDTO userDTO);
+    Result registerAdmin(AuthUserVO authUserVO);
 
     /**
      * 保存管理员
      */
     Result updatePassword(AuthUserVO authUserVO);
+
+    String getAuthorizeUrl(String state);
+
+    String getAccessToken(String code);
+
+    String getUserInfo(String accessToken);
+
 }

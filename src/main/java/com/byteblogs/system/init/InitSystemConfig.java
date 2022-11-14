@@ -5,7 +5,6 @@ import com.byteblogs.common.cache.ConfigCache;
 import com.byteblogs.common.context.BeanTool;
 import com.byteblogs.plumemo.auth.dao.AuthUserDao;
 import com.byteblogs.plumemo.auth.domain.po.AuthUser;
-import com.byteblogs.helloblog.bean.SystemPropertyBean;
 import com.byteblogs.plumemo.config.dao.ConfigDao;
 import com.byteblogs.plumemo.config.domain.po.Config;
 import com.byteblogs.system.enums.RoleEnum;
@@ -32,9 +31,6 @@ public class InitSystemConfig implements ApplicationListener<ApplicationContextE
     @Autowired
     private ConfigDao configDao;
 
-    @Autowired
-    private AuthUserDao authUserDao;
-
     public void init() {
 
         List<Config> configList = configDao.selectList(null);
@@ -43,12 +39,6 @@ public class InitSystemConfig implements ApplicationListener<ApplicationContextE
             ConfigCache.putConfig(config.getConfigKey(), config.getConfigValue());
         });
 
-        List<AuthUser> authUsers = authUserDao.selectList(new LambdaQueryWrapper<AuthUser>().eq(AuthUser::getRoleId, RoleEnum.ADMIN.getRoleId()));
-        if (!CollectionUtils.isEmpty(authUsers)) {
-            SystemPropertyBean systemPropertyBean = BeanTool.getBean(SystemPropertyBean.class);
-            systemPropertyBean.setAccessKey(authUsers.get(0).getAccessKey());
-            systemPropertyBean.setSecretKey(authUsers.get(0).getSecretKey());
-        }
     }
 
     @Override

@@ -71,12 +71,6 @@ public interface PostsService extends BaseService<Posts> {
      */
     Result updatePostsStatus(PostsVO postsVO);
 
-    /**
-     * 发布到主站
-     * @param postsVO
-     * @return
-     */
-    Result publishByteBlogs(PostsVO postsVO);
 
     Result getHotPostsList(PostsVO postsVO);
 }

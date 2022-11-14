@@ -75,7 +75,7 @@ public class SessionUtil {
         }
 
         UserSessionVO userSessionVO = new UserSessionVO();
-        userSessionVO.setName(user.getName()).setRoleId(user.getRoleId()).setId(user.getId());
+        userSessionVO.setName(user.getNickname()).setRoleId(user.getRoleId()).setId(user.getId());
         return userSessionVO;
     }
 
